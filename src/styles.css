@@ -1,1 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  /*-----Colores globales-----*/
+  --color-main: #588bd2;
+  --color-primary: #333446;
+  --color-secondary: #bbc7e5;
+  --color-accent: #ffbd59;
+  --color-background: #ffffff;
+  --color-text: #333333;
+  --color-disabled: #bdbdbd;
+  /*-----Borde global-----*/
+  --border-radius: 0.67rem;
+  /*-----Sombra global*-----/
+  /*offset-x | offset-y | blur-radius | spread-radius | color*/
+  --light-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.1);
+  --medium-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
+  --dark-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.3);
+  /*-----Tamaños globales-----*/
+  --small-size: 0.75rem;
+  --medium-size: 1rem;
+  --large-size: 2em;
+  --header-size: 68px;
+  --footer-size: 68px;
+  /*-----Tamaños de pantalla-----*/
+  --mobile-s: 320px;
+  --mobile-m: 375px;
+  --mobile-l: 425px;
+  --tablet-s: 768px;
+  --laptop: 1024px;
+  --laptop-l: 1440px;
+}
+
+* {
+  /*Configuración global de fuente y texto*/
+  font-family: 'Poppins', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: var(--color-text);
+}

@@ -1,0 +1,20 @@
+footer {
+    background-color: var(--color-primary);
+    padding: 20px;
+    text-align: center;
+    color: white;
+    width: 100%;
+    margin: 0 auto; 
+    height: var(--footer-size);
+}
+
+footer p {
+    color: var(--color-secondary);
+}
+
+/* Responsiveness */
+@media screen and (max-width: 1024px) {
+    footer {
+        
+    }
+}

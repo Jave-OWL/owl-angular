@@ -1,0 +1,13 @@
+main {
+    padding-top: var(--header-size);
+    /*padding-bottom: var(--footer-size);*/
+    min-height: calc(100vh - var(--footer-size));
+}
+
+/* Responsiveness */
+
+@media screen and (max-width: 1024px) {
+  main {
+    padding-top: 0;
+  }
+}

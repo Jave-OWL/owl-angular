@@ -1,0 +1,15 @@
+.sign-up-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: var(--color-secondary);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+}

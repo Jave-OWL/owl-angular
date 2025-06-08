@@ -1,0 +1,10 @@
+#logo-main{
+    width: 50rem;
+}
+
+h1 {
+    font-family: Bagel fat one;
+    font-size: 15rem;
+    color: var(--color-primary);
+    text-align: center;
+}

@@ -1,0 +1,80 @@
+/*-----Estilos del header general-----*/
+header {
+  background-color: var(--color-primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: var(--light-box-shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  height: var(--header-size);
+}
+
+#logo {
+  width: 15rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+/*-----Estilos del menu (navbar)-----*/
+nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+nav a {
+  color: var(--color-secondary);
+  text-decoration: none;
+}
+
+nav a:hover{
+  text-decoration: underline;
+}
+
+/*-----seccion de autenticacion-----*/
+button {
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 1rem 2rem;
+  cursor: pointer;
+}
+
+.sign-up {
+  background-color: var(--color-main);
+  color: var(--color-secondary);
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.sign-up:hover {
+  transition: 0.3s;
+  box-shadow: 0px 0px 8px 1px rgba(255, 255, 255, 0.79);
+}
+
+.login {
+  background-color: transparent;
+  color: var(--color-secondary);
+  transition: 0.5s;
+  font-weight: bold;
+}
+
+/*-----seccion de usuario-----*/
+i {
+  color: var(--color-secondary);
+  font-size: var(--large-size);
+}
+
+
+/*-----Responsiveness-----*/
+@media screen and (max-width: 1024px) {
+    header {
+        display: none;
+    }
+}
