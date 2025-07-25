@@ -30,7 +30,7 @@ nav {
 }
 
 nav a {
-  color: var(--color-secondary);
+  color: var(--color-text);
   text-decoration: none;
 }
 
@@ -46,14 +46,14 @@ button {
   cursor: pointer;
 }
 
-.sign-up {
+.registro {
   background-color: var(--color-main);
   color: var(--color-secondary);
   transition: 0.3s;
   font-weight: bold;
 }
 
-.sign-up:hover {
+.registro:hover {
   transition: 0.3s;
   box-shadow: 0px 0px 8px 1px rgba(255, 255, 255, 0.79);
 }

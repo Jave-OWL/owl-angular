@@ -2,7 +2,7 @@
 :root {
   /*-----Colores globales-----*/
   --color-main: #588bd2;
-  --color-primary: #333446;
+  --color-primary: #90acd3;
   --color-secondary: #bbc7e5;
   --color-accent: #ffbd59;
   --color-background: #ffffff;
@@ -12,7 +12,7 @@
   --border-radius: 0.67rem;
   /*-----Sombra global*-----/
   /*offset-x | offset-y | blur-radius | spread-radius | color*/
-  --light-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.1);
+  --light-box-shadow: 1px 0px 5px 1px rgba(0, 0, 0, 0.1);
   --medium-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
   --dark-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.3);
   /*-----Tamaños globales-----*/

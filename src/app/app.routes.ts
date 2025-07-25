@@ -5,12 +5,19 @@ export const routes: Routes = [
         path: '',
         loadComponent: () => import('./routes/landing/landing.component').then((m) => m.LandingComponent)
     },
+    // General routes
     {
         path: 'auth/login',
-        loadComponent: () => import('./routes/auth/login/login.component').then((m) => m.LoginComponent)
+        loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent)
     },
     {
-        path: 'auth/sign-up',
-        loadComponent: () => import('./routes/auth/sign-up/sign-up.component').then((m) => m.SignUpComponent)
-    }
+        path: 'auth/registro',
+        loadComponent: () => import('./features/auth/registro/registro.component').then((m) => m.RegistroComponent)
+    },
+    // User routes
+    {
+        path: 'explorar-fondos',
+        loadComponent: () => import('./features/FICs/explorar-fondos/explorar-fondos.component').then((m) => m.ExplorarFondosComponent)
+    },
+    // Admin Routes
 ];
