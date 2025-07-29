@@ -7,8 +7,8 @@ export const routes: Routes = [
     },
     // General routes
     {
-        path: 'auth/login',
-        loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent)
+        path: 'auth/inicio-de-sesion',
+        loadComponent: () => import('./features/auth/inicio-sesion/inicio-sesion.component').then((m) => m.InicioSesionComponent)
     },
     {
         path: 'auth/registro',
@@ -26,6 +26,11 @@ export const routes: Routes = [
     {
         path: 'seleccion-tipo-inversion',
         loadComponent: () => import('./features/usuario/seleccion-tipo-inversion/seleccion-tipo-inversion.component').then((m) => m.SeleccionTipoInversionComponent)
-    }
+    },
+    {
+        path: 'user/cuestionario',
+        loadComponent: () => import('./features/usuario/cuestionario/cuestionario.component').then((m) => m.CuestionarioComponent)
+    },
+    // {
     // Admin Routes
 ];

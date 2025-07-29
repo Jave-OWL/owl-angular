@@ -1,5 +1,5 @@
 main {
-    padding-top: calc(var(--header-size) + 50px);
+    padding-top: calc(var(--header-size));
     /*padding-bottom: var(--footer-size);*/
     min-height: calc(100vh);
     background-color: var(--color-background);
@@ -12,7 +12,9 @@ main {
 /* Responsiveness */
 
 @media screen and (max-width: 1024px) {
+  /*
   main {
-    padding-top: 0;
+    padding-top: 50px;
   }
+  */
 }
