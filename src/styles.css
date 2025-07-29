@@ -5,9 +5,14 @@
   --color-primary: #90acd3;
   --color-secondary: #bbc7e5;
   --color-accent: #ffbd59;
-  --color-background: #ffffff;
-  --color-text: #333333;
+  /*#edf4fe*/
+  --color-background: #edf2fe;
+  --color-general-text: rgb(37, 57, 62);
   --color-disabled: #bdbdbd;
+
+  --color-contenido: #fefefe;
+
+  --color-headerfooter: #ffffff;
   /*-----Borde global-----*/
   --border-radius: 0.67rem;
   /*-----Sombra global*-----/

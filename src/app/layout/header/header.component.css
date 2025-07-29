@@ -1,6 +1,6 @@
 /*-----Estilos del header general-----*/
 header {
-  background-color: var(--color-primary);
+  background-color: var(--color-headerfooter);
   position: fixed;
   top: 0;
   left: 0;
@@ -48,7 +48,7 @@ button {
 
 .registro {
   background-color: var(--color-main);
-  color: var(--color-secondary);
+  color: var(--color-headerfooter);
   transition: 0.3s;
   font-weight: bold;
 }

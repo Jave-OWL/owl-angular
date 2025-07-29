@@ -19,5 +19,13 @@ export const routes: Routes = [
         path: 'explorar-fondos',
         loadComponent: () => import('./features/FICs/explorar-fondos/explorar-fondos.component').then((m) => m.ExplorarFondosComponent)
     },
+    {
+        path: 'perfil-riesgo',
+        loadComponent: () => import('./features/usuario/perfil-riesgo/perfil-riesgo.component').then((m) => m.PerfilRiesgoComponent)
+    },
+    {
+        path: 'seleccion-tipo-inversion',
+        loadComponent: () => import('./features/usuario/seleccion-tipo-inversion/seleccion-tipo-inversion.component').then((m) => m.SeleccionTipoInversionComponent)
+    }
     // Admin Routes
 ];

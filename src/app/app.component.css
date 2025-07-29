@@ -1,8 +1,13 @@
 main {
-    padding-top: var(--header-size);
+    padding-top: calc(var(--header-size) + 50px);
     /*padding-bottom: var(--footer-size);*/
-    min-height: calc(100vh - var(--footer-size));
+    min-height: calc(100vh);
+    background-color: var(--color-background);
+    padding-left: 50px;
+    padding-right: 50px;
 }
+
+
 
 /* Responsiveness */
 
@@ -10,8 +15,4 @@ main {
   main {
     padding-top: 0;
   }
-}
-
-main {
-  margin: 50px;
 }

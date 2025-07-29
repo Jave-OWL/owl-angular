@@ -1,5 +1,5 @@
 footer {
-    background-color: var(--color-primary);
+    background-color: var(--color-headerfooter);
     padding: 20px;
     text-align: center;
     color: white;
@@ -14,7 +14,4 @@ footer p {
 
 /* Responsiveness */
 @media screen and (max-width: 1024px) {
-    footer {
-        
-    }
 }
