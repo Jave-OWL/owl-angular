@@ -18,6 +18,7 @@
     text-decoration: none;
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
     padding: 15px;
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;

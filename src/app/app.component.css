@@ -1,5 +1,6 @@
 main {
-    padding-top: calc(var(--header-size));
+    padding-top: calc(var(--header-size) + 10px);
+    padding-bottom: calc(var(--footer-size) + 10px);
     /*padding-bottom: var(--footer-size);*/
     min-height: calc(100vh);
     background-color: var(--color-background);

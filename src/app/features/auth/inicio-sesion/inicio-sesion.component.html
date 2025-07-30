@@ -1,0 +1,29 @@
+<div class="seccion-inicio-de-sesion">
+    <div class="contenedor-imagen">
+        <img id="logo" [src]="currentImageSrc" alt="Logo" />
+    </div>
+    <section class="sign-in-form">
+        <h3>¡Bienvenido de nuevo!</h3>
+        <p>Ingresa tus credenciales para iniciar sesión</p>
+        <form action="">
+            <label for="email">Correo</label>
+            <br>
+            <input type="email" placeholder="Ingresa tu correo" required>
+            <br>
+            <label for="password">Contrase&ntilde;a</label>
+            <br>
+            <input type="password" placeholder="Ingresa tu contrase&ntilde;a" required>
+            <br>
+            <div class="opciones-adicionales">
+                <label class="gris" for="remember-me">
+                    <input type="checkbox" id="remember-me">
+                    Recordar
+                </label>
+                <a href="#">¿Olvidaste tu contrase&ntilde;a?</a>
+            </div>
+            <button type="submit">Iniciar Sesión</button>
+            <br>
+        </form>
+        <p class="registro">¿No tienes cuenta? <a href="/auth/registro">Registrate</a></p>
+    </section>
+</div>

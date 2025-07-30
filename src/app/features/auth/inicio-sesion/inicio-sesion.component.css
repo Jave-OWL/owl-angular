@@ -2,12 +2,12 @@
     border: 1px solid transparent;
 }
 
-.seccion-registro {
+.seccion-inicio-de-sesion {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 38px);
+    height: calc(100vh - 180px);
     background-color: var(--color-background);
 }
 
@@ -47,7 +47,7 @@ a:hover {
     text-decoration: underline;
 }
 
-.registro-form {
+.sign-in-form {
     width: 100%;
     max-width: 425px;
     margin: 0 auto;
@@ -58,8 +58,7 @@ a:hover {
 }
 
 input[type="email"],
-input[type="password"],
-input[type="text"] {
+input[type="password"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 0px;
@@ -124,5 +123,5 @@ button:hover {
 }
 
 .contenedor-imagen {
-    transform: translateY(12px);
+    transform: translateY(30px);
 }
