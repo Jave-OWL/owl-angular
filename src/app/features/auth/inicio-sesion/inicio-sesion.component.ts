@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './inicio-sesion.component.css'
 })
 export class InicioSesionComponent implements OnInit {
-  currentImageSrc: string = 'assets/images/OwlCandado2.png';
+  currentImageSrc: string = 'assets/images/OwlLlave.png';
 
   ngOnInit() {
     this.startBlinking();

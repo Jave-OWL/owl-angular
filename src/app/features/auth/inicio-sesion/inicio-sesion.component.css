@@ -116,12 +116,12 @@ button:hover {
 }
 
 #logo {
-    width: 100px;
+    width: 80px;
     height: auto;
     margin: 0px;
     transform: translateX(-140px);
 }
 
 .contenedor-imagen {
-    transform: translateY(30px);
+    transform: translateY(12px);
 }
