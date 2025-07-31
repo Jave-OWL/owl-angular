@@ -1,9 +1,52 @@
-.search-icon {
-    position: absolute;
-    top: 50%;
-    left: 15px;
-    transform: translateY(-50%);
-    color: #888;
+.titulo {
+    display: flex;
+}
+
+#OwlLupa {
+    width: 110px;
+    height: auto;
+    margin: 0px;
+    transform: translateX(600px);
+}
+
+.contenedor-imagen {
+    transform: translateY(20px);
+}
+
+.contenedor-busqueda {
+    margin-top: 10px;
+}
+
+.input-busqueda {
+    width: 90%;
+    padding: 10px 40px 10px 40px;
+    margin-right: 10px;
+    border: none;
+    border-radius: var(--internal-border-radius);
+    background-color: var(--color-contenido);
+    color: var(--color-texto);
+    font-size: 16px;
+    box-shadow: var(--light-box-shadow);
+}
+
+.input-busqueda:focus {
+    outline: none;
+    box-shadow: var(--dark-box-shadow);
+}
+
+.dropdown-content {
+    position: relative;
+    display: ;
+    background-color: var(--color-contenido);
+    width: max-content;
+}
+
+.contenedor-busqueda button {
+    background-color: var(--color-contenido);
+    padding: 10px 15px 10px 15px;
+    border-radius: var(--internal-border-radius);
+    color: var(--color-texto);
+    border: none;
 }
 
 .results-grid {
@@ -42,10 +85,25 @@
     margin: 0;
     font-size: smaller;
     color: var(--color-contenido);
-    background-color: red;   
     border-radius: 10px;
     padding-left: 10px;
     padding-right: 10px;
+}
+
+#alto {
+    background-color: red;
+}
+
+#medio {
+    background-color: yellow;
+}
+
+#bajo {
+    background-color: green;
+}
+
+#variable {
+    background-color: purple;
 }
 
 .der {

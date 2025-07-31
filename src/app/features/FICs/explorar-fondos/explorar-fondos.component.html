@@ -1,66 +1,32 @@
 <section class="content">
-<div class="search-container">
-    <input type="text" placeholder="Search...">
+    <div class="titulo">
+        <div class="texto">
+            <h2>Explorar Fondos</h2>
+            <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
+        </div>
+        <div class="icono">
+            <div class="contenedor-imagen">
+                <img id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
+            </div>
+        </div>
+    </div>
+<div class="contenedor-busqueda">
+    <input class="input-busqueda" 
+           type="text" 
+           placeholder="Busca un fondo..."
+           (input)="buscarFondos($event)">
     <i class="bi bi-filter"></i>
 </div>
 <div class="results-grid">
-    <button href="" class="result-item">
+    <button *ngFor="let fondo of fondosFiltrados" class="result-item">
         <div class="result-info">
             <section class="izq">
-                <img id="logo" routerLink="/" src="assets/images/BancolombiaLogo.png" alt="Logo" />
-                <p id="riesgo">Riesgo Alto</p>
+                <img id="logo" [src]="fondo.logo" alt="Logo" />
+                <p [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
             </section>
             <section class="der">
-                <h5>Fiducuenta</h5>
-                <p>10% E.A.</p>
-            </section>
-        </div>
-    </button>
-    <button href="" class="result-item">
-        <div class="result-info">
-            <section class="izq">
-                <img id="logo" routerLink="/" src="assets/images/BBVALogo.png" alt="Logo" />
-                <p>Riesgo Medio</p>
-            </section>
-            <section class="der">
-                <h5>Fiducuenta</h5>
-                <p>10% E.A.</p>
-            </section>
-        </div>
-    </button>
-    <button href="" class="result-item">
-        <div class="result-info">
-            <section class="izq">
-                <img id="logo" routerLink="/" src="assets/images/BBVALogo.png" alt="Logo" />
-                <p>Riesgo Medio</p>
-            </section>
-            <section class="der">
-                <h5>Fiducuenta</h5>
-                <p>10% E.A.</p>
-            </section>
-        </div>
-    </button>
-    <button href="" class="result-item">
-        <div class="result-info">
-            <section class="izq">
-                <img id="logo" routerLink="/" src="assets/images/BBVALogo.png" alt="Logo" />
-                <p>Riesgo Medio</p>
-            </section>
-            <section class="der">
-                <h5>Fiducuenta</h5>
-                <p>10% E.A.</p>
-            </section>
-        </div>
-    </button>
-    <button href="" class="result-item">
-        <div class="result-info">
-            <section class="izq">
-                <img id="logo" routerLink="/" src="assets/images/BBVALogo.png" alt="Logo" />
-                <p>Riesgo Medio</p>
-            </section>
-            <section class="der">
-                <h5>Fiducuenta</h5>
-                <p>10% E.A.</p>
+                <h5>{{fondo.nombre}}</h5>
+                <p>{{fondo.rentabilidad}}</p>
             </section>
         </div>
     </button>
