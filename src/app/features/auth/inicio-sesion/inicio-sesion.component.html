@@ -1,4 +1,5 @@
 <div class="seccion-inicio-de-sesion">
+    <a class="link-volver" href="/"><i class="bi bi-arrow-left-circle-fill"> Volver a inicio</i></a>
     <div class="contenedor-imagen">
         <img id="logo" [src]="currentImageSrc" alt="Logo" />
     </div>
@@ -8,11 +9,11 @@
         <form action="">
             <label for="email">Correo</label>
             <br>
-            <input type="email" placeholder="Ingresa tu correo" required>
+            <input type="email" placeholder="Ingresa tu correo" required [(ngModel)]="formData.correo" name="email">
             <br>
             <label for="password">Contrase&ntilde;a</label>
             <br>
-            <input type="password" placeholder="Ingresa tu contrase&ntilde;a" required>
+            <input type="password" placeholder="Ingresa tu contrase&ntilde;a" required [(ngModel)]="formData.contrasena" name="password">
             <br>
             <div class="opciones-adicionales">
                 <label class="gris" for="remember-me">
@@ -21,7 +22,7 @@
                 </label>
                 <a href="#">¿Olvidaste tu contrase&ntilde;a?</a>
             </div>
-            <button type="submit">Iniciar Sesión</button>
+            <button (click)="iniciarSesion(formData.correo, formData.contrasena)" type="submit">Iniciar Sesión</button>
             <br>
         </form>
         <p class="registro">¿No tienes cuenta? <a href="/auth/registro">Registrate</a></p>

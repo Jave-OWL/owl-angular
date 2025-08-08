@@ -2,13 +2,36 @@
     border: 1px solid transparent;
 }
 
+.link-volver {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: var(--color-contenido);
+    font-size: 16px;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.link-volver i {
+    margin-right: 5px;
+}
+
+.link-volver:hover {
+    text-decoration: none;
+    color: var(--color-main);
+    transition: 0.3s ease;
+}
+
 .seccion-registro {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 38px);
-    background-color: var(--color-background);
+    background-image: url("/assets/images/fondoauth.png");
+    background-size: cover;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    height: 100vh;
 }
 
 h3 {
@@ -50,7 +73,7 @@ a:hover {
 .registro-form {
     width: 100%;
     max-width: 425px;
-    margin: 0 auto;
+    margin-bottom: 20px;
     background-color: var(--color-contenido);
     box-shadow: var(--light-box-shadow);
     padding: 40px 45px 40px 45px;
@@ -106,7 +129,7 @@ button {
 }
 
 button:hover {
-    background-color: #4570ad;
+    background-color: #426ba4;
     transition: 0.3s ease;
 }
 
