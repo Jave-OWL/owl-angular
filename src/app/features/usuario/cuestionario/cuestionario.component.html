@@ -1,156 +1,44 @@
-<section class="cuestionario">
-    <h1>Cuestionario de Perfil de Riesgo</h1>
-    
-    <div class="question-pages" [ngSwitch]="currentPage">
-        <!-- Página 1 -->
-        <div class="progress">
-            <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <div class="question-page" *ngSwitchCase="1">
-            <h3>Pregunta 1</h3>
-            <p class="question-text">¿Pregunta?</p>
-            <div class="options">
-                <label class="option">
-                    <h5>Totalmente de acuerdo</h5>
-                    <input class="seleccion" id="opcion-grande" type="radio"  name="question1" [(ngModel)]="answers[0]" value="5">
-                </label>
-                <label class="option">
-                    <h5>De acuerdo</h5>
-                    <input class="seleccion" id="opcion-media" type="radio" name="question1" [(ngModel)]="answers[0]" value="4">
-                </label>
-                <label class="option">
-                    <h5>Neutral</h5>
-                    <input class="seleccion" id="opcion-pequeña" type="radio" name="question1" [(ngModel)]="answers[0]" value="3">
-                </label>
-                <label class="option">
-                    <h5>En desacuerdo</h5>
-                    <input class="seleccion" id="opcion-media-d" type="radio" name="question1" [(ngModel)]="answers[0]" value="2">
-                </label>
-                <label class="option">
-                    <h5>Totalmente en desacuerdo</h5>
-                    <input class="seleccion" id="opcion-grande-d" type="radio" name="question1" [(ngModel)]="answers[0]" value="1">
-                </label>
-            </div>
-        </div>
-
-        <!-- Página 2 -->
-        <div class="question-page" *ngSwitchCase="2">
-            <h3>Pregunta 2</h3>
-            <p class="question-text">¿Sed do eiusmod tempor incididunt ut labore?</p>
-            <div class="options">
-                <label class="option">
-                    <input id="opcion-grande" type="radio" name="question2" [(ngModel)]="answers[1]" value="5">
-                    <span>Muy de acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question2" [(ngModel)]="answers[1]" value="4">
-                    <span>De acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question2" [(ngModel)]="answers[1]" value="3">
-                    <span>Neutral</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question2" [(ngModel)]="answers[1]" value="2">
-                    <span>En desacuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question2" [(ngModel)]="answers[1]" value="1">
-                    <span>Muy en desacuerdo</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Página 3 -->
-        <div class="question-page" *ngSwitchCase="3">
-            <h3>Pregunta 3</h3>
-            <p class="question-text">¿Ut enim ad minim veniam, quis nostrud exercitation?</p>
-            <div class="options">
-                <label class="option">
-                    <input type="radio" name="question3" [(ngModel)]="answers[2]" value="5">
-                    <span>Muy de acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question3" [(ngModel)]="answers[2]" value="4">
-                    <span>De acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question3" [(ngModel)]="answers[2]" value="3">
-                    <span>Neutral</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question3" [(ngModel)]="answers[2]" value="2">
-                    <span>En desacuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question3" [(ngModel)]="answers[2]" value="1">
-                    <span>Muy en desacuerdo</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Página 4 -->
-        <div class="question-page" *ngSwitchCase="4">
-            <h3>Pregunta 4</h3>
-            <p class="question-text">¿Duis aute irure dolor in reprehenderit?</p>
-            <div class="options">
-                <label class="option">
-                    <input type="radio" name="question4" [(ngModel)]="answers[3]" value="5">
-                    <span>Muy de acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question4" [(ngModel)]="answers[3]" value="4">
-                    <span>De acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question4" [(ngModel)]="answers[3]" value="3">
-                    <span>Neutral</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question4" [(ngModel)]="answers[3]" value="2">
-                    <span>En desacuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question4" [(ngModel)]="answers[3]" value="1">
-                    <span>Muy en desacuerdo</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Página 5 -->
-        <div class="question-page" *ngSwitchCase="5">
-            <h3>Pregunta 5</h3>
-            <p class="question-text">¿Excepteur sint occaecat cupidatat non proident?</p>
-            <div class="options">
-                <label class="option">
-                    <input type="radio" name="question5" [(ngModel)]="answers[4]" value="5">
-                    <span>Muy de acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question5" [(ngModel)]="answers[4]" value="4">
-                    <span>De acuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question5" [(ngModel)]="answers[4]" value="3">
-                    <span>Neutral</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question5" [(ngModel)]="answers[4]" value="2">
-                    <span>En desacuerdo</span>
-                </label>
-                <label class="option">
-                    <input type="radio" name="question5" [(ngModel)]="answers[4]" value="1">
-                    <span>Muy en desacuerdo</span>
-                </label>
-            </div>
-        </div>
+<div class="container">
+    <div class="contenedor-imagen">
+        <img id="logo" src="assets/images/OwlSerio.png" alt="Logo" />
     </div>
+    <section class="cuestionario">
+        <h1>Perfil de Riesgo</h1>
 
-    <!-- Navegación -->
-    <div class="navigation">
-        <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-        <span class="page-indicator">{{ currentPage }} / 5</span>
-        <button class="btn btn-primary" (click)="nextPage()" *ngIf="currentPage < 5">Siguiente</button>
-        <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === 5">Finalizar</button>
-    </div>
-</section>
+        <div class="pregunta-paginas" [ngSwitch]="currentPage">
+            <!-- Página 1 -->
+            <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" [style.width]="(currentPage/numPreguntas)*100 + '%'"
+                    [attr.aria-valuenow]="currentPage" aria-valuemin="0" [attr.aria-valuemax]="numPreguntas"></div>
+            </div>
+
+            <ng-container *ngFor="let pregunta of preguntas; let i = index">
+                <div class="pregunta-pagina" *ngSwitchCase="i + 1">
+                    <p class="pregunta-texto">{{pregunta}}</p>
+                    <div class="opciones">
+                        <p id="texto-izq" class="texto-opcion">De Acuerdo</p>
+                        <input class="seleccion" id="opcion-grande" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
+                            value="5">
+                        <input class="seleccion" id="opcion-media" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
+                            value="4">
+                        <input class="seleccion" id="opcion-pequeña" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
+                            value="3">
+                        <input class="seleccion" id="opcion-media-d" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
+                            value="2">
+                        <input class="seleccion" id="opcion-grande-d" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
+                            value="1">
+                        <p id="texto-der" class="texto-opcion">En Desacuerdo</p>
+                    </div>
+                </div>
+            </ng-container>
+
+        </div>
+        <!-- Navegación -->
+        <div class="navigation">
+            <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
+            <span class="page-indicator">{{ currentPage }} / {{ numPreguntas }}</span>
+            <button class="btn btn-primary" (click)="nextPage()" *ngIf="currentPage < numPreguntas">Siguiente</button>
+            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Finalizar</button>
+        </div>
+    </section>
+</div>

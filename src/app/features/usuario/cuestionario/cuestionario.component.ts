@@ -10,8 +10,22 @@ import { CommonModule } from '@angular/common';
   styleUrl: './cuestionario.component.css'
 })
 export class CuestionarioComponent {
+
+  numPreguntas = 8;
+
   currentPage: number = 1;
-  answers: number[] = new Array(5).fill(0);
+  answers: number[] = new Array(this.numPreguntas).fill(0);
+
+  preguntas: string[] = [
+    'Creo que, a mayor riesgo, mayor es la posibilidad de ganar.',
+    'Creo que, a mayor riesgo, mayor es la posibilidad de perder.',
+    'Prefiero invertir en productos de renta fija, aunque la rentabilidad sea menor.',
+    'Prefiero invertir en productos de renta variable, aunque la rentabilidad sea mayor.',
+    'Estoy dispuesto a asumir pérdidas temporales en mis inversiones.',
+    'Prefiero inversiones con rentabilidad garantizada, aunque sea menor.',
+    'Me siento cómodo con la volatilidad del mercado.',
+    'Prefiero inversiones a corto plazo, aunque la rentabilidad sea menor.'
+  ]
 
   previousPage() {
     if (this.currentPage > 1) {
@@ -20,7 +34,11 @@ export class CuestionarioComponent {
   }
 
   nextPage() {
-    if (this.currentPage < 5) {
+    if (this.currentPage < this.numPreguntas) {
+      if (this.answers[this.currentPage - 1] === 0) {
+        alert('Por favor, responde la pregunta antes de continuar.');
+        return;
+      }
       this.currentPage++;
     }
   }

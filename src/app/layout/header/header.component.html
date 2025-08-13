@@ -1,8 +1,17 @@
-<header id="header" class="header">
-    <img id="logo" routerLink="/" src="assets/images/owlNB.png" alt="Logo" />
-    <nav>
-        <a hidden routerLink="/">Inicio</a>
-    </nav>
+<header>
+    <img id="logo" routerLink="/" src="assets/images/owl.png" alt="Logo" />
+    <div class="nav-usuario" >
+        <button routerLink="/" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{exact: true}">Inicio</button>
+        <button routerLink="/explorar-fondos" routerLinkActive="router-link-active">Explorar Fondos</button>
+        <button routerLink="/dashboard" routerLinkActive="router-link-active">Dashboard</button>
+    </div>
+
+    <div class="nav-administrador" hidden>
+        <button routerLink="/admin/usuarios" routerLinkActive="router-link-active">Usuarios</button>
+        <button routerLink="/admin/fondos" routerLinkActive="router-link-active">Fondos</button>
+        <button routerLink="/admin/reportes" routerLinkActive="router-link-active">Reportes</button>
+    </div>
+
     <div class="auth">
         <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
         <button class="registro" routerLink="/auth/registro">Registro</button>

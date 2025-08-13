@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { NgModel } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
@@ -22,6 +23,10 @@ export class HeaderComponent {
         }
       }
     });
+  }
+  ngOnInit(): void {
+    // Initialization logic can go here if needed
+    console.log('HeaderComponent initialized');
   }
 }
 
