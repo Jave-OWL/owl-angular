@@ -16,9 +16,9 @@ header {
 }
 
 #logo {
-  width: 10rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  width: 200px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
@@ -38,8 +38,66 @@ nav a:hover{
   text-decoration: underline;
 }
 
+/*-----seccion de usuario-----*/
+.nav-usuario {
+  display: flex;
+}
+
+.nav-usuario button {
+  border: none;
+  width: fit-content;
+  height: var(--header-size);
+  background-color: transparent;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s ease;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.nav-usuario button:hover {
+  color: var(--color-accent);
+  border-bottom: 4px solid var(--color-accent);
+  transition: 0.2s ease;
+}
+
+.nav-usuario button.router-link-active {
+  color: var(--color-accent);
+  border-bottom: 4px solid var(--color-accent);
+  transition: 0.2s ease;
+}
+
+.nav-usuario p,
+.nav-administrador p {
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: 0.3s ease;
+  margin: 0;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -32px;
+  padding-bottom: 20px;
+}
+
+.nav-usuario p.router-link-active,
+.nav-administrador p.router-link-active {
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-weight: 600;
+  border-bottom: 4px solid var(--color-accent);
+  margin-bottom: -28px;
+  padding-bottom: 4px;
+}
+
+.nav-usuario p:hover,
+.nav-administrador p:hover {
+  color: var(--color-accent);
+  cursor: pointer;
+  transition: 0.3s ease;
+  text-decoration: none;
+}
+
 /*-----seccion de autenticacion-----*/
-button {
+.auth button {
   border: none;
   border-radius: var(--border-radius);
   padding: 1rem 2rem;
