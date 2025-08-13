@@ -2,38 +2,46 @@
     width: 50rem;
 }
 
-.content {
-    
-}
-
 .mensaje-landing {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 0;
-    z-index: 999;
-    background-color: brown;
-    height: fit-content;
+
 }
 
 .izq {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     text-align: center;
-    background-color: var(--color-secondary);
-    
+    background-color: var(--color-main);
+    color: white;
+    height: 100vh;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 .der {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 50%;
     text-align: center;
+    height: 100vh;
+    padding-top: var(--header-size);
+}
+
+span {
+    font-family: Bagel fat one;
+    font-size: 120px;
 }
 
 h1 {
-    font-family: Bagel fat one;
-    font-size: 80px;
-    color: var(--color-main);
+    font-size: 50px;
     text-align: center;
-    background-color: var(--color-secondary);
-    padding: 20px;
+    font-weight: 500;
 }

@@ -15,7 +15,7 @@
   --color-headerfooter: #ffffff;
   /*-----Borde global-----*/
   --internal-border-radius: 15px;
-  --border-radius: 3rem;
+  --border-radius: 15px;
   /*-----Sombra global*-----/
   /*offset-x | offset-y | blur-radius | spread-radius | color*/
   --light-box-shadow: 1px 0px 5px 1px rgba(0, 0, 0, 0.05);

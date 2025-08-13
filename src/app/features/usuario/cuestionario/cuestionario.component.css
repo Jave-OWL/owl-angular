@@ -197,7 +197,7 @@ span {
 
 .btn {
     padding: 0.5rem 1.5rem;
-    border-radius: var(--border-radius);
+    border-radius: 10px;
     border: none;
     cursor: pointer;
     transition: 0.3s;
