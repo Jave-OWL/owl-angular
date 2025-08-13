@@ -12,6 +12,38 @@ export class ExplorarFondosComponent {
   fondos: Fondo[] = [
     {
       logo: '',
+      riesgo: 'Riesgo Variable',
+      nombre: 'Fondo Variable',
+      banco: 'Davivienda',
+      rentabilidad: '10% E.A.',
+      fechaCreacion: new Date('2024-05-01')
+    },
+    {
+      logo: '',
+      riesgo: 'Riesgo Bajo',
+      nombre: 'Fondo Conservador',
+      banco: 'BancoDeOccidente',
+      rentabilidad: '3% E.A.',
+      fechaCreacion: new Date('2024-06-01')
+    },
+    {
+      logo: '',
+      riesgo: 'Riesgo Medio',
+      nombre: 'Fiducuenta',
+      banco: 'BancoDeBogota',
+      rentabilidad: '10% E.A.',
+      fechaCreacion: new Date('2024-04-01')
+    },
+    {
+      logo: '',
+      riesgo: 'Riesgo Alto',
+      nombre: 'Fiducuenta',
+      banco: 'CredicorpCapital',
+      rentabilidad: '10% E.A.',
+      fechaCreacion: new Date('2024-07-01')
+    },
+    {
+      logo: '',
       riesgo: 'Riesgo Alto',
       nombre: 'Fiducuenta',
       banco: 'Bancolombia',
@@ -33,22 +65,6 @@ export class ExplorarFondosComponent {
       banco: 'Itau',
       rentabilidad: '10% E.A.',
       fechaCreacion: new Date('2024-03-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Medio',
-      nombre: 'Fiducuenta',
-      banco: 'BANCODEBOGOTA',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-04-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Variable',
-      nombre: 'Fondo Variable',
-      banco: 'Davivienda',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-05-01')
     }
   ];
 

@@ -20,6 +20,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/FICs/explorar-fondos/explorar-fondos.component').then((m) => m.ExplorarFondosComponent)
     },
     {
+        path: 'detalle-fondo',
+        loadComponent: () => import('./features/FICs/detalle-fondo/detalle-fondo.component').then((m) => m.DetalleFondoComponent)
+
+    },
+    {
         path: 'perfil-riesgo',
         loadComponent: () => import('./features/usuario/perfil-riesgo/perfil-riesgo.component').then((m) => m.PerfilRiesgoComponent)
     },
