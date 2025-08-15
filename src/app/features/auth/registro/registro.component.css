@@ -29,9 +29,11 @@
     align-items: center;
     background-image: url("/assets/images/fondoauth.png");
     background-size: cover;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    height: 100vh;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100%; 
+    overflow-y: auto;
 }
 
 h3 {
@@ -76,7 +78,7 @@ a:hover {
     margin-bottom: 20px;
     background-color: var(--color-contenido);
     box-shadow: var(--light-box-shadow);
-    padding: 40px 45px 40px 45px;
+    padding: 20px 45px 40px 45px;
     border-radius: var(--border-radius);
 }
 
@@ -140,12 +142,8 @@ button:hover {
 }
 
 #logo {
-    width: 100px;
+    width: 125px;
     height: auto;
     margin: 0px;
-    transform: translateX(-140px);
-}
-
-.contenedor-imagen {
-    transform: translateY(12px);
+    transform: translate(-140px, 5px);
 }

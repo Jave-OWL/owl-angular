@@ -23,15 +23,17 @@
 }
 
 .seccion-inicio-de-sesion {
-    padding-top: 20px;
-    padding-bottom: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     background-image: url("/assets/images/fondoauth.png");
     background-size: cover;
-    height: 100vh;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh; /* Cambiamos height por min-height */
+    width: 100%; /* Aseguramos que ocupe todo el ancho */
+    overflow-y: auto; /* Permitimos scroll vertical si es necesario */
 }
 
 h3 {
@@ -139,12 +141,8 @@ button:hover {
 }
 
 #logo {
-    width: 105px;
+    width: 145px;
     height: auto;
     margin: 0px;
-    transform: translateX(-140px);
-}
-
-.contenedor-imagen {
-    transform: translateY(12px);
+    transform: translate(-140px, 5px);
 }

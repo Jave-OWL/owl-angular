@@ -8,8 +8,12 @@
         <div class="pregunta-paginas" [ngSwitch]="currentPage">
             <!-- Página 1 -->
             <div class="progress">
-                <div class="progress-bar bg-success" role="progressbar" [style.width]="(currentPage/numPreguntas)*100 + '%'"
-                    [attr.aria-valuenow]="currentPage" aria-valuemin="0" [attr.aria-valuemax]="numPreguntas"></div>
+                <div class="progress-bar" role="progressbar" 
+                    [style.width]="(currentPage/(numPreguntas + 1))*100 + '%'"
+                    [style.backgroundColor]="getColorProgreso()"
+                    [attr.aria-valuenow]="currentPage" 
+                    aria-valuemin="0" 
+                    [attr.aria-valuemax]="numPreguntas"></div>
             </div>
 
             <ng-container *ngFor="let pregunta of preguntas; let i = index">

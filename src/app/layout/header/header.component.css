@@ -113,14 +113,20 @@ nav a:hover{
 
 .registro:hover {
   transition: 0.3s;
+  
   box-shadow: 0px 0px 8px 1px rgba(255, 255, 255, 0.79);
 }
 
 .login {
   background-color: transparent;
-  color: var(--color-secondary);
+  color: var(--color-text);
   transition: 0.5s;
-  font-weight: bold;
+  margin-right: 5px;
+}
+
+.login:hover {
+  background-color: aliceblue;
+  transition: 0.3s;
 }
 
 /*-----seccion de usuario-----*/

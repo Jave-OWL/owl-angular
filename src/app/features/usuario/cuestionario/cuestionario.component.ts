@@ -16,6 +16,19 @@ export class CuestionarioComponent {
   currentPage: number = 1;
   answers: number[] = new Array(this.numPreguntas).fill(0);
 
+  getColorProgreso(): string {
+    const progress = (this.currentPage / this.numPreguntas) * 100;
+    if (progress < 25) {
+      return '#bbc7e5'; // Verde claro
+    } else if (progress < 50) {
+      return '#90acd3'; // Verde medio
+    } else if (progress < 75) {
+      return '#789ed3ff'; // Verde medio oscuro
+    } else {
+      return '#5087d4ff'; // Verde oscuro
+    }
+  }
+
   preguntas: string[] = [
     'Creo que, a mayor riesgo, mayor es la posibilidad de ganar.',
     'Creo que, a mayor riesgo, mayor es la posibilidad de perder.',

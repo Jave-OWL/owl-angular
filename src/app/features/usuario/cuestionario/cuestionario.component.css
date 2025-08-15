@@ -19,13 +19,13 @@
     width: 99%;
     margin: 0 auto;
     height: 20px;
-    background-color: var(--color-secondary);
-    border-radius: var(--border-radius);
+    background-color: var(--color-background);
+    border-radius: 8px;
 }
 
 .progress-bar {
     background-color: var(--color-main);
-    border-radius: var(--border-radius);
+    border-radius: 8px;
 }   
 
 .cuestionario {
