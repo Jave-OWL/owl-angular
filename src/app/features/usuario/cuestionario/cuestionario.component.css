@@ -1,3 +1,7 @@
+.color-alt {
+    
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -60,7 +64,6 @@ span {
 }
 
 .pregunta-texto {
-    color: var(--color-general-text);
     margin-top: 20px;
     margin-bottom: 60px;
     font-size: 17px;

@@ -52,6 +52,7 @@ nav a:hover{
   transition: 0.2s ease;
   padding-left: 15px;
   padding-right: 15px;
+  font-weight: 400;
 }
 
 .nav-usuario button:hover {

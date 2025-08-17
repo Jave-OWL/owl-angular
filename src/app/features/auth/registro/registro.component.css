@@ -1,22 +1,20 @@
-*{
-    border: 1px solid transparent;
-}
-
-.link-volver {
+.seccion-registro .link-volver {
     position: absolute;
     top: 20px;
     left: 20px;
-    color: var(--color-contenido);
+    color: white;
     font-size: 16px;
     text-decoration: none;
     transition: 0.3s ease;
 }
 
-.link-volver i {
+.seccion-registro .link-volver i {
     margin-right: 5px;
+    color: white;
 }
 
-.link-volver:hover {
+.seccion-registro .link-volver:hover,
+.seccion-registro .link-volver:hover i {
     text-decoration: none;
     color: var(--color-main);
     transition: 0.3s ease;
@@ -38,7 +36,6 @@
 
 h3 {
     font-size: 24px;
-    color: var(--color-general-text);
     text-align: center;
     font-weight: 600;
     margin-bottom: 20px;
@@ -61,7 +58,7 @@ p{
     margin-top: 10px;
 }
 
-a {
+.sign-in-form a {
     color: var(--color-main);
     text-decoration: none;
     font-weight: 400;
@@ -101,7 +98,6 @@ input[type="password"]:focus {
 }
 
 label {
-    color: var(--color-general-text);
     font-weight: 600;
     margin-left: 10px;
     margin-top: 20px;

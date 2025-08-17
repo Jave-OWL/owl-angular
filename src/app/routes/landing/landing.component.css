@@ -1,7 +1,5 @@
 #logo {
-    float: right;
-    max-width: 650px;    
-    height: auto;
+    max-width: 92%;    
     object-fit: contain;
 }
 
@@ -25,6 +23,10 @@
     height: 100vh;
     padding-left: 50px;
     padding-right: 50px;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    position: relative;
 }
 
 
@@ -41,6 +43,8 @@
     text-align: right;
     height: 100vh;
     padding-top: var(--header-size);
+    overflow: hidden;
+    position: relative;
 }
 
 button {
@@ -54,7 +58,7 @@ button {
     font-size: 16px;
     margin-top: 20px;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     transition: 0.3s ease;
 }
 
@@ -84,15 +88,17 @@ span {
 }
 
 #logo {
-    animation: slide-in 0.6s ease-in-out forwards;
+    animation: slide-in 0.5s ease-in-out forwards;
 }
 
 @keyframes slide-in {
     from {
-        transform: translateX(70%);
+        opacity: 0.6;
+        transform: translateX(33px);
     }
     to {
-        transform: translateX(0);
+        opacity: 1;
+        transform: translateX(3px);
     }
 }
 

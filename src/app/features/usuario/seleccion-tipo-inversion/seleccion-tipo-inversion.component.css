@@ -10,7 +10,6 @@ a {
 
 h4 {
     font-size: var(--large-size);
-    color: var(--color-general-text);
     text-align: center;
     margin-bottom: 6rem;
     margin-top: 4rem;
@@ -26,7 +25,6 @@ h4 {
 .seleccion  {
     background-color: var(--color-contenido);   
     border-radius: var(--border-radius);
-    color: var(--color-general-text);
     width: 75vh;
     margin: 1.2rem;
     text-align: center; 
