@@ -120,8 +120,8 @@ button {
     border: none;
     border-radius: 15px;
     cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.4rem;
+    font-weight: 500;
     margin-top: 20px;
     transition: 0.3s ease;
 }

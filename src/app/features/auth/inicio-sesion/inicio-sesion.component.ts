@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './inicio-sesion.component.css'
 })
 export class InicioSesionComponent implements OnInit {
-  currentImageSrc: string = 'assets/images/OwlLLave.png';
+  currentImageSrc: string = 'assets/images/OwlLlave.png';
 
   formData = {
     correo: '',

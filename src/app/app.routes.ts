@@ -36,6 +36,9 @@ export const routes: Routes = [
         path: 'user/cuestionario',
         loadComponent: () => import('./features/usuario/cuestionario/cuestionario.component').then((m) => m.CuestionarioComponent)
     },
-    // {
     // Admin Routes
+    {
+        path: '**',
+        loadComponent: () => import('./routes/pagenotfound/pagenotfound.component').then((m) => m.PagenotfoundComponent)
+    }
 ];
