@@ -36,6 +36,14 @@ export const routes: Routes = [
         path: 'user/cuestionario',
         loadComponent: () => import('./features/usuario/cuestionario/cuestionario.component').then((m) => m.CuestionarioComponent)
     },
+    {
+        path: 'user/dashboard',
+        loadComponent: () => import('./features/usuario/dashboard/dashboard.component').then((m) => m.DashboardComponent)
+    },
     // {
     // Admin Routes
+    {
+        path: 'admin/dashboard',
+        loadComponent: () => import('./features/admin/dashboard-admin/dashboard-admin.component').then((m) => m.DashboardAdminComponent)
+    }
 ];
