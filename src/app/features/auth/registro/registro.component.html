@@ -6,22 +6,22 @@
     <section class="registro-form">
         <h3>¡Bienvenido!</h3>
         <p>Registrate para entrar al mundo financiero</p>
-        <form action="">
+        <form action="" [formGroup]="registroForm" (ngSubmit)="onSubmit()">
             <label for="name">Nombre</label>
             <br>
-            <input type="text" placeholder="Nombre completo" required>
+            <input type="text" formControlName="name" placeholder="Nombre completo" required>
             <br>
             <label for="email">Correo</label>
             <br>
-            <input type="email" placeholder="ej: email@ejemplo.com" required>
+            <input formControlName="email" type="email" placeholder="ej: email@ejemplo.com" required>
             <br>
             <label for="password">Contrase&ntilde;a</label>
             <br>
-            <input type="password" placeholder="Ingresa tu contrase&ntilde;a" required>
+            <input formControlName="password" type="password" placeholder="Ingresa tu contrase&ntilde;a" required>
             <br>
             <label for="confirm-password">Confirmar Contrase&ntilde;a</label>
             <br>
-            <input type="password" placeholder="Confirma tu contrase&ntilde;a" required>
+            <input formControlName="email" type="password" placeholder="Confirma tu contrase&ntilde;a" required>
             <button type="submit">Registrar</button>
             <br>
         </form>
