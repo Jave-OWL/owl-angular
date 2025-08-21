@@ -12,14 +12,14 @@ export class HeaderComponent {
   constructor(private router: Router) {
     router.events.subscribe((val) => {
       if (this.router.url === '/auth/inicio-de-sesion' || this.router.url === '/auth/registro') {
-        const footerElement = document.getElementById('header');
-        if (footerElement) {
-          footerElement.style.display = 'none';
+        const HeaderElement = document.getElementById('header');
+        if (HeaderElement) {
+          HeaderElement.style.display = 'none';
         }
       } else {
-        const footerElement = document.getElementById('header');
-        if (footerElement) {
-          footerElement.style.display = 'flex';
+        const HeaderElement = document.getElementById('header');
+        if (HeaderElement) {
+          HeaderElement.style.display = 'flex';
         }
       }
     });
@@ -27,6 +27,9 @@ export class HeaderComponent {
   ngOnInit(): void {
     // Initialization logic can go here if needed
     console.log('HeaderComponent initialized');
+  }
+  ngAfterViewInit(): void {
+    console.log('HeaderComponent view initialized');
   }
 }
 

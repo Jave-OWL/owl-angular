@@ -62,11 +62,12 @@ export class InicioSesionComponent implements OnInit {
       this.cambiarImagen('exito');
       setTimeout(() => {
         console.log('Timeout');
+        const successImg = document.querySelector('.exito') as HTMLImageElement;
+        
         localStorage.setItem('rol', 'usuario');
-        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));        
+        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
         this.router.navigate(['user/dashboard']);
       }, 2500);
-
     } else if (administrador) {
       console.log('Administrador encontrado');
       this.cambiarImagen('exito');
@@ -77,7 +78,8 @@ export class InicioSesionComponent implements OnInit {
         this.router.navigate(['admin/dashboard']);
       }, 2500);
 
-    } else {
+    } 
+    else {
       console.log('Usuario o administrador no encontrado');
       this.cambiarImagen('error');
     }
