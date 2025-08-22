@@ -37,6 +37,16 @@ export class InicioSesionComponent implements OnInit {
 
   constructor(private router: Router) {} 
 
+  private usuarioEncontrado: Boolean = false;
+
+  private formulario = document.querySelector('.contenido-form') as HTMLElement;
+  private exito = document.querySelector('.mensaje-confirmacion') as HTMLElement;
+
+  ngAfterViewInit() {
+  this.formulario = document.querySelector('.contenido-form') as HTMLElement;
+  this.exito = document.querySelector('.mensaje-confirmacion') as HTMLElement;
+  }
+
   findusuario(correo: string, contrasena: string) {
     return this.usuarios.find(u => u.correo === correo && u.contrasena === contrasena);
     //Llamado a servicio cuando se implemente backend
@@ -54,37 +64,31 @@ export class InicioSesionComponent implements OnInit {
   }
 
   iniciarSesion(correo: string, contrasena: string) {
-    const usuario = this.findusuario(correo, contrasena);
-    const administrador = this.findAdministrador(correo, contrasena);
+  const usuario = this.findusuario(correo, contrasena);
+  const administrador = this.findAdministrador(correo, contrasena);
 
-    if (usuario) {
-      console.log('Usuario encontrado');
-      this.cambiarImagen('exito');
-      setTimeout(() => {
-        console.log('Timeout');
-        const successImg = document.querySelector('.exito') as HTMLImageElement;
-        
-        localStorage.setItem('rol', 'usuario');
-        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
-        this.router.navigate(['user/dashboard']);
-      }, 2500);
-    } else if (administrador) {
-      console.log('Administrador encontrado');
-      this.cambiarImagen('exito');
-      setTimeout(() => {
-        console.log('Timeout');
-        localStorage.setItem('rol', 'administrador');
-        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));    
-        this.router.navigate(['admin/dashboard']);
-      }, 2500);
+  if (usuario || administrador) {
+    const rol = usuario ? 'usuario' : 'administrador';
+    const ruta = usuario ? 'user/dashboard' : 'admin/dashboard';
 
-    } 
-    else {
-      console.log('Usuario o administrador no encontrado');
-      this.cambiarImagen('error');
+    this.cambiarImagen('exito');
+    localStorage.setItem('rol', rol);
+    console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
+
+    setTimeout(() => {
+      this.router.navigate([ruta]);
+    }, 2500);
+
+    if (usuario || administrador) {
+      this.formulario.style.display = 'none';
+      this.exito.style.display = 'flex';
+      console.log('Formulario ocultado, mensaje de exito mostrado');
     }
+  } else {
+    console.log('Usuario o administrador no encontrado');
+    this.cambiarImagen('error');
   }
-
+}
   cambiarImagen(estadoLogin: string) {
     let imagen = '';
     let imagenDefault = this.currentImageSrc;

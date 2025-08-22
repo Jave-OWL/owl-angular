@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, CommonModule, RouterLinkActive],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
@@ -30,6 +32,31 @@ export class HeaderComponent {
   }
   ngAfterViewInit(): void {
     console.log('HeaderComponent view initialized');
+  }
+
+  dropdown(){
+    const dropdownMenu = document.querySelector('.dropdown-menu');
+    if (dropdownMenu) {
+      dropdownMenu.classList.toggle('show');
+    }
+  }
+
+  getRol(){
+    localStorage.getItem('rol');
+    return localStorage.getItem('rol');
+  }
+
+  usuarioAuth():boolean { //Implementacion temporal mientras se implementa JWT o algun otro metodo de tokens de autenticacion (falta servicio y tokens)
+    if(localStorage.getItem('rol') == 'usuario' || localStorage.getItem('rol') == 'administrador' ){
+      return true;
+    }
+    return false;
+  }
+
+  cerrarSesion() {
+    localStorage.removeItem('rol');
+    localStorage.removeItem('token');
+    this.router.navigate(['/auth/inicio-de-sesion']);
   }
 }
 

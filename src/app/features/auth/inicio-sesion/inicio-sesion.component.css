@@ -100,6 +100,10 @@ a:hover {
     border-radius: var(--border-radius);
 }
 
+.contenido-form {
+    display: none;
+}
+
 input[type="email"],
 input[type="password"] {
     width: 100%;
@@ -162,4 +166,17 @@ button:hover {
     height: auto;
     margin: 0px;
     transform: translate(-140px, 5px);
+}
+
+.mensaje-confirmacion {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    color: var(--color-main);
+    margin-top: 20px;
+}
+
+.mensaje-confirmacion h3{
+    margin: 0px;
 }
