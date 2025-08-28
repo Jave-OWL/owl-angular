@@ -87,7 +87,7 @@ header {
 
 .dropdown-menu {
   position: absolute;
-  top: 100%;
+  top: 115%;
   right: 0;
   background-color: var(--color-headerfooter);
   border-radius: var(--border-radius);
@@ -95,16 +95,17 @@ header {
   margin-top: 8px;
   min-width: 200px;
   opacity: 0;
-  transform: translateY(-15px);
+  transform: translateY(-20px);
   pointer-events: none;
   display: flex;
   flex-direction: column;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  border: none;
 }
 
 .dropdown-menu.show {
   opacity: 1;
-  transform: translateY(-9px);
+  transform: translateY(-5px);
   pointer-events: all;
 }
 
@@ -118,6 +119,17 @@ header {
 
 .dropdown-item:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+
+
+.triangle {
+  width: 15px;
+  aspect-ratio: 1/cos(30deg);
+  clip-path: polygon(50% 0,100% 100%,0 100%);
+  background-color: var(--color-headerfooter);
+  position: absolute;
+  top: -10px;
+  right: 20px;
 }
 
 /*-----seccion de autenticacion-----*/
