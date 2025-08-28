@@ -1,0 +1,66 @@
+.dashboard{
+    margin: 20px 60px 20px 60px;
+}
+
+h4 {
+    color: var(--color-disabled);
+    font-weight: 400;
+}
+
+h3 {
+    margin-top: 0px;
+}
+
+.contenido-dashboard > section {
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;   
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.fondos,
+.ver-mas-fics {
+    padding: 0;
+    width: 24%;
+    border-radius: var(--border-radius);
+    border: none;
+    background-color: var(--color-contenido);
+    box-shadow: var(--light-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.fics {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+}
+
+.result-item {
+    padding: 0;
+}
+
+.top {
+
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    height: 80px;
+    background-color: aqua;
+}
+
+.bottom {
+    padding-top: 10px;
+    padding-bottom: 5px;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+.consejo-info{
+    display: flex;
+    flex-direction: row;
+}
