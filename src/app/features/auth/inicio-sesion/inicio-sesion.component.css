@@ -100,10 +100,6 @@ a:hover {
     border-radius: var(--border-radius);
 }
 
-.contenido-form {
-    display: none;
-}
-
 input[type="email"],
 input[type="password"] {
     width: 100%;
@@ -151,7 +147,7 @@ button {
 }
 
 button:hover {
-    background-color: #426ba4;
+    background-color: var(--color-main-hover);
     transition: 0.3s ease;
 }
 
@@ -169,7 +165,7 @@ button:hover {
 }
 
 .mensaje-confirmacion {
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     text-align: center;
@@ -180,3 +176,61 @@ button:hover {
 .mensaje-confirmacion h3{
     margin: 0px;
 }
+
+.loader, .loader:before, .loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  animation-fill-mode: both;
+  animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+.loader {
+  color: var(--color-main);
+  font-size: 7px;
+  position: relative;
+  margin: 40px auto;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
+}
+
+@keyframes bblFadInOut {
+  0%, 80%, 100% { box-shadow: 0 2.5em 0 -1.3em }
+  40% { box-shadow: 0 2.5em 0 0 }
+}
+
+/*
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid;
+  border-color: var(--color-main) transparent;
+  border-radius: 50%;
+  display: block;
+  margin: 10px auto;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+*/

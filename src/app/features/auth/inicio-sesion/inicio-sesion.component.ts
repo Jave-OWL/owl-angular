@@ -61,9 +61,9 @@ export class InicioSesionComponent implements OnInit {
   iniciarSesion(correo: string, contrasenia: string) {
     const usuario = this.findusuario(correo, contrasenia);
 
-  if (usuario || administrador) {
-    const rol = usuario ? 'usuario' : 'administrador';
-    const ruta = usuario ? 'user/dashboard' : 'admin/dashboard';
+  if (usuario) {
+    const rol = usuario.rol === 'usuario' ? 'usuario' : 'administrador';
+    const ruta = usuario.rol === 'usuario' ? 'user/dashboard' : 'admin/dashboard';
 
     this.cambiarImagen('exito');
     localStorage.setItem('rol', rol);
@@ -73,7 +73,7 @@ export class InicioSesionComponent implements OnInit {
       this.router.navigate([ruta]);
     }, 2500);
 
-    if (usuario || administrador) {
+    if (usuario) {
       this.formulario.style.display = 'none';
       this.exito.style.display = 'flex';
       console.log('Formulario ocultado, mensaje de exito mostrado');

@@ -4,6 +4,7 @@
 :root {
   /*-----Colores globales-----*/
   --color-main: #588bd2;
+  --color-main-hover: #345788;
   --color-primary: #90acd3;
   --color-secondary: #bbc7e5;
   --color-accent: #ffbd59;
