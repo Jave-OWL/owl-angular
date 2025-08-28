@@ -1,5 +1,7 @@
 export interface Usuario {
+    id: number;
+    nombre: string;
     correo: string;
-    contrasena: string;
-    nombreCompleto: string;
+    contrasenia: string;
+    rol: 'administrador' | 'usuario';
 }

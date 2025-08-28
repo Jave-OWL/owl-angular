@@ -21,19 +21,20 @@ export class InicioSesionComponent implements OnInit {
 
   usuarios: Usuario[] = [
     {
+      id: 1,
+      nombre: 'ejemplo',
       correo: 'correo@ejemplo.com',
-      contrasena: '123456',
-      nombreCompleto: 'ejemplo ejemplo',
+      contrasenia: '123456',
+      rol: 'usuario'
+    },
+    {
+      id: 2,
+      nombre: 'admin',
+      correo: 'admin@ejemplo.com',
+      contrasenia: '654321',
+      rol: 'administrador'
     }
   ];
-
-  administradores: Administrador[] = [
-    {
-      correo: 'admin@ejemplo.com',
-      contrasena: '654321',
-      nombreCompleto: 'admin admin',
-    }
-  ]
 
   constructor(private router: Router) {} 
 
@@ -47,25 +48,18 @@ export class InicioSesionComponent implements OnInit {
   this.exito = document.querySelector('.mensaje-confirmacion') as HTMLElement;
   }
 
-  findusuario(correo: string, contrasena: string) {
-    return this.usuarios.find(u => u.correo === correo && u.contrasena === contrasena);
+  findusuario(correo: string, contrasenia: string) {
+    return this.usuarios.find(u => u.correo === correo && u.contrasenia === contrasenia);
     //Llamado a servicio cuando se implemente backend
-    // return this.usuarioService.findUsuario(correo, contrasena);
-  }
-
-  findAdministrador(correo: string, contrasena: string) {
-    return this.administradores.find(a => a.correo === correo && a.contrasena === contrasena);
-    //Llamado a servicio cuando se implemente backend
-    // return this.administradorService.findAdministrador(correo, contrasena);
+    // return this.usuarioService.findUsuario(correo, contrasenia);
   }
 
   ngOnInit() {
     
   }
 
-  iniciarSesion(correo: string, contrasena: string) {
-  const usuario = this.findusuario(correo, contrasena);
-  const administrador = this.findAdministrador(correo, contrasena);
+  iniciarSesion(correo: string, contrasenia: string) {
+    const usuario = this.findusuario(correo, contrasenia);
 
   if (usuario || administrador) {
     const rol = usuario ? 'usuario' : 'administrador';
