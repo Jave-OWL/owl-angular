@@ -21,43 +21,37 @@ export class InicioSesionComponent implements OnInit {
 
   usuarios: Usuario[] = [
     {
+      id: 1,
+      nombre: 'ejemplo',
       correo: 'correo@ejemplo.com',
-      contrasena: '123456',
-      nombreCompleto: 'ejemplo ejemplo',
+      contrasenia: '123456',
+      rol: 'usuario'
+    },
+    {
+      id: 2,
+      nombre: 'admin',
+      correo: 'admin@ejemplo.com',
+      contrasenia: '654321',
+      rol: 'administrador'
     }
   ];
 
-  administradores: Administrador[] = [
-    {
-      correo: 'admin@ejemplo.com',
-      contrasena: '654321',
-      nombreCompleto: 'admin admin',
-    }
-  ]
-
   constructor(private router: Router) {} 
 
-  findusuario(correo: string, contrasena: string) {
-    return this.usuarios.find(u => u.correo === correo && u.contrasena === contrasena);
+  findusuario(correo: string, contrasenia: string) {
+    return this.usuarios.find(u => u.correo === correo && u.contrasenia === contrasenia);
     //Llamado a servicio cuando se implemente backend
-    // return this.usuarioService.findUsuario(correo, contrasena);
-  }
-
-  findAdministrador(correo: string, contrasena: string) {
-    return this.administradores.find(a => a.correo === correo && a.contrasena === contrasena);
-    //Llamado a servicio cuando se implemente backend
-    // return this.administradorService.findAdministrador(correo, contrasena);
+    // return this.usuarioService.findUsuario(correo, contrasenia);
   }
 
   ngOnInit() {
     
   }
 
-  iniciarSesion(correo: string, contrasena: string) {
-    const usuario = this.findusuario(correo, contrasena);
-    const administrador = this.findAdministrador(correo, contrasena);
+  iniciarSesion(correo: string, contrasenia: string) {
+    const usuario = this.findusuario(correo, contrasenia);
 
-    if (usuario) {
+    if (usuario?.rol === 'usuario') {
       console.log('Usuario encontrado');
       this.cambiarImagen('exito');
       setTimeout(() => {
@@ -68,17 +62,19 @@ export class InicioSesionComponent implements OnInit {
         console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
         this.router.navigate(['user/dashboard']);
       }, 2500);
-    } else if (administrador) {
+    }
+    else if (usuario?.rol === 'administrador') {
       console.log('Administrador encontrado');
       this.cambiarImagen('exito');
       setTimeout(() => {
         console.log('Timeout');
+        const successImg = document.querySelector('.exito') as HTMLImageElement;
+        
         localStorage.setItem('rol', 'administrador');
-        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));    
+        console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
         this.router.navigate(['admin/dashboard']);
       }, 2500);
-
-    } 
+    }
     else {
       console.log('Usuario o administrador no encontrado');
       this.cambiarImagen('error');
