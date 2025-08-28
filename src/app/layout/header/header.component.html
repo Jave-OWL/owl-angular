@@ -25,9 +25,9 @@
     </div>
     <div *ngIf="usuarioAuth()">
         <div class="dropdown">
-            <button (click)="dropdown()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bi bi-person-fill"></i>
+            <p class="nombreUsuario">Nombre de Usuario</p>
+            <button (click)="dropdown()" class="dropdown-toggle" type="button" id="dropdownMenuButton">
+                <i id="iconoPersona" class="bi bi-person-circle"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                 <div class="triangle"></div>    
