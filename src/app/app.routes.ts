@@ -14,6 +14,10 @@ export const routes: Routes = [
         path: 'auth/registro',
         loadComponent: () => import('./features/auth/registro/registro.component').then((m) => m.RegistroComponent)
     },
+    {
+        path: 'aprende',
+        loadComponent: () => import('./routes/aprende/aprende.component').then((m) => m.AprendeComponent)
+    },
     // User routes
     {
         path: 'explorar-fondos',
