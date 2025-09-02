@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { Fondo } from '../../FICs/models/fondo.interface';
 import { CommonModule } from '@angular/common';
+import { FIC } from '../../../core/models/FIC.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,33 +25,48 @@ export class DashboardComponent {
     'Revisa tus finanzas semanalmente: pequeños ajustes evitan grandes problemas.',
     'Aprende de quienes ya lograron lo que deseas.',
     'Construye activos antes de buscar pasivos: primero cimientos, luego adornos.',
-    'Recuerda: el dinero es un medio, no un fin. La verdadera riqueza es libertad y tiempo.'
+    'Recuerda: el dinero es un medio, no un fin. La verdadera riqueza es libertad y tiempo.',
+    'La educación financiera es la clave para el éxito financiero.',
+    'La disciplina es la clave para el éxito financiero.',
+    'La educación financiera es la clave para el éxito financiero.',
   ];
 
-  FondosUsuario: Fondo[] = [
+  FondosUsuario: FIC[] = [
     {
+      id: 1,
       logo: '',
-      riesgo: 'Riesgo Variable',
+      riesgo: 'Riesgo Alto',
       nombre: 'Fondo Variable',
-      banco: 'Davivienda',
+      gestor: 'Itau',
       rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-05-01')
+      fechaCorte: new Date('2024-05-01'),
+      custodio: 'Banco de Occidente',
+      politicaInversion: 'Inversionista',
+      link: 'https://www.itau.com.co/'
     },
     {
+      id: 2,
       logo: '',
       riesgo: 'Riesgo Bajo',
       nombre: 'Fondo Conservador',
-      banco: 'BancoDeOccidente',
+      gestor: 'Banco de Bogota',
       rentabilidad: '3% E.A.',
-      fechaCreacion: new Date('2024-06-01')
+      fechaCorte: new Date('2024-06-01'),
+      custodio: 'Banco de Occidente',
+      politicaInversion: 'Inversionista',
+      link: 'https://www.bancobogota.com.co/'
     },
     {
+      id: 3,
       logo: '',
       riesgo: 'Riesgo Medio',
       nombre: 'Fiducuenta',
-      banco: 'BancoDeBogota',
+      gestor: 'Progresion',
       rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-04-01')
+      fechaCorte: new Date('2024-04-01'),
+      custodio: 'Banco de Occidente',
+      politicaInversion: 'Inversionista',
+      link: 'https://www.progresion.com.co/'
     }
   ];
 
@@ -60,5 +75,25 @@ export class DashboardComponent {
   ngOnInit() {
     const consejoIndex = Math.floor(Math.random() * this.consejos.length);
     this.consejo = this.consejos[consejoIndex];
+    this.cargarLogos();
+  }
+
+    cargarLogos() {
+    // Iterate over each 'fondo' in the 'fondos' array
+    this.FondosUsuario.forEach(fondo => {
+      // Create a new Image object to check for logo existence
+      const img = new Image();
+
+      // Set the initial logo path based on the 'gestor' property of 'fondo'
+      fondo.logo = 'assets/images/' + fondo.gestor + 'LogoDashboard.png';
+
+      // Add an error event handler to set a default logo if the specific logo is not found
+      img.onerror = () => {
+        fondo.logo = 'assets/images/FIC.png'; // Default logo path
+      };
+
+      // Start loading the image to trigger onerror if it fails
+      img.src = fondo.logo;
+    });
   }
 }

@@ -1,5 +1,6 @@
 export interface FIC {
     id: number;
+    logo: string;
     nombre: string;
     gestor: string;
     custodio: string;
@@ -7,4 +8,5 @@ export interface FIC {
     politicaInversion: string;
     link: string;
     riesgo: string;
+    rentabilidad: string;
 }

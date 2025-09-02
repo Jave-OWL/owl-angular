@@ -5,16 +5,17 @@
     <section class="contenido-dashboard">
         <div class="fics">
             <div>
-                <h3>Fondos de inversión</h3>
+                <h3>Fondos de inversión recomendados</h3>
             </div>
             <div class="links">
                 <button *ngFor="let fondo of FondosUsuario" class="fondos">
-                    <div class="fondo">
+                    <div class="fondo" routerLink="/fondo/{{fondo.id}}">
                         <section class="top">
                             <img id="logo" [src]="fondo.logo" alt="Logo" />
+                            <p>{{fondo.gestor}}</p>
                         </section>
                         <section class="bottom">
-                            <p
+                            <p class="riesgo"
                                 [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">
                                 {{fondo.riesgo}}
                             </p>
@@ -23,14 +24,14 @@
                         </section>
                     </div>
                 </button>
-                <button class="ver-mas-fics" routerLink="/explorar-fondos">Ver más</button>
+                <button class="ver-mas-fics" routerLink="/explorar-fondos">Ver más<i class="bi bi-arrow-right-short"></i></button>
             </div>
         </div>
         <section class="consejo">
             <h3>Consejo del día</h3>
             <div class="consejo-info">
                 <p>{{consejo}}</p>
-                <button class="ver-mas" routerLink="/aprende">Ver más</button>
+                <button class="ver-mas" routerLink="/aprende">Aprender m&aacute;s<i class="bi bi-arrow-right-short"></i></button>
             </div>
         </section>
     </section>
