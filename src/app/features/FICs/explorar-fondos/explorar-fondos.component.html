@@ -4,11 +4,7 @@
             <h2>Explorar Fondos</h2>
             <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
         </div>
-        <div class="icono">
-            <div class="contenedor-imagen">
-                <img id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
-            </div>
-        </div>
+            <img id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
     </div>
 <div class="contenedor-busqueda">
     <input class="input-busqueda" 
@@ -17,9 +13,9 @@
            (input)="buscarFondos($event)">
     <i class="bi bi-filter"></i>
 </div>
-<div class="results-grid">
+<div *ngIf="fondosFiltrados.length > 0" class="results-grid">
     <button *ngFor="let fondo of fondosFiltrados" class="result-item">
-        <div class="result-info">
+        <div class="result-info" routerLink="/fondo/{{fondo.id}}">
             <section class="izq">
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
                 <p [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
@@ -30,5 +26,8 @@
             </section>
         </div>
     </button>
+</div>
+<div *ngIf="fondosFiltrados.length === 0" class="no-results">
+    <p class="no-results-text">No se encontraron fondos que coincidan con tu búsqueda.</p>
 </div>
 </section>

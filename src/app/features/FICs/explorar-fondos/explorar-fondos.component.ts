@@ -1,74 +1,67 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Fondo } from '../models/fondo.interface';
+import { FIC } from '../../../core/models/FIC.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-explorar-fondos',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './explorar-fondos.component.html',
   styleUrl: './explorar-fondos.component.css'
 })
 export class ExplorarFondosComponent {
-  fondos: Fondo[] = [
-    {
-      logo: '',
-      riesgo: 'Riesgo Variable',
-      nombre: 'Fondo Variable',
-      banco: 'Davivienda',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-05-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Bajo',
-      nombre: 'Fondo Conservador',
-      banco: 'BancoDeOccidente',
-      rentabilidad: '3% E.A.',
-      fechaCreacion: new Date('2024-06-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Medio',
-      nombre: 'Fiducuenta',
-      banco: 'BancoDeBogota',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-04-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Alto',
-      nombre: 'Fiducuenta',
-      banco: 'CredicorpCapital',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-07-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Alto',
-      nombre: 'Fiducuenta',
-      banco: 'Bancolombia',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-01-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Medio',
-      nombre: 'BBVA Invierte',
-      banco: 'BBVA',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-02-01')
-    },
-    {
-      logo: '',
-      riesgo: 'Riesgo Bajo',
-      nombre: 'ItaCuenta',
-      banco: 'Itau',
-      rentabilidad: '10% E.A.',
-      fechaCreacion: new Date('2024-03-01')
-    }
-  ];
+  fondos: FIC[] = [
+      {
+        id: 1,
+        logo: '',
+        riesgo: 'Riesgo Alto',
+        nombre: 'Fondo Variable',
+        gestor: 'Itau',
+        rentabilidad: '10% E.A.',
+        fechaCorte: new Date('2024-05-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.itau.com.co/'
+      },
+      {
+        id: 2,
+        logo: '',
+        riesgo: 'Riesgo Bajo',
+        nombre: 'Fondo Conservador',
+        gestor: 'BancoDeBogota',
+        rentabilidad: '3% E.A.',
+        fechaCorte: new Date('2024-06-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.bancobogota.com.co/'
+      },
+      {
+        id: 3,
+        logo: '',
+        riesgo: 'Riesgo Medio',
+        nombre: 'Fiducuenta',
+        gestor: 'Progresion',
+        rentabilidad: '10% E.A.',
+        fechaCorte: new Date('2024-04-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.progresion.com.co/'
+      },
+      {
+        id: 4,
+        logo: '',
+        riesgo: 'Riesgo Variable',
+        nombre: 'Fondo Mixto',
+        gestor: 'Davivienda',
+        rentabilidad: '7% E.A.',
+        fechaCorte: new Date('2024-05-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.davivienda.com.co/'
+      }
+    ];
 
-  fondosFiltrados: Fondo[] = [...this.fondos];
+  fondosFiltrados: FIC[] = [...this.fondos];
   criterioOrdenamiento: string = '';
   textoBusqueda: string = '';
 
@@ -83,7 +76,7 @@ export class ExplorarFondosComponent {
       const img = new Image();
 
       // Set the initial logo path based on the 'banco' property of 'fondo'
-      fondo.logo = 'assets/images/' + fondo.banco + 'Logo.png';
+      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.png';
 
       // Add an error event handler to set a default logo if the specific logo is not found
       img.onerror = () => {
@@ -115,15 +108,16 @@ export class ExplorarFondosComponent {
           const rentB = parseFloat(b.rentabilidad);
           return rentB - rentA; // Orden descendente
         });
-        break;
-      case 'fecha':
-        this.fondosFiltrados.sort((a, b) => b.fechaCreacion.getTime() - a.fechaCreacion.getTime());
-        break;
+        break;  
     }
   }
 
   buscarFondos(event: any) {
     this.textoBusqueda = event.target.value;
+    this.fondosFiltrados = [...this.fondos].filter(fondo => 
+      fondo.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
+      fondo.gestor.toLowerCase().includes(this.textoBusqueda.toLowerCase())
+    );
     this.aplicarFiltro(this.criterioOrdenamiento);
   }
 }

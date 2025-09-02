@@ -2,11 +2,16 @@
     display: flex;
 }
 
+p {
+    font-size: 16px;
+    font-weight: 300;
+}
+
 #OwlLupa {
     width: 110px;
-    height: auto;
-    margin: 0px;
-    transform: translateX(600px);
+    position: absolute;
+    right: 180px;
+    top: 12%;
 }
 
 .contenedor-imagen {
@@ -112,21 +117,20 @@ h5 {
     width: 200px;
     border-radius: var(--internal-border-radius);
     margin-bottom: 5px;
-    border: 1px solid var(--color-disabled);
 }
 
 #alto {
-    background-color: rgb(190, 46, 46);
+    background-color: rgb(230, 55, 55);
 }
 
 #medio {
-    background-color: rgb(255, 225, 0);
+    background-color: rgb(255, 216, 60);
 }
 
 #bajo {
-    background-color: rgb(40, 162, 40);
+    background-color: rgb(50, 199, 50);
 }
 
 #variable {
-    background-color: purple;
+    background-color: rgb(184, 0, 184);
 }
