@@ -1,10 +1,22 @@
-.titulo {
-    display: flex;
+/* ==========================================================================
+   Tipografia y Estilos Base
+   ========================================================================== */
+h5 {
+    font-size: 1.67rem;
+    font-weight: 600;
+    margin: 0;
 }
 
 p {
     font-size: 16px;
     font-weight: 300;
+}
+
+/* ==========================================================================
+   Seccion de Busqueda
+   ========================================================================== */
+.titulo {
+    display: flex;
 }
 
 #OwlLupa {
@@ -22,21 +34,15 @@ p {
     margin-top: 10px;
 }
 
-h5 {
-    font-weight: 600;
-    font-size: 1.67rem;
-    margin: 0px;
-}
-
 .input-busqueda {
     width: 90%;
-    padding: 10px 40px 10px 40px;
+    padding: 10px 40px;
     margin-right: 10px;
+    font-size: 16px;
+    color: var(--color-texto);
+    background-color: var(--color-contenido);
     border: none;
     border-radius: var(--internal-border-radius);
-    background-color: var(--color-contenido);
-    color: var(--color-texto);
-    font-size: 16px;
     box-shadow: var(--light-box-shadow);
     transition: 0.3s ease;
 }
@@ -47,21 +53,24 @@ h5 {
     transition: 0.3s ease;
 }
 
+.contenedor-busqueda button {
+    padding: 10px 15px;
+    color: var(--color-texto);
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--internal-border-radius);
+}
+
 .dropdown-content {
     position: relative;
+    width: max-content;
     display: none;
     background-color: var(--color-contenido);
-    width: max-content;
 }
 
-.contenedor-busqueda button {
-    background-color: var(--color-contenido);
-    padding: 10px 15px 10px 15px;
-    border-radius: var(--internal-border-radius);
-    color: var(--color-texto);
-    border: none;
-}
-
+/* ==========================================================================
+    Resultados de la Busqueda
+   ========================================================================== */
 .results-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -70,13 +79,13 @@ h5 {
 }
 
 .result-item {
-    border: none;
-    text-decoration: none;
-    background-color: var(--color-contenido);
-    border-radius: var(--border-radius);
-    box-shadow: var(--light-box-shadow);
     padding: 15px;
     text-align: center;
+    text-decoration: none;
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -86,10 +95,11 @@ h5 {
 }
 
 .result-info {
-    text-align: left;
     display: flex;
+    text-align: left;
 }
 
+/* Result Item Layout */
 .izq {
     display: flex;
     flex-direction: column;
@@ -103,8 +113,7 @@ h5 {
     font-size: smaller;
     color: var(--color-contenido);
     border-radius: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 0 10px;
 }
 
 .der {
@@ -115,10 +124,13 @@ h5 {
 
 #logo {
     width: 200px;
-    border-radius: var(--internal-border-radius);
     margin-bottom: 5px;
+    border-radius: var(--internal-border-radius);
 }
 
+/* ==========================================================================
+   Indicadores de Riesgo
+   ========================================================================== */
 #alto {
     background-color: rgb(230, 55, 55);
 }

@@ -1,3 +1,7 @@
+.aprende {
+    margin: 20px 60px 20px 60px;
+}
+
 .titulo {
     background-color: var(--color-tertiary);
     border-radius: var(--border-radius);
@@ -17,9 +21,9 @@
 
 #OwlGuia {
     position: absolute;
-    width: 220px;
+    width: 240px;
     top: calc(var(--header-size) + 78px);
-    left: 70px;
+    right: 120px;
 }
 
 a {

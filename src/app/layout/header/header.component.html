@@ -24,9 +24,9 @@
         <button class="registro" routerLink="/auth/registro">Registro</button>
     </div>
     <div *ngIf="usuarioAuth()">
-        <div class="dropdown">
+        <div (click)="dropdown()" class="dropdown">
             <p class="nombreUsuario">Nombre de Usuario</p>
-            <button (click)="dropdown()" class="dropdown-toggle" type="button" id="dropdownMenuButton">
+            <button class="dropdown-toggle" type="button" id="dropdownMenuButton">
                 <i id="iconoPersona" class="bi bi-person-circle"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">

@@ -30,15 +30,34 @@ export class HeaderComponent {
     // Initialization logic can go here if needed
     console.log('HeaderComponent initialized');
   }
-  ngAfterViewInit(): void {
-    console.log('HeaderComponent view initialized');
-  }
 
   dropdown(){
     const dropdownMenu = document.querySelector('.dropdown-menu');
     if (dropdownMenu) {
       dropdownMenu.classList.toggle('show');
     }
+  }
+
+  clickOutsideDropdown(event: Event) {
+    const target = event.target as HTMLElement;
+    const isDropdownElement = target.closest('.dropdown') !== null;
+    const isDropdownMenuElement = target.closest('.dropdown-menu') !== null;
+    if (!(isDropdownElement || isDropdownMenuElement)) {
+      const dropdownMenu = document.querySelector('.dropdown-menu');
+      if (dropdownMenu) {
+        setTimeout(() => {
+          dropdownMenu.classList.remove('show');
+        }, 100);
+      }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    document.addEventListener('click', this.clickOutsideDropdown.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener('click', this.clickOutsideDropdown.bind(this));
   }
 
   getRol(){

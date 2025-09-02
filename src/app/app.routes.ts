@@ -29,6 +29,10 @@ export const routes: Routes = [
 
     },
     {
+        path: 'comparar-fondos',
+        loadComponent: () => import('./features/FICs/comparador-fondos/comparador-fondos.component').then((m) => m.ComparadorFondosComponent)
+    },
+    {
         path: 'perfil-riesgo',
         loadComponent: () => import('./features/usuario/perfil-riesgo/perfil-riesgo.component').then((m) => m.PerfilRiesgoComponent)
     },

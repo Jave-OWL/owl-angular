@@ -58,6 +58,42 @@ export class ExplorarFondosComponent {
         custodio: 'Banco de Occidente',
         politicaInversion: 'Inversionista',
         link: 'https://www.davivienda.com.co/'
+      },
+      {
+        id: 5,
+        logo: '',
+        riesgo: 'Riesgo Alto',
+        nombre: 'Fondo Accionario',
+        gestor: 'Bancolombia',
+        rentabilidad: '8% E.A.',
+        fechaCorte: new Date('2024-06-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.bancolombia.com/'
+      },
+      {
+        id: 6,
+        logo: '',
+        riesgo: 'Riesgo Alto',
+        nombre: 'Fondo de Inversion Accionario',
+        gestor: 'BancoDeOccidente',
+        rentabilidad: '9% E.A.',
+        fechaCorte: new Date('2024-07-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.grupoaval.com/'
+      },
+      {
+        id: 7,
+        logo: '',
+        riesgo: 'Riesgo Medio',
+        nombre: 'Fondo Mixto',
+        gestor: 'Credicorp',
+        rentabilidad: '6% E.A.',
+        fechaCorte: new Date('2024-08-01'),
+        custodio: 'Banco de Occidente',
+        politicaInversion: 'Inversionista',
+        link: 'https://www.cafetero.com.co/'
       }
     ];
 

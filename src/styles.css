@@ -10,7 +10,7 @@
   --color-tertiary: #d0dbf5;
   --color-accent: #ffbd59;
   /*#edf4fe*/
-  --color-background: #edf2fe;
+  --color-background: hwb(222 95% 0%); /*93%*/
   /*
   --color-general-text: rgb(37, 57, 62);
   */
@@ -22,8 +22,8 @@
 
   --color-headerfooter: #ffffff;
   /*-----Borde global-----*/
-  --internal-border-radius: 15px;
-  --border-radius: 15px;
+  --internal-border-radius: 10px;
+  --border-radius: 12px;
   /*-----Sombra global*-----/
   /*offset-x | offset-y | blur-radius | spread-radius | color*/
   --light-box-shadow: 1px 0px 5px 1px rgba(0, 0, 0, 0.05);
