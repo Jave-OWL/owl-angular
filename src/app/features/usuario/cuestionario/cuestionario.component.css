@@ -33,6 +33,7 @@
     padding: 2rem;
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
 }
 
 h1 {
@@ -66,6 +67,61 @@ span {
     font-size: 17px;
     text-align: center;
     font-weight: 300;
+}
+
+.tooltip-palabra {
+    text-decoration: underline dotted;
+    cursor: help;
+    position: relative;
+    font-weight: 400;
+    color: var(--color-main);
+}
+
+.tooltip-palabra[title] {
+    display: inline-block;
+}
+
+.tooltip-palabra::before,
+.tooltip-palabra::after {
+    --scale: 0;
+    --arrow-size: 8px;
+    --tooltip-color: var(--color-main);
+    
+    position: absolute;
+    top: -.25rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+    transition: 0.3s transform;
+    transform-origin: bottom center;
+}
+
+.tooltip-palabra::before {
+    --translate-y: calc(-100% - var(--arrow-size));
+    
+    content: attr(data-tooltip);
+    padding: .5rem;
+    width: max-content;
+    max-width: 300px;
+    border-radius: .3rem;
+    text-align: center;
+    background: var(--tooltip-color);
+    color: white;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.tooltip-palabra::after {
+    --translate-y: calc(-1 * var(--arrow-size));
+    
+    content: '';
+    border: var(--arrow-size) solid transparent;
+    border-top-color: var(--tooltip-color);
+    transform-origin: top center;
+}
+
+.tooltip-palabra:hover::before,
+.tooltip-palabra:hover::after {
+    --scale: 1;
 }
 
 .opciones {
@@ -103,25 +159,33 @@ span {
 #opcion-grande {
     border: 2px solid #456da4;
     background-color: transparent;
-    transition: 0.3s ease;
+    transition: 0.2s all linear;
 }
 
-#opcion-grande:hover,
+#opcion-grande:hover {
+    border: solid 10px #456da4;
+}
+
 #opcion-grande:checked {
+    border: solid 25px #456da4;
+    transition: 0.2s all linear;
     background-color: #456da4;
-    transition: 0.3s ease;;
 }
 
 #opcion-grande-d {
     border: 2px solid red;
     background-color: transparent;
-    transition: 0.3s ease;
+    transition: 0.2s all linear;
 }
 
-#opcion-grande-d:hover, 
+#opcion-grande-d:hover{
+    border: solid 10px red;
+}
+
 #opcion-grande-d:checked {
+    border: solid 25px red;
+    transition: 0.2s all linear;
     background-color: red;
-    transition: 0.3s ease;
 }
 
 #opcion-media,
@@ -137,24 +201,30 @@ span {
 #opcion-media {
     border: 2px solid #4e7bba;
     background-color: transparent;
-    transition: 0.3s ease;
+    transition: 0.2s all linear;
 }
 
-#opcion-media:checked,
-#opcion-media:hover {
+#opcion-media:hover{
+    border: solid 10px #4e7bba;
+}
+
+#opcion-media:checked {
+    border: solid 17.5px #4e7bba;
     background-color: #4e7bba;
-    transition: 0.3s ease;
 }
 
 #opcion-media-d {
     border: 2px solid red;
     background-color: transparent;
+    transition: 0.2s all linear;
 }
 
-#opcion-media-d:hover,
+#opcion-media-d:hover{
+    border: solid 10px red;
+}
 #opcion-media-d:checked {
+    border: solid 17.5px red;
     background-color: red;
-    transition: 0.3s ease;
 }
 
 #opcion-pequeña {
@@ -166,12 +236,16 @@ span {
     cursor: pointer;
     align-self: center;
     border: 2px solid rgb(117, 116, 116);
+    transition: 0.2s all linear;
 }
 
-#opcion-pequeña:checked,
 #opcion-pequeña:hover {
+    border: solid 5px rgb(117, 116, 116);
+}
+
+#opcion-pequeña:checked {
+    border: solid 10px rgb(117, 116, 116);
     background-color: rgb(117, 116, 116);
-    transition: 0.3s ease;
 }
 
 .texto-opcion {

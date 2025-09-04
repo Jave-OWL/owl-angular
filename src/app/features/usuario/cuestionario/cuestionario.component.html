@@ -18,7 +18,14 @@
 
             <ng-container *ngFor="let pregunta of preguntas; let i = index">
                 <div class="pregunta-pagina" *ngSwitchCase="i + 1">
-                    <p class="pregunta-texto">{{pregunta}}</p>
+                    <p class="pregunta-texto">
+                        <ng-container *ngFor="let parte of pregunta.partes">
+                            <ng-container *ngIf="isPreguntaParte(parte); else textoNormal">
+                            <span class="tooltip-palabra" [attr.data-tooltip]="parte.definicion">{{ parte.palabra }}</span>
+                            </ng-container>
+                            <ng-template #textoNormal>{{ parte }}</ng-template>
+                        </ng-container>
+                    </p>
                     <div class="opciones">
                         <p id="texto-izq" class="texto-opcion">De Acuerdo</p>
                         <input class="seleccion" id="opcion-grande" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
