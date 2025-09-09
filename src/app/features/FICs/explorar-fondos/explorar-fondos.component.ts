@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FIC } from '../../../core/models/FIC.model';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { FICService } from '../../../core/services/fic.service';
 
 @Component({
   selector: 'app-explorar-fondos',
@@ -10,6 +11,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './explorar-fondos.component.css'
 })
 export class ExplorarFondosComponent {
+  /*
   fondos: FIC[] = [
       {
         id: 1,
@@ -95,33 +97,61 @@ export class ExplorarFondosComponent {
         politicaInversion: 'Inversionista',
         link: 'https://www.cafetero.com.co/'
       }
-    ];
+    ];*/
+
+  fondos: FIC[] = [];
 
   fondosFiltrados: FIC[] = [...this.fondos];
   criterioOrdenamiento: string = '';
   textoBusqueda: string = '';
 
+  constructor(private ficService: FICService,
+              private route: ActivatedRoute,
+              private router: Router
+  ) { }
+
   ngOnInit() {
-    this.cargarLogos();  
+    this.cargarFICs();
+    this.ficService.findAll().subscribe(data => {
+      console.log(data);
+    });
   }
 
   cargarLogos() {
-    // Iterate over each 'fondo' in the 'fondos' array
+    // Itera sobre cada 'fondo' en el array 'fondos'
     this.fondos.forEach(fondo => {
-      // Create a new Image object to check for logo existence
+      // Crea un nuevo objeto Image para verificar la existencia del logo
       const img = new Image();
 
-      // Set the initial logo path based on the 'banco' property of 'fondo'
+      // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
       fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.png';
 
-      // Add an error event handler to set a default logo if the specific logo is not found
+      // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
       img.onerror = () => {
-        fondo.logo = 'assets/images/FIC.png'; // Default logo path
+        fondo.logo = 'assets/images/FIC.png'; // Ruta del logo predeterminado
       };
 
-      // Start loading the image to trigger onerror if it fails
+      // Inicia la carga de la imagen para activar el manejador de error si falla
       img.src = fondo.logo;
     });
+  }
+
+  cargarFICs() {
+    this.ficService.findAll().subscribe(
+      (data: FIC[]) => {
+        this.fondos = data;
+        this.fondosFiltrados = [...this.fondos];
+        this.cargarLogos();  
+      },
+      (error: any) => {
+        console.error('Error al obtener los fondos:', error);
+      }
+    );
+  }
+  verDetalle(id: number) {
+    this.router.navigate(
+      ['/detalle-fondo'],
+      { queryParams: { id: id } });
   }
 
   aplicarFiltro(criterio: string) {

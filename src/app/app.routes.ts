@@ -26,7 +26,6 @@ export const routes: Routes = [
     {
         path: 'detalle-fondo',
         loadComponent: () => import('./features/FICs/detalle-fondo/detalle-fondo.component').then((m) => m.DetalleFondoComponent)
-
     },
     {
         path: 'comparar-fondos',
@@ -48,7 +47,7 @@ export const routes: Routes = [
         path: 'user/dashboard',
         loadComponent: () => import('./features/usuario/dashboard/dashboard.component').then((m) => m.DashboardComponent)
     },
-    // {
+    // 
     // Admin Routes
     {
         path: 'admin/dashboard',

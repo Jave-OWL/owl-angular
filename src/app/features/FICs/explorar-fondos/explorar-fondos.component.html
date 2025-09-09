@@ -15,8 +15,8 @@
     <button><i class="bi bi-search"></i></button>
 </div>
 <div *ngIf="fondosFiltrados.length > 0" class="results-grid">
-    <button *ngFor="let fondo of fondosFiltrados" class="result-item">
-        <div class="result-info" routerLink="/fondo/{{fondo.id}}">
+    <button *ngFor="let fondo of fondosFiltrados" class="result-item"  [routerLink]="['/detalle-fondo']" [queryParams]="{ id: fondo.id }">
+        <div class="result-info">
             <section class="izq">
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
                 <p [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>

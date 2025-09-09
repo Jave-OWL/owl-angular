@@ -1,6 +1,63 @@
-<section>
-    <div class="titulo-fondo">
+<!-- 
+FIC
+-   id
+-   logo
+-   nombre
+-   gestor
+-   custodio
+-   fechaCorte
+-   politicaInversion
+-   link
+-   riesgo
+-   rentabilidad
+-   calificaciones
+    -   id
+    -   calificacion
+    -   fechaUltimaCalificacion
+    -   entidadCalificadora
+-   composiciones
+    -   id
+    -   calificacion
+    -   tipoRenta
+    -   paisEmisor
+    -   moneda
+    -   activo
+    -   valoresComposiciones
+        -   id
+        -   valor
+        -   dato
+-   rentabilidadVolatilidades
+    -   id
+    -   tipoIndicador
+    -   tipoParticipacion
+    -   ultimoMes
+    -   ultimos3Meses
+    -   ultimos6Meses
+    -   ultimos12Meses
+    -   ultimos2Anios
+    -   ultimos3Anios
+-   principalesInversiones
+    -   id
+    -   emisor
+    -   participacionDelEmisor
+-   plazoDuraciones
+    -   id
+    -   inversionesPorPlazo
+    -   participacion
+-   caracteristicas
+    -   id
+    -   calificacion
+    -   tipoDeRenta
+    -   sectorEconomico
+    -   paisEmisor
+    -   moneda
+    -   activo
+-->
 
+<section>
+    <p>Riesgo {{fondo?.riesgo}}</p>
+    <div class="titulo-fondo">
+        <h1>{{fondo?.nombre}}</h1>
     </div>
     <h2 class="titulo">
         Comportamiento del Fondo
@@ -18,11 +75,5 @@
         <button class="seleccion-mes">
             <p>MAX</p>
         </button>
-    </div>
-    <div class="descripcion">
-        <h2>Descripción</h2>
-        <p>
-            Este fondo de inversión se centra en ofrecer una rentabilidad estable a largo plazo, invirtiendo en una combinación diversificada de activos financieros. Con un enfoque en la sostenibilidad y la responsabilidad social, busca maximizar el retorno para los inversionistas mientras minimiza los riesgos asociados.
-        </p>
     </div>
 </section>
