@@ -1,7 +1,3 @@
-.dashboard{
-    margin: 20px 60px 20px 60px;
-}
-
 h1 {
     margin-bottom: 0px;
     font-weight: 600;
@@ -106,7 +102,7 @@ i {
     flex-direction: row;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     height: 80px;
-    background-image: linear-gradient(to right, var(--color-main), #64a5ff);
+    background-image: radial-gradient(circle at 50% 50%, var(--color-background) 0%, var(--color-secondary) 100%);
 }
 
 .top p {
@@ -115,8 +111,8 @@ i {
     text-align: left;
     align-self: center;
     font-size: 19px;
-    color: var(--color-contenido);
-    font-weight: 400;
+    color: var(--color-main);
+    font-weight: 600;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

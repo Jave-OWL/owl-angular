@@ -1,15 +1,22 @@
 /* ==========================================================================
    Tipografia y Estilos Base
    ========================================================================== */
-h5 {
+   h5 {
     font-size: 1.67rem;
-    font-weight: 600;
+    font-weight: 500;
     margin: 0;
 }
 
 p {
     font-size: 16px;
     font-weight: 300;
+}
+
+.bottom p {
+    color: hwb(223 62% 25%);
+    font-weight: 400;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 /* ==========================================================================
@@ -71,10 +78,10 @@ p {
 /* ==========================================================================
     Resultados de la Busqueda
    ========================================================================== */
-.results-grid {
+.resultados {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+    gap: 25px;
     margin-top: 20px;
 }
 
@@ -89,7 +96,23 @@ p {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.fic {
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .result-item:hover {
+    transform: translateY(-2.5px);
+    box-shadow: var(--medium-box-shadow);
+}
+
+.fic:hover {
     transform: translateY(-2.5px);
     box-shadow: var(--medium-box-shadow);
 }
@@ -99,7 +122,27 @@ p {
     text-align: left;
 }
 
+.riesgo {
+    border-radius: var(--border-radius) 0 var(--border-radius) 0;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    width: 70px;
+    margin-bottom: 5px;
+}
+
 /* Result Item Layout */
+
+.top {
+    background-color: hwb(222 96% 0%);
+    padding-bottom: 4px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.bottom {
+    margin-top: 10px;
+}
+
 .izq {
     display: flex;
     flex-direction: column;
@@ -123,26 +166,78 @@ p {
 }
 
 #logo {
-    width: 200px;
-    margin-bottom: 5px;
+    height: 60px;
+    margin-top: 2px;
+    margin-bottom: 2px;
     border-radius: var(--internal-border-radius);
+}
+
+.no-results {
+    text-align: center;
+    margin-top: 100px;
+    font-size: 1.5rem;
+    color: var(--color-general-text-light);
+}
+
+.loader, .loader:before, .loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  animation-fill-mode: both;
+  animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+.loader {
+  color: var(--color-main);
+  font-size: 7px;
+  position: relative;
+  margin: 40px auto;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+}
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+.loader:before {
+  left: -3.5em;
+  animation-delay: -0.32s;
+}
+.loader:after {
+  left: 3.5em;
 }
 
 /* ==========================================================================
    Indicadores de Riesgo
    ========================================================================== */
+
 #alto {
-    background-color: rgb(230, 55, 55);
+   background-color: #1452a8;
 }
 
 #medio {
-    background-color: rgb(255, 216, 60);
+    background-color: var(--color-main)
 }
 
 #bajo {
-    background-color: rgb(50, 199, 50);
+    background-color: #8fb6f5;
 }
 
 #variable {
-    background-color: rgb(184, 0, 184);
+    background-color: hwb(215 52% 65%);
+}
+
+@media (max-width: 768px) {
+    .resultados {
+      grid-template-columns: repeat(2, 1fr);   
+    }
+}
+
+@media (max-width: 480px) {
+    .resultados {
+      grid-template-columns: repeat(1, 1fr);   
+    }
+    
 }

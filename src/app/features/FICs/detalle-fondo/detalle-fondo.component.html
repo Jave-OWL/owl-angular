@@ -55,25 +55,40 @@ FIC
 -->
 
 <section>
-    <p>Riesgo {{fondo?.riesgo}}</p>
-    <div class="titulo-fondo">
-        <h1>{{fondo?.nombre}}</h1>
+    <div class="volver">
+        <a class="link-volver" href="/explorar-fondos"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar fondos</i></a>
     </div>
-    <h2 class="titulo">
-        Comportamiento del Fondo
-    </h2>
-    <div class="botones">
-        <button class="seleccion-mes">
-            <p>6M</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>1A</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>3A</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>MAX</p>
-        </button>
+    <div class="titulo">
+        <div class="titulo-texto">
+            <img id="logo" [src]="fondo?.logo" alt="Logo" />
+            <h1>{{fondo?.nombre}}</h1>
+        </div>
+        <p class="riesgo" [id]="fondo?.riesgo === 'Alto' ? 'alto' : (fondo?.riesgo === 'Medio' ? 'medio' : (fondo?.riesgo === 'Bajo' ? 'bajo' : (fondo?.riesgo === 'Riesgo Variable' ? 'variable' : '')))">Riesgo {{fondo?.riesgo}}</p>
+    </div>
+    <div class="informacion-general">
+    <div class="card" id="focus">
+        <h3>Efectivo Anual</h3>
+        <p>{{fondo?.rentabilidad}}</p>
+    </div>
+    <div class="card">
+        <h3>Custodio</h3>
+        <p>{{fondo?.custodio}}</p>
+    </div>
+    <div class="card">
+
+    </div>
+    <div class="card">
+
+    </div>
+
+    </div>
+
+    <div class="informacion rendimiento">
+        <div class="card" style="width: 65%; margin-top: 20px;">
+            <div class="titulo-rendimiento">
+                <h3>Comportamiento del fondo de inversión</h3>
+                <i class="bi bi-filter"></i>
+            </div>
+        </div>
     </div>
 </section>

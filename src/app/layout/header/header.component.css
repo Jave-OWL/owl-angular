@@ -44,7 +44,7 @@ header {
 
 .nav button:hover {
   color: var(--color-accent);
-  border-bottom: 4px solid var(--color-accent);
+  border-bottom: 3.1px solid var(--color-accent);
   font-weight: 500;
   transition: 0.2s ease;
 }
@@ -214,3 +214,24 @@ header {
 /* ==========================================================================
    Responsive Design
    ========================================================================== */
+
+@media (max-width: 480px) {
+  header {
+    padding: 0 10px;
+  }
+
+  #logo {
+    width: 125px;
+  }
+  .nav {
+    display: none;
+  }
+
+  .nombreUsuario {
+    display: none;
+  }
+
+  .dropdown {
+    display: none;
+  }
+}

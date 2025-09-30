@@ -16,15 +16,18 @@ export class AppComponent {
       if (this.router.url === '/auth/inicio-de-sesion' || this.router.url === '/auth/registro' || this.router.url === '/') {
         const generalPadding = document.getElementById('content');
         if (generalPadding) {
-          generalPadding.style.padding = '0';
+          generalPadding.style.paddingLeft = '0';
+          generalPadding.style.paddingRight = '0'
+          generalPadding.style.paddingBottom = '0';
+          generalPadding.style.paddingTop = '0';
         }
       } else {
         const generalPadding = document.getElementById('content');
         if (generalPadding) {
-          generalPadding.style.paddingTop = 'calc(var(--header-size) + 10px)';
-          generalPadding.style.paddingBottom = 'calc(var(--footer-size) + 10px)';
-          generalPadding.style.paddingLeft = '50px';
-          generalPadding.style.paddingRight = '50px';
+          generalPadding.style.paddingTop = 'calc(var(--header-size) + 30px)';
+          generalPadding.style.paddingBottom = 'calc(var(--footer-size) + 30px)';
+          generalPadding.style.paddingLeft = '110px';
+          generalPadding.style.paddingRight = '110px';
         }
       }
     });

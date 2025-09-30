@@ -14,12 +14,17 @@
     <button><i class="bi bi-filter"></i></button>
     <button><i class="bi bi-search"></i></button>
 </div>
+
+<!--
 <div *ngIf="fondosFiltrados.length > 0" class="results-grid">
     <button *ngFor="let fondo of fondosFiltrados" class="result-item"  [routerLink]="['/detalle-fondo']" [queryParams]="{ id: fondo.id }">
         <div class="result-info">
             <section class="izq">
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
-                <p [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
+                
+                <p hidden [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
+                
+                <p [id]="fondo.riesgo === 'Alto' ? 'alto' : (fondo.riesgo === 'Medio' ? 'medio' : (fondo.riesgo === 'Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
             </section>
             <section class="der">
                 <h5>{{fondo.nombre}}</h5>
@@ -28,7 +33,34 @@
         </div>
     </button>
 </div>
-<div *ngIf="fondosFiltrados.length === 0" class="no-results">
-    <p class="no-results-text">No se encontraron fondos que coincidan con tu búsqueda.</p>
+-->
+<div class="resultados-recomendados">
+
 </div>
+
+<div *ngIf="fondosFiltrados.length > 0" class="resultados">
+    <button *ngFor="let fondo of fondosFiltrados" class="fic"  [routerLink]="['/detalle-fondo']" [queryParams]="{ id: fondo.id }">
+        <div class="info-fic">
+            <div class="top">
+                <p class="riesgo" [id]="fondo.riesgo === 'Alto' ? 'alto' : (fondo.riesgo === 'Medio' ? 'medio' : (fondo.riesgo === 'Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
+                <img id="logo" [src]="fondo.logo" alt="Logo" />
+            </div>
+            <div class="bottom">     
+                <h5>{{fondo.nombre}}</h5>
+                <p>{{fondo.rentabilidad}}</p>
+            </div>
+        </div>
+    </button>
+</div>
+
+
+<div *ngIf="fondosFiltrados.length === 0 && error === false" class="no-results">
+    <span class="loader"></span>
+    <p class="no-results">No se encontraron fondos que coincidan con tu búsqueda.</p>
+</div>
+
+<div *ngIf="error === true" class="error">
+    <p class="no-results">Ocurrió un error al cargar los fondos. Por favor, intenta nuevamente más tarde.</p>
+</div>
+
 </section>

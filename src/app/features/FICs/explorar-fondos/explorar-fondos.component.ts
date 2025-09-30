@@ -104,6 +104,7 @@ export class ExplorarFondosComponent {
   fondosFiltrados: FIC[] = [...this.fondos];
   criterioOrdenamiento: string = '';
   textoBusqueda: string = '';
+  error: boolean = false;
 
   constructor(private ficService: FICService,
               private route: ActivatedRoute,
@@ -145,6 +146,7 @@ export class ExplorarFondosComponent {
       },
       (error: any) => {
         console.error('Error al obtener los fondos:', error);
+        this.error = true;
       }
     );
   }
@@ -154,9 +156,12 @@ export class ExplorarFondosComponent {
       { queryParams: { id: id } });
   }
 
+  filtrarFondos(){
+    
+  }
+
   aplicarFiltro(criterio: string) {
     this.criterioOrdenamiento = criterio;
-    
     this.fondosFiltrados = [...this.fondos].filter(fondo => 
       fondo.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );

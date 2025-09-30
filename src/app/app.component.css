@@ -1,19 +1,20 @@
-main {
-    padding-top: calc(var(--header-size) + 10px);
-    padding-bottom: calc(var(--footer-size) + 10px);
+#content {
+    padding-top: calc(var(--header-size) + 30px);
+    padding-bottom: calc(var(--footer-size) + 30px);
     /*padding-bottom: var(--footer-size);*/
     min-height: calc(100vh);
     background-color: var(--color-background);
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 110px;
+    padding-right: 110px;
 }
 
-/* Responsiveness */
+/* Responsiveness 
 
 @media screen and (max-width: 1024px) {
   /*
   main {
     padding-top: 50px;
   }
-  */
+  
 }
+  */
