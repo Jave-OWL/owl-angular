@@ -9,4 +9,7 @@ export interface FIC {
     link: string;
     riesgo: string;
     rentabilidad: string;
+    calificaciones: any[];
+    composiciones: any[];
+    rentabilidadVolatilidades: any[];
 }

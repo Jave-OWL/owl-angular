@@ -69,6 +69,7 @@ FIC
     <div class="card" id="focus">
         <h3>Efectivo Anual</h3>
         <p>{{fondo?.rentabilidad}}</p>
+        <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i class="bi bi-arrow-up-right"></i></p>
     </div>
     <div class="card">
         <h3>Custodio</h3>
@@ -88,6 +89,39 @@ FIC
             <div class="titulo-rendimiento">
                 <h3>Comportamiento del fondo de inversión</h3>
                 <i class="bi bi-filter"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="composiciones">
+        <div class="composicion" id="">
+            <div class="chart-container">
+                <canvas #pieCanvas1></canvas>
+            </div>
+        </div>
+        <div class="composicion" id="calificacion">
+            <div class="chart-container">
+                <canvas #pieCanvas2></canvas>
+            </div>
+        </div>
+        <div class="composicion">
+            <div class="chart-container">
+                <canvas #pieCanvas3></canvas>
+            </div>
+        </div>
+        <div class="composicion">
+            <div class="chart-container">
+                <canvas #pieCanvas4></canvas>
+            </div>
+        </div>
+        <div class="composicion">
+            <div class="chart-container">
+                <canvas #pieCanvas5></canvas>
+            </div>
+        </div>
+        <div class="composicion">
+            <div class="chart-container">
+                <canvas #pieCanvas6></canvas>
             </div>
         </div>
     </div>

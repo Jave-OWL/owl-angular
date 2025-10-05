@@ -32,42 +32,6 @@ export class DashboardComponent {
   ];
 
   FondosUsuario: FIC[] = [
-    {
-      id: 1,
-      logo: '',
-      riesgo: 'Riesgo Alto',
-      nombre: 'Fondo Variable',
-      gestor: 'Itau',
-      rentabilidad: '10% E.A.',
-      fechaCorte: new Date('2024-05-01'),
-      custodio: 'Banco de Occidente',
-      politicaInversion: 'Inversionista',
-      link: 'https://www.itau.com.co/'
-    },
-    {
-      id: 2,
-      logo: '',
-      riesgo: 'Riesgo Bajo',
-      nombre: 'Fondo Conservador',
-      gestor: 'Banco de Bogota',
-      rentabilidad: '3% E.A.',
-      fechaCorte: new Date('2024-06-01'),
-      custodio: 'Banco de Occidente',
-      politicaInversion: 'Inversionista',
-      link: 'https://www.bancobogota.com.co/'
-    },
-    {
-      id: 3,
-      logo: '',
-      riesgo: 'Riesgo Medio',
-      nombre: 'Fiducuenta',
-      gestor: 'Progresion',
-      rentabilidad: '10% E.A.',
-      fechaCorte: new Date('2024-04-01'),
-      custodio: 'Banco de Occidente',
-      politicaInversion: 'Inversionista',
-      link: 'https://www.progresion.com.co/'
-    }
   ];
 
   consejo: string = '';
