@@ -5,7 +5,7 @@
             <div class="nav">
                 <button routerLink="/" routerLinkActive="router-link-active"
                     [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/explorar-fondos" routerLinkActive="router-link-active">Explorar Fondos</button>
+                <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
                 <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
             </div>
         </ng-container>
@@ -13,19 +13,19 @@
             <div class="nav">
                 <button routerLink="/" routerLinkActive="router-link-active"
                     [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/explorar-fondos" routerLinkActive="router-link-active">Explorar Fondos</button>
+                <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
                 <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
                 <button routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
             </div>
         </ng-container>
     </div>
-    <div *ngIf="usuarioAuth() == false" class="auth">
+    <div *ngIf="!usuarioAuth()" class="auth">
         <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
         <button class="registro" routerLink="/auth/registro">Registro</button>
     </div>
     <div *ngIf="usuarioAuth()">
         <div (click)="dropdown()" class="dropdown">
-            <p class="nombreUsuario">Nombre de Usuario</p>
+            <p class="nombreUsuario">{{ getNombreUsuario() }}</p>
             <button class="dropdown-toggle" type="button" id="dropdownMenuButton">
                 <i id="iconoPersona" class="bi bi-person-circle"></i>
             </button>

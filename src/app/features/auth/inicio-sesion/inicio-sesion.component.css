@@ -151,6 +151,23 @@ button:hover {
     transition: 0.3s ease;
 }
 
+button:disabled {
+    background-color: var(--color-disabled);
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+input.ng-invalid.ng-touched {
+    border-color: #dc3545;
+}
+
 .opciones-adicionales {
     display: flex;
     justify-content: space-between;

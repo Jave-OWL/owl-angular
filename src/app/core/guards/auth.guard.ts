@@ -1,26 +1,24 @@
-/*
-import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  constructor(private authService: AuthService, private router: Router) {}
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const allowedRoles = next.data['roles'] as string[];
-    if (this.authService.isAuthorized(allowedRoles)) {
-      return true;
-    }
-
-    // Redirect to the login page or some other route
-    this.router.navigate(['/login']);
+  if (!authService.isLoggedIn()) {
+    router.navigate(['/auth/inicio-de-sesion'], {
+      queryParams: { returnUrl: state.url }
+    });
     return false;
   }
-}
-*/
+
+  // Check for required roles
+  const requiredRole = route.data['role'] as 'administrador' | 'usuario';
+  if (requiredRole && !authService.hasRole(requiredRole)) {
+    router.navigate(['/']); // Redirect to home or unauthorized page
+    return false;
+  }
+
+  return true;
+};
