@@ -149,7 +149,7 @@ renderChart(canvasElement: HTMLCanvasElement, index: number, composicion?: any) 
       labels,
       datasets: [{
         data,
-        backgroundColor: this.generateRandomColors(index)
+        backgroundColor: this.generateColors(index)
       }]
     }
   });
@@ -172,7 +172,7 @@ renderChart(canvasElement: HTMLCanvasElement, index: number, composicion?: any) 
   }
 
 
-  generateRandomColors(index: number) {
+  generateColors(index: number) {
     const count = 6;
     const colors = [];
     for (let i = 0; i < count; i++) {
