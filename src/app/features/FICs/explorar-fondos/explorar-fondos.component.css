@@ -12,11 +12,19 @@ p {
     font-weight: 300;
 }
 
+
+
 .bottom p {
     color: hwb(223 62% 25%);
     font-weight: 400;
     font-size: 14px;
     margin-top: 5px;
+}
+
+.bottom h5 {
+    font-size: 16px;
+    width: 80%;
+    text-align: center;
 }
 
 /* ==========================================================================
@@ -141,6 +149,11 @@ p {
 
 .bottom {
     margin-top: 10px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .izq {

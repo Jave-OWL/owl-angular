@@ -163,12 +163,12 @@ export class ExplorarFondosComponent {
   aplicarFiltro(criterio: string) {
     this.criterioOrdenamiento = criterio;
     this.fondosFiltrados = [...this.fondos].filter(fondo => 
-      fondo.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase())
+      fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );
 
     switch (criterio) {
       case 'nombre':
-        this.fondosFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+        this.fondosFiltrados.sort((a, b) => a.nombre_fic.localeCompare(b.nombre_fic));
         break;
       case 'riesgo':
         this.fondosFiltrados.sort((a, b) => a.riesgo.localeCompare(b.riesgo));
@@ -186,7 +186,7 @@ export class ExplorarFondosComponent {
   buscarFondos(event: any) {
     this.textoBusqueda = event.target.value;
     this.fondosFiltrados = [...this.fondos].filter(fondo => 
-      fondo.nombre.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
+      fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
       fondo.gestor.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );
     this.aplicarFiltro(this.criterioOrdenamiento);

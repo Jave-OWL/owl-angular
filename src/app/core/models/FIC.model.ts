@@ -1,15 +1,22 @@
 export interface FIC {
     id: number;
     logo: string;
-    nombre: string;
+    nombre_fic: string;
     gestor: string;
     custodio: string;
-    fechaCorte: Date;
+    fechaCorte: string;
     politicaInversion: string;
     link: string;
     riesgo: string;
     rentabilidad: string;
     calificaciones: any[];
-    composiciones: any[];
+    composicion_portafolios: ComposicionPortafolio[];
     rentabilidadVolatilidades: any[];
+}
+
+export interface ComposicionPortafolio {
+    id: number;
+    tipo_composicion: string;
+    categoria: string;
+    participacion: number;
 }

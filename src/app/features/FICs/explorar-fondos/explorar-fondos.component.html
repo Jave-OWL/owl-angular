@@ -39,14 +39,14 @@
 </div>
 
 <div *ngIf="fondosFiltrados.length > 0" class="resultados">
-    <button *ngFor="let fondo of fondosFiltrados" class="fic"  [routerLink]="['/detalle-fondo']" [queryParams]="{ id: fondo.id }">
+    <button *ngFor="let fondo of fondosFiltrados" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
         <div class="info-fic">
             <div class="top">
                 <p class="riesgo" [id]="fondo.riesgo === 'Alto' ? 'alto' : (fondo.riesgo === 'Medio' ? 'medio' : (fondo.riesgo === 'Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
             </div>
             <div class="bottom">     
-                <h5>{{fondo.nombre}}</h5>
+                <h5>{{fondo.nombre_fic}}</h5>
                 <p>{{fondo.rentabilidad}}</p>
             </div>
         </div>

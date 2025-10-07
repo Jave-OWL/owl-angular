@@ -33,17 +33,17 @@ export class CuestionarioComponent {
   answers: number[] = new Array(this.numPreguntas).fill(0);
 
   getColorProgreso(): string {
-    const progress = (this.currentPage / this.numPreguntas) * 100;
+    const progress = (this.currentPage / (this.numPreguntas)) * 100;
     if (progress < 25) {
       return '#bbc7e5'; 
     } else if (progress < 50) {
       return '#90acd3'; 
     } else if (progress < 75) {
       return '#789ed3ff'; 
-    } else if (progress <= 99) {
-      return '#5087d4ff'; 
+    } else if (progress < 90) {
+      return '#6ca5f4ff';
     } else {
-      return '#3dcb59ff'; // verde
+      return '#1e90ff'; // verde
     }
   }
 
@@ -141,6 +141,10 @@ export class CuestionarioComponent {
     }
     else {
       alert('Error al calcular los resultados. Por favor, inténtalo de nuevo en otro momento.');
+    }
+    const HTMLElement = document.getElementById('preguntas-riesgo');
+    if (HTMLElement) {
+      HTMLElement.style.display = 'none';
     }
   }
 }

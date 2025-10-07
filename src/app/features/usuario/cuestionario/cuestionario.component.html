@@ -2,14 +2,14 @@
     <div class="contenedor-imagen">
         <img id="logo" src="assets/images/OwlSerio.png" alt="Logo" />
     </div>
-    <section class="cuestionario">
+    <section class="cuestionario" id="cuestionario-riesgo">
         <h1>Perfil de Riesgo</h1>
 
         <div class="pregunta-paginas" [ngSwitch]="currentPage">
             <!-- Página 1 -->
             <div class="progress">
                 <div class="progress-bar" role="progressbar" 
-                    [style.width]="(currentPage/(numPreguntas + 1))*100 + '%'"
+                    [style.width]="(currentPage/(numPreguntas))*100 + '%'"
                     [style.backgroundColor]="getColorProgreso()"
                     [attr.aria-valuenow]="currentPage" 
                     aria-valuemin="0" 

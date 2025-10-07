@@ -1,28 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FICService } from '../../../core/services/fic.service';
-import { FIC } from '../../../core/models/FIC.model';
+import { FIC, ComposicionPortafolio } from '../../../core/models/FIC.model';
 import { ActivatedRoute } from '@angular/router';
 import { ElementRef, ViewChildren } from '@angular/core';
-import { Chart } from 'chart.js/auto';
+import * as echarts from 'echarts';
 
 @Component({
   selector: 'app-detalle-fondo',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './detalle-fondo.component.html',
   styleUrl: './detalle-fondo.component.css'
 })
 
 export class DetalleFondoComponent {
-  constructor(private ficService: FICService, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe((params) => {
-      this.queryParam = params['id'];
-    });
-   }
-
   queryParam: string = '';
   id = 1;
   fondo?: FIC;
-  composiciones?: any[];
+  composicion_portafolios?: any[];
+  composicionesPorTipo: { [key: string]: any[] } = {};
 
   private viewReady = false;
 
@@ -73,120 +70,148 @@ export class DetalleFondoComponent {
 
   }
 
-  cargarComposiciones(){
-      if (this.fondo) {
-      this.composiciones = this.fondo.composiciones;
-      console.log('Composiciones cargadas:', this.composiciones);
-      this.renderPieCharts(); // Renderizar después de cargar los datos
+  cargarComposiciones() {
+    if (this.fondo) {
+      this.composicion_portafolios = this.fondo.composicion_portafolios;
+      // Agrupar composiciones por tipo
+      this.composicionesPorTipo = this.composicion_portafolios?.reduce((acc: { [key: string]: any[] }, item) => {
+        const tipo = item.tipo_composicion;
+        if (!acc[tipo]) {
+          acc[tipo] = [];
+        }
+        acc[tipo].push(item);
+        return acc;
+      }, {}) || {};
+      
+      console.log('Composiciones cargadas por tipo:', this.composicionesPorTipo);
+      this.renderPieCharts();
     }
   }
 
-  pieCharts: Chart[] = [];
-  @ViewChildren('pieCanvas1') pieCanvas1!: ElementRef[];
-  @ViewChildren('pieCanvas2') pieCanvas2!: ElementRef[];
-  @ViewChildren('pieCanvas3') pieCanvas3!: ElementRef[];
-  @ViewChildren('pieCanvas4') pieCanvas4!: ElementRef[];
-  @ViewChildren('pieCanvas5') pieCanvas5!: ElementRef[];
-  @ViewChildren('pieCanvas6') pieCanvas6!: ElementRef[];
+  charts: echarts.ECharts[] = [];
+  @ViewChildren('chartCalificacion') chartCalificacion!: ElementRef[];
+  @ViewChildren('chartTipoRenta') chartTipoRenta!: ElementRef[];
+  @ViewChildren('chartPaisEmisor') chartPaisEmisor!: ElementRef[];
+  @ViewChildren('chartMoneda') chartMoneda!: ElementRef[];
+  @ViewChildren('chartActivo') chartActivo!: ElementRef[];
+  @ViewChildren('chartSectorEconomico') chartSectorEconomico!: ElementRef[];
 
+  constructor(
+    private ficService: FICService, 
+    private route: ActivatedRoute,
+    private ngZone: NgZone
+  ) {
+    this.route.queryParams.subscribe((params) => {
+      this.queryParam = params['id'];
+    });
+  }
 
   renderPieCharts() {
-    this.pieCharts = [];
-    
-    if (!this.composiciones || this.composiciones.length === 0) {
+    if (!this.composicionesPorTipo || Object.keys(this.composicionesPorTipo).length === 0) {
       console.log('No hay composiciones disponibles');
       return;
     }
 
-    console.log('Composiciones disponibles:', this.composiciones);
+    // Destruir gráficos existentes
+    this.charts.forEach(chart => chart.dispose());
+    this.charts = [];
 
-    // Mapeo de canvas a sus datos correspondientes
-    const canvasConfigs = [
-      { canvas: this.pieCanvas1, index: 0 },
-      { canvas: this.pieCanvas2, index: 1 },
-      { canvas: this.pieCanvas3, index: 2 },
-      { canvas: this.pieCanvas4, index: 3 },
-      { canvas: this.pieCanvas5, index: 4 },
-      { canvas: this.pieCanvas6, index: 5 }
+    const containerConfigs = [
+      { container: this.chartCalificacion, tipo: 'calificacion', title: 'Calificación' },
+      { container: this.chartTipoRenta, tipo: 'tipo_renta', title: 'Tipo de Renta' },
+      { container: this.chartPaisEmisor, tipo: 'pais_emisor', title: 'País Emisor' },
+      { container: this.chartMoneda, tipo: 'moneda', title: 'Moneda' },
+      { container: this.chartActivo, tipo: 'activo', title: 'Activo' },
+      { container: this.chartSectorEconomico, tipo: 'sector_economico', title: 'Sector Económico' }
     ];
 
-    canvasConfigs.forEach(config => {
-      if (config.canvas) {
-        config.canvas.forEach((canvasRef, i) => {
-          const canvasElement = canvasRef.nativeElement;
-          const composicion = this.composiciones?.[config.index];
-          this.renderChart(canvasElement, config.index, composicion);
+    containerConfigs.forEach(config => {
+      if (config.container) {
+        config.container.forEach((containerRef: ElementRef) => {
+          const element = containerRef.nativeElement;
+          const composicionData = this.composicionesPorTipo[config.tipo] || [];
+          this.renderChart(element, composicionData, config.title);
         });
       }
     });
   }
 
-renderChart(canvasElement: HTMLCanvasElement, index: number, composicion?: any) {
-  let data;
-  let labels;
+  renderChart(container: HTMLElement, composicionData: ComposicionPortafolio[], title?: string) {
+    this.ngZone.runOutsideAngular(() => {
+      const data = composicionData.length > 0 
+        ? composicionData.map(comp => ({
+            name: comp.categoria,
+            value: comp.participacion * 100 // Convertir a porcentaje
+          }))
+        : this.generateRandomData();
 
-  console.log(`Renderizando gráfica ${index}:`, {
-    composicion,
-    tieneValores: composicion?.valoresComposiciones?.length > 0
-  });
+      const chart = echarts.init(container);
+      this.charts.push(chart);
 
-  if (composicion?.valoresComposiciones?.length > 0) {
-    console.log(`Datos para gráfica ${index}:`, composicion.valoresComposiciones);
-    labels = composicion.valoresComposiciones.map((v: any) => v.dato || 'Sin etiqueta');
-    data = composicion.valoresComposiciones.map((v: any) => Number(v.valor) || 0);
-  } else {
-    data = this.generateRandomData();
-    labels = this.generateRandomLabels();
+      const colors = ["#437ac6ff", "#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff", 
+                      "#ffbd59", "#f9c66fff", "#f7c06fff", "#f5b96fff", "#f3b26fff", "#f0a96fff"];
+      const option: echarts.EChartsOption = {
+        title: {
+          text: title,
+          left: 'center',
+          subtext: 'Participación (%)',
+          textStyle: {
+            fontSize: 14,
+            color: '#666'
+          }
+        },
+        tooltip: {
+          trigger: 'item',
+          formatter: '{b}: {c}%'
+        },
+        series: [{
+          name: title,
+          type: 'pie',
+          radius: '70%',
+          center: ['50%', '60%'],
+          data: data,
+          emphasis: {
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          },
+          label: {
+            show: true,
+            formatter: '{b}: {c}%'
+          },
+        }],
+        legend: {
+          show: true,
+          orient: 'horizontal',
+          top: 'top',
+          data: data.map(item => item.name)
+        },
+        color: colors
+      }
+      ;
+
+      chart.setOption(option);
+
+      // Manejar el resize
+      const resizeHandler = () => {
+        chart.resize();
+      };
+      window.addEventListener('resize', resizeHandler);
+    });
   }
-
-  if (this.pieCharts[index]) {
-    this.pieCharts[index].destroy();
-  }
-
-  this.pieCharts[index] = new Chart(canvasElement, {
-    type: 'pie',
-    data: {
-      labels,
-      datasets: [{
-        data,
-        backgroundColor: this.generateColors(index)
-      }]
-    }
-  });
-}
 
   generateRandomData() {
     const data = [];
+    const labels = ['Elemento 1', 'Elemento 2', 'Elemento 3', 'Elemento 4', 'Elemento 5', 'Elemento 6'];
     for (let i = 0; i < 6; i++) {
-      data.push(Math.floor(Math.random() * (30 - 1 + 1)) + 1);
+      data.push({
+        name: labels[i],
+        value: Math.floor(Math.random() * (30 - 1 + 1)) + 1
+      });
     }
     return data;
-  }
-
-  generateRandomLabels() {
-    const labels = [];
-    for (let i = 0; i < 6; i++) {
-      labels.push(`Elemento ${i + 1}`);
-    }
-    return labels;
-  }
-
-
-  generateColors(index: number) {
-    const count = 6;
-    const colors = [];
-    for (let i = 0; i < count; i++) {
-      let color;
-      if (index % 2 === 0) {
-        const colors = ["#437ac6ff","#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff", "#b6d0f6", "#c9d9f2ff"];
-        color = colors[i % colors.length];
-      } else {
-        const colors = ["#ffbd59", "#f9c66fff", "#f7c06fff", "#f5b96fff", "#f3b26fff", "#f0a96fff"];
-        color = colors[i % colors.length];
-      }
-      colors.push(color);
-    }
-    return colors;
   }
 
 }

@@ -9,7 +9,7 @@ import { RankingComponent } from './ranking/ranking.component';
 
 const routes: Routes = [
   { path: 'explorar', component: ExplorarFondosComponent },
-  { path: 'detalle/:id', component: DetalleFondoComponent },
+  { path: 'detalle', component: DetalleFondoComponent },
   { path: 'comparar', component: ComparadorFondosComponent },
   { 
     path: 'guardados', 
