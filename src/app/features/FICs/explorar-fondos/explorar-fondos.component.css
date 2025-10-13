@@ -18,13 +18,14 @@ p {
     color: hwb(223 62% 25%);
     font-weight: 400;
     font-size: 14px;
-    margin-top: 5px;
+    text-transform: capitalize;
 }
 
 .bottom h5 {
     font-size: 16px;
     width: 80%;
     text-align: center;
+
 }
 
 /* ==========================================================================
@@ -143,13 +144,18 @@ p {
 
 .top {
     background-color: hwb(222 96% 0%);
-    padding-bottom: 4px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.top img {
+    justify-content: center;
 }
 
 .bottom {
     margin-top: 10px;
-    height: 40px;
+    height: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;

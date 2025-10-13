@@ -21,6 +21,14 @@ interface Pregunta {
   styleUrl: './cuestionario.component.css'
 })
 export class CuestionarioComponent {
+  // Mostrar pantalla de bienvenida antes de las preguntas
+  showWelcome: boolean = true;
+
+  startQuestionnaire() {
+    this.showWelcome = false;
+    this.currentPage = 1;
+  }
+
   isPreguntaParte(parte: Parte): parte is PreguntaParte {
     return typeof parte === 'object' && parte !== null;
   }
@@ -142,7 +150,7 @@ export class CuestionarioComponent {
     else {
       alert('Error al calcular los resultados. Por favor, inténtalo de nuevo en otro momento.');
     }
-    const HTMLElement = document.getElementById('preguntas-riesgo');
+    const HTMLElement = document.getElementById('contenedor-preguntas');
     if (HTMLElement) {
       HTMLElement.style.display = 'none';
     }

@@ -1,101 +1,61 @@
-<!-- 
-FIC
--   id
--   logo
--   nombre
--   gestor
--   custodio
--   fechaCorte
--   politicaInversion
--   link
--   riesgo
--   rentabilidad
--   calificaciones
-    -   id
-    -   calificacion
-    -   fechaUltimaCalificacion
-    -   entidadCalificadora
--   composiciones
-    -   id
-    -   calificacion
-    -   tipoRenta
-    -   paisEmisor
-    -   moneda
-    -   activo
-    -   valoresComposiciones
-        -   id
-        -   valor
-        -   dato
--   rentabilidadVolatilidades
-    -   id
-    -   tipoIndicador
-    -   tipoParticipacion
-    -   ultimoMes
-    -   ultimos3Meses
-    -   ultimos6Meses
-    -   ultimos12Meses
-    -   ultimos2Anios
-    -   ultimos3Anios
--   principalesInversiones
-    -   id
-    -   emisor
-    -   participacionDelEmisor
--   plazoDuraciones
-    -   id
-    -   inversionesPorPlazo
-    -   participacion
--   caracteristicas
-    -   id
-    -   calificacion
-    -   tipoDeRenta
-    -   sectorEconomico
-    -   paisEmisor
-    -   moneda
-    -   activo
--->
-
 <section>
+    <button class="tour" (click)="startTour()">?</button>
     <div class="volver">
-        <a class="link-volver" href="fics/explorar"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar
-                fondos</i></a>
+        <a class="link-volver" href="fics/explorar"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar fondos</i></a>
     </div>
     <div class="titulo">
         <div class="titulo-texto">
             <img id="logo" [src]="fondo?.logo" alt="Logo" />
-            <h1>{{fondo?.nombre_fic}}</h1>
+            <h1>{{fondo?.nombre_fic | titlecase}}</h1>
         </div>
         <p class="riesgo"
             [id]="fondo?.riesgo === 'Alto' ? 'alto' : (fondo?.riesgo === 'Medio' ? 'medio' : (fondo?.riesgo === 'Bajo' ? 'bajo' : (fondo?.riesgo === 'Riesgo Variable' ? 'variable' : '')))">
             Riesgo {{fondo?.riesgo}}</p>
     </div>
-    <div class="informacion-general">
+    <div class="informacion-top">
         <div class="card" id="focus">
             <h3>Efectivo Anual</h3>
-            <p>{{fondo?.rentabilidad}}</p>
-            <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i
-                    class="bi bi-arrow-up-right"></i></p>
+            <p>{{rentabilidadGeneral}}%</p>
+            <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i class="bi bi-arrow-up-right"></i></p>
         </div>
-        <div class="card">
-            <h3>Gestor</h3>
-            <p>{{fondo?.gestor}}</p>
-        </div>
-        <div class="card">
-            <h3>Custodio</h3>
-            <p>{{fondo?.custodio}}</p>
-        </div>
+            <div id="gestor" class="card">
+                <h3>Gestor</h3>
+                <p>{{fondo?.gestor}}</p>
+            </div>
+            <div id="custodio" class="card">
+                <h3>Custodio</h3>
+                <p>{{fondo?.custodio}}</p>
+            </div>
         <div class="card">
             <h3>Fecha de corte</h3>
-            <p>{{fondo?.fechaCorte}}</p>
+            <p>{{fondo?.fecha_corte | date:'dd - MM - yyyy'}}</p>
         </div>
 
     </div>
 
-    <div class="informacion rendimiento">
-        <div class="card" style="width: 65%; margin-top: 20px;">
+    <div class="informacion-rendimiento">
+        <div id=rendimiento-card class="card">
             <div class="titulo-rendimiento">
-                <h3>Comportamiento del fondo de inversión</h3>
-                <i class="bi bi-filter"></i>
-            </div>
+                <h3>Comportamiento del fondo de inversión - <span>{{tipoParticipacion}}</span></h3>
+                <button (click)="mostrarPart()"><i class="bi bi-filter"></i></button>
+                    <div class="participaciones-dropdown">
+                        <ul>
+                            <li *ngFor="let participacion of participaciones" (click)="seleccionarPart(participacion)">{{participacion}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div #chartRentabilidad class="other-chart-container"></div>
+        </div>
+        <div id="info-fondo">
+            <h3>Información general</h3>
+            <hr class="separador" style="width: 100%;">
+            <p>Inicio de operaciones: {{fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones | date:'dd - MM - yyyy'}}</p>
+            <hr class="separador">
+            <p>{{(fondo?.caracteristicas?.[0]?.tipo)}}</p>
+            <hr class="separador">
+            <p>No. Unidades en circulación: {{fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion | number}}</p>
+            <hr class="separador">
+            <p>Valor: {{fondo?.caracteristicas?.[0]?.valor | currency:'COP':'symbol':'1.2-2'}}</p>
         </div>
     </div>
 

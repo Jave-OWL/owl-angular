@@ -3,9 +3,15 @@
         <img id="logo" src="assets/images/OwlSerio.png" alt="Logo" />
     </div>
     <section class="cuestionario" id="cuestionario-riesgo">
-        <h1>Perfil de Riesgo</h1>
-
-        <div class="pregunta-paginas" [ngSwitch]="currentPage">
+        <div id="contenedor-preguntas">
+            <!-- Bienvenida: se muestra antes de las preguntas -->
+            <div class="bienvenida" *ngIf="showWelcome">
+                <h2>¡Bienvenido a OWL!</h2>
+                <p>Antes de comenzar, queremos conocer un poco sobre tu tolerancia al riesgo. Responde con sinceridad para obtener un perfil adecuado.</p>
+                <button class="btn btn-primary" (click)="startQuestionnaire()">Comenzar cuestionario</button>
+            </div>
+            <h1 *ngIf="!showWelcome">Perfil de Riesgo</h1>
+            <div class="pregunta-paginas" *ngIf="!showWelcome" [ngSwitch]="currentPage">
             <!-- Página 1 -->
             <div class="progress">
                 <div class="progress-bar" role="progressbar" 
@@ -42,14 +48,14 @@
                     </div>
                 </div>
             </ng-container>
-
         </div>
-        <!-- Navegación -->
-        <div class="navigation">
+    <!-- Navegación -->
+    <div class="navigation" *ngIf="!showWelcome">
             <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
             <span class="page-indicator">{{ currentPage }} / {{ numPreguntas }}</span>
             <button class="btn btn-primary" (click)="nextPage()" *ngIf="currentPage < numPreguntas">Siguiente</button>
-            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Finalizar</button>
+            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Pasar a preguntas demográficas</button>
+        </div>
         </div>
     </section>
 </div>

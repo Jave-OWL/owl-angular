@@ -4,7 +4,7 @@
             <h2>Explorar Fondos</h2>
             <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
         </div>
-            <img id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
+            <img hidden id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
     </div>
 <div class="contenedor-busqueda">
     <input class="input-busqueda" 
@@ -42,11 +42,11 @@
     <button *ngFor="let fondo of fondosFiltrados" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
         <div class="info-fic">
             <div class="top">
-                <p class="riesgo" [id]="fondo.riesgo === 'Alto' ? 'alto' : (fondo.riesgo === 'Medio' ? 'medio' : (fondo.riesgo === 'Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
+
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
             </div>
             <div class="bottom">     
-                <h5>{{fondo.nombre_fic}}</h5>
+                <h5>{{fondo.nombre_fic | titlecase}}</h5>
                 <p>{{fondo.rentabilidad}}</p>
             </div>
         </div>

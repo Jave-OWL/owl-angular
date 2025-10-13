@@ -19,7 +19,7 @@
                                 [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">
                                 {{fondo.riesgo}}
                             </p>
-                            <h5>{{fondo.nombre_fic}}</h5>
+                            <h5>{{fondo.nombre_fic | titlecase}}</h5>
                             <p>{{fondo.rentabilidad}}</p>
                         </section>
                     </div>

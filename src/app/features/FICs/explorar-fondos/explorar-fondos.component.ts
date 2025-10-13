@@ -175,8 +175,8 @@ export class ExplorarFondosComponent {
         break;
       case 'rentabilidad':
         this.fondosFiltrados.sort((a, b) => {
-          const rentA = parseFloat(a.rentabilidad);
-          const rentB = parseFloat(b.rentabilidad);
+          const rentA = a.rentabilidad;
+          const rentB = b.rentabilidad;
           return rentB - rentA; // Orden descendente
         });
         break;  

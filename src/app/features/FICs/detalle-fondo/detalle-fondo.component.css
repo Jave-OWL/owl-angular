@@ -1,3 +1,34 @@
+.tour {
+    position: fixed;
+    bottom: 2%;
+    right: 2%;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: var(--color-contenido);
+    background-color: var(--color-main);
+    font-weight: 600;
+    font-size: 20px;
+    border: none;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.3s ease;
+}
+
+.tour:hover {
+    background-color: var(--color-main-hover);
+    transition: 0.3s ease;
+}
+
+.volver * {
+    color: var(--color-main);
+    transition: 0.3s ease;
+}
+
+.volver:hover * {
+    color: var(--color-main-hover);
+    transition: 0.3s ease;
+}
+
 .volver {
     margin-bottom: 20px;
 }
@@ -50,6 +81,14 @@
     white-space: nowrap;
 }
 
+.dueno {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 28px
+}
+
 .card h3 {
     font-size: 23px;
 }
@@ -61,7 +100,10 @@
 
 #focus p{
     color: aliceblue;
+    text-decoration: underline wavy 1px;
 }
+
+
 
 #focus i{
     font-size: 10px;
@@ -73,11 +115,12 @@
     margin: 0;
 }
 
-.informacion-general {
+.informacion-top {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 28px;
     margin-top: 20px;
+    width: 100%;
 }
 
 .riesgo {
@@ -117,6 +160,10 @@
     align-items: center;
 }
 
+.titulo-rendimiento span {
+    text-decoration: underline wavy 1px;
+}
+
 .composiciones {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -143,6 +190,12 @@
     align-items: center;
 }
 
+.other-chart-container {
+    width: 100%;
+    height: 400px;
+    position: relative;
+}
+
 .calificacion-info {
     position: absolute;
     top: 10px;
@@ -152,3 +205,73 @@
     text-align: center;
 }
 
+.participaciones-dropdown {
+    background-color: var(--color-contenido);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    padding: 10px;
+    display: none;
+    z-index: 10;
+}
+
+.participaciones-dropdown ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.participaciones-dropdown li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.participaciones-dropdown li:hover {
+    background-color: var(--color-main-hover);
+}
+
+.participaciones-dropdown li.selected {
+    background-color: var(--color-main);
+    color: #fff;
+}
+
+.participaciones-dropdown li.selected:hover {
+    background-color: var(--color-main-hover);
+}
+
+.participaciones-dropdown.show {
+    display: block;
+}
+
+.informacion-rendimiento {
+    display: flex;
+    flex-direction: row;
+    gap: 28px;
+    margin-top: 20px;
+    height: 550px;
+}
+
+#rendimiento-card {
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    width: calc(70% - 26*2px);
+}
+
+#info-fondo {
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 14px;
+    text-align: left;
+    width: calc(30% + 26px);
+    height: 100%;
+    text-align: center;
+}
+.separador {
+    border: 1px solid var(--color-background);
+    width: 90%;
+}
