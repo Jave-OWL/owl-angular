@@ -57,6 +57,8 @@ export class DashboardComponent {
         const fondosAleatorios = this.obtenerFICsAleatorios(fics, 3);
         this.FondosUsuario = fondosAleatorios;
         this.cargarLogos();
+        this.cargarNombres();
+        this.cargarEA();
         this.isLoading = false;
       },
       error: (error) => {
@@ -64,6 +66,27 @@ export class DashboardComponent {
         this.error = 'Error al cargar los fondos de inversión';
         this.isLoading = false;
       }
+    });
+  }
+
+  cargarNombres() {
+    this.FondosUsuario.forEach(fondo => {
+      fondo.nombre_fic = fondo.nombre_fic.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+      fondo.nombre_fic = fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');       
+    });
+  }
+
+  cargarEA() {
+    this.FondosUsuario.forEach(fondo => {
+      let eaMenor = 99999;
+      fondo.rentabilidad_historicas.forEach(item => {
+        if (item.ultimo_mes < eaMenor) {
+          eaMenor = item.ultimo_mes;
+          fondo.ea = parseFloat((item.ultimo_mes*100).toFixed(2));
+        }
+      });
     });
   }
 
