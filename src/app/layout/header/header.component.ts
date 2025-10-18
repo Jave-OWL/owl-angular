@@ -75,8 +75,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     document.removeEventListener('click', this.clickOutsideDropdown.bind(this));
   }
 
-  getRol(): string | null {
-    return this.currentUser?.rol || null;
+  isAdmin(): boolean {
+    return this.currentUser?.is_admin ?? false;
   }
 
   usuarioAuth(): boolean {

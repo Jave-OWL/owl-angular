@@ -1,23 +1,11 @@
 <header id="header" class="header">
     <img id="logo" routerLink="/" src="assets/images/OwlLogo.png" alt="Logo" />
-    <div [ngSwitch]="getRol()">
-        <ng-container *ngSwitchCase="'administrador'">
-            <div class="nav">
-                <button routerLink="/" routerLinkActive="router-link-active"
-                    [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
-                <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'usuario'">
-            <div class="nav">
-                <button routerLink="/" routerLinkActive="router-link-active"
-                    [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
-                <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
-                <button routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
-            </div>
-        </ng-container>
+    <div class="nav">
+        <button routerLink="/" routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{exact: true}">Inicio</button>
+        <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
+        <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
+        <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
     </div>
     <div *ngIf="!usuarioAuth()" class="auth">
         <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>

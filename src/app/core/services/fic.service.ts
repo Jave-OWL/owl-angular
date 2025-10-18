@@ -14,8 +14,8 @@ export class FICService {
 
   url = 'http://localhost:8081/fic';
 
-  findAll() {
-    return this.http.get<FIC[]>(this.url+'/list');
+  findAll(): Observable<FIC[]> {
+    return this.http.get<FIC[]>(`${this.url}/list`);
   }
 
   findById(id: number): Observable<FIC> {

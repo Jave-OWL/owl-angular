@@ -14,8 +14,7 @@ const routes: Routes = [
   { 
     path: 'guardados', 
     component: FondosGuardadosComponent,
-    canActivate: [authGuard],
-    data: { role: 'usuario' }
+    canActivate: [authGuard]
   },
   { path: 'ranking', component: RankingComponent },
   { path: '', redirectTo: 'explorar', pathMatch: 'full' }

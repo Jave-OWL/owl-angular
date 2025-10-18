@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FIC } from '../../../core/models/FIC.model';
+import { FICService } from '../../../core/services/fic.service';
 
 @Component({
   selector: 'app-dashboard',
+  standalone: true,
   imports: [RouterLink, CommonModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -31,32 +33,61 @@ export class DashboardComponent {
     'La educación financiera es la clave para el éxito financiero.',
   ];
 
-  FondosUsuario: FIC[] = [
-  ];
-
+  FondosUsuario: FIC[] = [];
   consejo: string = '';
+  isLoading = true;
+  error: string | null = null;
+
+  constructor(private ficService: FICService) {}
 
   ngOnInit() {
+    // Seleccionar un consejo aleatorio
     const consejoIndex = Math.floor(Math.random() * this.consejos.length);
     this.consejo = this.consejos[consejoIndex];
-    this.cargarLogos();
+    
+    // Cargar los FICs
+    this.cargarFICs();
   }
 
-    cargarLogos() {
-    // Iterate over each 'fondo' in the 'fondos' array
+  cargarFICs() {
+    this.isLoading = true;
+    this.ficService.findAll().subscribe({
+      next: (fics) => {
+        // Obtener 3 FICs aleatorios
+        const fondosAleatorios = this.obtenerFICsAleatorios(fics, 3);
+        this.FondosUsuario = fondosAleatorios;
+        this.cargarLogos();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar los FICs:', error);
+        this.error = 'Error al cargar los fondos de inversión';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  obtenerFICsAleatorios(fics: FIC[], cantidad: number): FIC[] {
+    const ficsCopy = [...fics];
+    const resultado: FIC[] = [];
+    
+    while (resultado.length < cantidad && ficsCopy.length > 0) {
+      const indiceAleatorio = Math.floor(Math.random() * ficsCopy.length);
+      resultado.push(ficsCopy.splice(indiceAleatorio, 1)[0]);
+    }
+    
+    return resultado;
+  }
+
+  cargarLogos() {
     this.FondosUsuario.forEach(fondo => {
-      // Create a new Image object to check for logo existence
       const img = new Image();
-
-      // Set the initial logo path based on the 'gestor' property of 'fondo'
-      fondo.logo = 'assets/images/' + fondo.gestor + 'LogoDashboard.png';
-
-      // Add an error event handler to set a default logo if the specific logo is not found
+      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.png';
+      
       img.onerror = () => {
-        fondo.logo = 'assets/images/FIC.png'; // Default logo path
+        fondo.logo = 'assets/images/FIC.png'; // Logo por defecto
       };
-
-      // Start loading the image to trigger onerror if it fails
+      
       img.src = fondo.logo;
     });
   }

@@ -37,7 +37,7 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
       if (this.returnUrl !== '/') {
         this.router.navigateByUrl(this.returnUrl);
       } else {
-        this.redirectToDashboard(user?.rol || 'usuario');
+        this.redirectToDashboard(user?.is_admin || false);
       }
     }
   }
@@ -54,7 +54,8 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
     }
 
     this.authService.login(correo, contrasenia).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        console.log('Response from login:', response);
         this.cambiarImagen('exito');
         
         if (this.formulario && this.exito) {
@@ -66,7 +67,9 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
           if (this.returnUrl !== '/') {
             this.router.navigateByUrl(this.returnUrl);
           } else {
-            this.redirectToDashboard(response.user.rol);
+            // Asumiendo que el usuario viene directamente en la respuesta
+            const user = response.user ?? response;
+            this.redirectToDashboard(user.is_admin ?? false);
           }
         }, 2500);
       },
@@ -77,8 +80,8 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private redirectToDashboard(rol: 'administrador' | 'usuario') {
-    const route = rol === 'administrador' ? '/admin/dashboard' : '/user/dashboard';
+  private redirectToDashboard(isAdmin: boolean) {
+    const route = isAdmin ? '/admin/dashboard' : '/user/dashboard';
     this.router.navigateByUrl(route);
   }
 

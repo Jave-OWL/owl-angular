@@ -472,7 +472,7 @@ export class DetalleFondoComponent {
         series: [{
           name: title,
           type: 'pie',
-          radius: '70%',
+          radius: '50%',
           center: ['50%', '60%'],
           data: data,
           emphasis: {
@@ -710,7 +710,7 @@ export class DetalleFondoComponent {
       series: [{
         name: 'Duraciones por plazo',
         type: 'pie',
-        radius: '70%',
+        radius: '60%',
         data: data,
         emphasis: {
           itemStyle: {
@@ -748,10 +748,9 @@ export class DetalleFondoComponent {
       return;
     }
 
-    // Ordenar inversiones de mayor a menor y limitar a las 10 principales
     const inversiones = [...this.fondo.principales_inversiones]
       .sort((a, b) => b.participacion - a.participacion)
-      .reverse(); // Revertimos el orden para que aparezca de mayor a menor en el gráfico vertical
+      .reverse();
 
     console.log('Inversiones procesadas:', inversiones);
 
@@ -771,15 +770,6 @@ export class DetalleFondoComponent {
     }));
 
     const option: echarts.EChartsOption = {
-      /*title: {
-        text: 'Principales Inversiones',
-        left: '20%',
-        textStyle: { 
-          fontSize: 16,
-          fontFamily: 'Poppins, sans-serif',
-          fontWeight: 'bold'
-        }
-      },*/
       tooltip: {
         trigger: 'item'
       },
@@ -827,7 +817,7 @@ export class DetalleFondoComponent {
         right: '5%', 
         bottom: '5%', 
         top: '5%',
-        containLabel: true// Esto permite que el gráfico se alinee naturalmente a la izquierda
+        containLabel: true
       }
     };
 

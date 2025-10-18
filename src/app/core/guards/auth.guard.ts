@@ -13,9 +13,9 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // Check for required roles
-  const requiredRole = route.data['role'] as 'administrador' | 'usuario';
-  if (requiredRole && !authService.hasRole(requiredRole)) {
+  // Check if admin access is required
+  const requiresAdmin = route.data['requiresAdmin'] === true;
+  if (requiresAdmin && !authService.isAdmin()) {
     router.navigate(['/']); // Redirect to home or unauthorized page
     return false;
   }

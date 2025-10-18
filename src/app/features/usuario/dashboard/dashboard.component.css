@@ -14,12 +14,10 @@ h3 {
 }
 
 #logo {
-    width: 80px;
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    justify-content: left;
-    align-items: left;
+    height: 60px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: var(--internal-border-radius);
 }
 
 .contenido-dashboard > section {
@@ -37,15 +35,156 @@ h3 {
     justify-content: space-between;
 }
 
-.fondos,
-.ver-mas-fics {
-    padding: 0;
-    width: 24%;
+.fics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    width: 100%;
+}
+
+.ver-mas-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-main) !important;
+    color: var(--color-contenido) !important;
+    height: 100%;
+    transition: all 0.3s ease-in-out;
+}
+
+.ver-mas-card:hover {
+    background-color: var(--color-main-hover) !important;
+    color: var(--color-contenido) !important;
+    transform: translateY(-2.5px);
+    box-shadow: var(--medium-box-shadow);
+    transition: all 0.3s ease-in-out;
+}
+
+.ver-mas-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 16px;
+}
+
+.ver-mas-content i {
+    font-size: 24px;
+}
+
+.ver-mas-content span {
+    font-weight: 500;
+    color: var(--color-contenido);
+}
+
+.bottom h5 {
+    font-size: 16px;
+    width: 80%;
+    text-align: center;
+    margin: 0;
+}
+
+.bottom p {
+    color: hwb(223 62% 25%);
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.loading-state,
+.error-state {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--color-background);
     border-radius: var(--border-radius);
-    border: none;
+}
+
+.loader,
+.loader:before,
+.loader:after {
+  border-radius: 50%;
+  width: 2.5em;
+  height: 2.5em;
+  animation-fill-mode: both;
+  animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+
+.loader {
+  color: var(--color-main);
+  font-size: 7px;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+  margin: 40px auto;
+  display: block;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.loader:before {
+  left: -3.5em;
+  animation-delay: -0.32s;
+}
+
+.loader:after {
+  left: 3.5em;
+}
+
+@keyframes bblFadInOut {
+  0%, 80%, 100% {
+    opacity: 0.5;
+    box-shadow: 0 0 0 -2px var(--color-main);
+  }
+  40% {
+    opacity: 1;
+    box-shadow: 0 0 0 10px var(--color-main);
+  }
+}
+
+#alto {
+   background-color: #1452a8;
+}
+
+#medio {
+    background-color: var(--color-main)
+}
+
+#bajo {
+    background-color: #8fc6f5;
+}
+
+#variable {
+    background-color: hwb(215 52% 65%);
+}
+
+.loading-state p {
+    color: var(--color-general-text-light);
+    font-size: 16px;
+}
+
+.error-state p {
+    color: rgb(230, 55, 55);
+    font-size: 16px;
+}
+
+.fic {
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    width: 100%;
     background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
 }
 
 .ver-mas-fics {
@@ -73,6 +212,48 @@ h3 {
     transition: 0.3s ease;
 }
 
+.hover-info {
+    display: none;
+}
+
+.fic:hover .hover-info {
+    display: block;
+    position: absolute;
+    background-color: var(--color-contenido);
+    padding: 10px;
+    box-shadow: var(--medium-box-shadow);
+    border-radius: var(--border-radius);
+    text-align: center;
+    width: max-content;
+    max-width: 100%;
+    height: max-content;
+    z-index: 99999;
+    top: 108%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.fic:hover .rentabilidades {
+    display: none;
+}
+
+.fic:hover .rentabilidades {
+    display: block;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.triangle {
+    width: 10px;
+    aspect-ratio: 1/cos(30deg);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    background-color: var(--color-headerfooter);
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 i {
     margin-left: 5px;
     color: var(--color-contenido);
@@ -92,17 +273,18 @@ i {
     padding: 0;
 }
 
-.fondos:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--medium-box-shadow)
+.fic:hover {
+    transform: translateY(-2.5px);
+    box-shadow: var(--medium-box-shadow);
 }
 
 .top {
-    display: flex;
-    flex-direction: row;
+    background-color: hwb(222 96% 0%);
+    padding-bottom: 10px;
+    padding-top: 10px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    height: 80px;
-    background-image: radial-gradient(circle at 50% 50%, var(--color-background) 0%, var(--color-secondary) 100%);
+    display: flex;
+    justify-content: center;
 }
 
 .top p {
@@ -119,7 +301,13 @@ i {
 }
 
 .bottom {
-    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    margin-top: 10px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
 .riesgo {
