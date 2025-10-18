@@ -4,4 +4,5 @@ export interface Usuario {
     correo: string;
     contrasenia: string;
     rol: 'administrador' | 'usuario';
+    fechaNacimiento: string;
 }

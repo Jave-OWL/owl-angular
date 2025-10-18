@@ -11,7 +11,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 })
 export class AppComponent {
   title = 'owl-angular';
-    constructor(private router: Router) {
+  constructor(private router: Router) {
     router.events.subscribe((val) => {
       if (this.router.url === '/auth/inicio-de-sesion' || this.router.url === '/auth/registro' || this.router.url === '/') {
         const generalPadding = document.getElementById('content');

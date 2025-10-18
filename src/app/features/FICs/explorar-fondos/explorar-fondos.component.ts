@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FIC } from '../../../core/models/FIC.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FICService } from '../../../core/services/fic.service';
+import { driver } from "driver.js";
+
 
 @Component({
   selector: 'app-explorar-fondos',
@@ -11,93 +13,6 @@ import { FICService } from '../../../core/services/fic.service';
   styleUrl: './explorar-fondos.component.css'
 })
 export class ExplorarFondosComponent {
-  /*
-  fondos: FIC[] = [
-      {
-        id: 1,
-        logo: '',
-        riesgo: 'Riesgo Alto',
-        nombre: 'Fondo Variable',
-        gestor: 'Itau',
-        rentabilidad: '10% E.A.',
-        fechaCorte: new Date('2024-05-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.itau.com.co/'
-      },
-      {
-        id: 2,
-        logo: '',
-        riesgo: 'Riesgo Bajo',
-        nombre: 'Fondo Conservador',
-        gestor: 'BancoDeBogota',
-        rentabilidad: '3% E.A.',
-        fechaCorte: new Date('2024-06-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.bancobogota.com.co/'
-      },
-      {
-        id: 3,
-        logo: '',
-        riesgo: 'Riesgo Medio',
-        nombre: 'Fiducuenta',
-        gestor: 'Progresion',
-        rentabilidad: '10% E.A.',
-        fechaCorte: new Date('2024-04-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.progresion.com.co/'
-      },
-      {
-        id: 4,
-        logo: '',
-        riesgo: 'Riesgo Variable',
-        nombre: 'Fondo Mixto',
-        gestor: 'Davivienda',
-        rentabilidad: '7% E.A.',
-        fechaCorte: new Date('2024-05-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.davivienda.com.co/'
-      },
-      {
-        id: 5,
-        logo: '',
-        riesgo: 'Riesgo Alto',
-        nombre: 'Fondo Accionario',
-        gestor: 'Bancolombia',
-        rentabilidad: '8% E.A.',
-        fechaCorte: new Date('2024-06-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.bancolombia.com/'
-      },
-      {
-        id: 6,
-        logo: '',
-        riesgo: 'Riesgo Alto',
-        nombre: 'Fondo de Inversion Accionario',
-        gestor: 'BancoDeOccidente',
-        rentabilidad: '9% E.A.',
-        fechaCorte: new Date('2024-07-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.grupoaval.com/'
-      },
-      {
-        id: 7,
-        logo: '',
-        riesgo: 'Riesgo Medio',
-        nombre: 'Fondo Mixto',
-        gestor: 'Credicorp',
-        rentabilidad: '6% E.A.',
-        fechaCorte: new Date('2024-08-01'),
-        custodio: 'Banco de Occidente',
-        politicaInversion: 'Inversionista',
-        link: 'https://www.cafetero.com.co/'
-      }
-    ];*/
 
   fondos: FIC[] = [];
 
@@ -105,6 +20,9 @@ export class ExplorarFondosComponent {
   criterioOrdenamiento: string = '';
   textoBusqueda: string = '';
   error: boolean = false;
+  valorMenor: number = 999;
+  loaderTimeout: any;
+  errorBusqueda: boolean = false;
 
   constructor(private ficService: FICService,
               private route: ActivatedRoute,
@@ -113,9 +31,7 @@ export class ExplorarFondosComponent {
 
   ngOnInit() {
     this.cargarFICs();
-    this.ficService.findAll().subscribe(data => {
-      console.log(data);
-    });
+    localStorage.setItem('primeraVisita', 'false');
   }
 
   cargarLogos() {
@@ -137,12 +53,66 @@ export class ExplorarFondosComponent {
     });
   }
 
+  showDropdownGestor(){
+    console.log("ShowDropdownGestor");
+    var dropdown = document.getElementById("dropdownGestor");
+    dropdown?.classList.toggle("show");
+  }
+
+  showDropdownEA(){
+    console.log("ShowDropdownEA");
+    var dropdown = document.getElementById("dropdownEA");
+    dropdown?.classList.toggle("show");
+  }
+
+  cargarEA(){
+    this.fondos.forEach(fondo => {
+      fondo.ea = 99999;
+      let eaMenor = 99999;
+      fondo.rentabilidad_historicas.forEach(item => {
+        if (item.ultimo_mes < eaMenor) {
+          eaMenor = item.ultimo_mes;
+          fondo.ea = parseFloat((item.ultimo_mes*100).toFixed(2));
+        }
+      })
+    });
+  }
+
+  cargarMaxEA() {
+    console.log("CargarMaxEA");
+    this.fondos.forEach(fondo => {
+      let eaMayor = -Infinity;
+      fondo.rentabilidad_historicas.forEach(item => {
+        if (item.ultimo_mes > eaMayor) {
+          eaMayor = item.ultimo_mes;
+          fondo.ea = parseFloat((eaMayor*100).toFixed(2));
+        }
+      })
+    });
+  }
+
+  cargarPromedioEA(){
+    this.fondos.forEach(fondo => {
+      let eaPromedio = 0;
+      let contador = 0;
+      fondo.rentabilidad_historicas.forEach(item => {
+        eaPromedio += item.ultimo_mes;
+        contador++;
+      });
+      eaPromedio /= contador;
+      fondo.ea = parseFloat((eaPromedio*100).toFixed(2));
+    })
+  }
+
   cargarFICs() {
     this.ficService.findAll().subscribe(
       (data: FIC[]) => {
         this.fondos = data;
         this.fondosFiltrados = [...this.fondos];
+        this.cargarInfo();
         this.cargarLogos();  
+        this.cargarEA();
+        console.log(data);
       },
       (error: any) => {
         console.error('Error al obtener los fondos:', error);
@@ -156,8 +126,21 @@ export class ExplorarFondosComponent {
       { queryParams: { id: id } });
   }
 
+  cargarInfo(){
+    this.fondos.forEach(fondo => {
+      fondo.nombre_fic = fondo.nombre_fic.replace(/\w\S*/g, function(txt){
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+      });
+      fondo.nombre_fic = fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');       
+    });
+  }
+
   filtrarFondos(){
     
+  }
+
+  filtrarPorGestor(gestor: string) {
+    this.fondosFiltrados = [...this.fondos].filter(fondo => fondo.gestor.toLowerCase() === gestor.toLowerCase());
   }
 
   aplicarFiltro(criterio: string) {
@@ -184,11 +167,63 @@ export class ExplorarFondosComponent {
   }
 
   buscarFondos(event: any) {
+    if (this.loaderTimeout) {
+      clearTimeout(this.loaderTimeout);
+    }
+
+    this.errorBusqueda = false
     this.textoBusqueda = event.target.value;
     this.fondosFiltrados = [...this.fondos].filter(fondo => 
       fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
       fondo.gestor.toLowerCase().includes(this.textoBusqueda.toLowerCase())
     );
     this.aplicarFiltro(this.criterioOrdenamiento);
+    this.loaderTimeout = setTimeout(() => {
+      if (this.fondosFiltrados.length === 0) {
+        this.errorBusqueda = true;
+      }
+    }, 800);
   }
+
+    /*=====Driver JS - Tour de ayuda=====*/
+    startTour() {
+      this.driverObj.drive();
+    }
+  
+    driverObj = driver({
+    popoverClass: 'popover-owl',
+    showProgress: true,
+    steps: [
+      { 
+        element: '#OwlLupa',
+        popover: {
+          title: 'Explorar Fondos',
+          description: 'Encuentra el fondo de inversión que mejor se adapte a tus necesidades.',
+        }
+      },
+      { 
+        element: '.input-busqueda',
+      },
+      { 
+        element: '.bi-filter',
+      },
+      { 
+        element: '.bi-search',
+      },
+      {
+        element: '.info-fic',
+        popover: {
+          title: 'Información general',
+          description: 'Información general sobre el fondo de inversión.',
+        }
+      },
+      {
+        element: '#ea',
+        popover: {
+          title: 'Rentabilidad',
+          description: 'Rentabilidad del fondo de inversión.',
+        }
+      }
+    ]
+    });
 }

@@ -13,7 +13,7 @@ export class AuthService {
   private readonly USER_KEY = 'current_user';
   private currentUserSubject: BehaviorSubject<Usuario | null>;
   public currentUser$: Observable<Usuario | null>;
-  private useMock = true; // Toggle this to switch between mock and real API
+  private useMock = true; // Toggle entre mock y API real
 
   constructor(private http: HttpClient) {
     this.currentUserSubject = new BehaviorSubject<Usuario | null>(this.getStoredUser());
@@ -26,14 +26,16 @@ export class AuthService {
       nombre: 'Admin User',
       correo: 'admin@example.com',
       contrasenia: 'admin123',
-      rol: 'administrador'
+      rol: 'administrador',
+      fechaNacimiento: '1990-01-01'
     },
     {
       id: 2,
       nombre: 'Usuario ejemplo',
       correo: 'user@example.com',
       contrasenia: 'user123',
-      rol: 'usuario'
+      rol: 'usuario',
+      fechaNacimiento: '1990-01-01'
     }
   ];
 
@@ -53,7 +55,7 @@ export class AuthService {
   }
 
   // Mock registration method
-  private mockRegister(nombre: string, correo: string, contrasenia: string): Observable<any> {
+  private mockRegister(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<any> {
     // Check if email already exists
     if (this.mockUsers.some(u => u.correo === correo)) {
       return throwError(() => new Error('Email already exists'));
@@ -65,7 +67,8 @@ export class AuthService {
       nombre,
       correo,
       contrasenia,
-      rol: 'usuario' // New users are always regular users
+      fechaNacimiento,
+      rol: 'usuario'  // New users are always regular users
     };
 
     // Add to mock database
@@ -80,13 +83,12 @@ export class AuthService {
     return of(response);
   }
 
-  // Real API methods
   private apiLogin(correo: string, contrasenia: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/auth/login`, { correo, contrasenia })
       .pipe(catchError(error => throwError(() => error)));
   }
 
-  private apiRegister(nombre: string, correo: string, contrasenia: string): Observable<any> {
+  private apiRegister(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<any> {
     return this.http.post(`${environment.apiUrl}/auth/register`, { nombre, correo, contrasenia })
       .pipe(catchError(error => throwError(() => error)));
   }
@@ -103,8 +105,8 @@ export class AuthService {
     );
   }
 
-  register(nombre: string, correo: string, contrasenia: string): Observable<any> {
-    const registerObservable = this.useMock ? this.mockRegister(nombre, correo, contrasenia) : this.apiRegister(nombre, correo, contrasenia);
+  register(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<any> {
+    const registerObservable = this.useMock ? this.mockRegister(nombre, correo, contrasenia, fechaNacimiento) : this.apiRegister(nombre, correo, contrasenia, fechaNacimiento);
 
     return registerObservable.pipe(
       tap(response => {

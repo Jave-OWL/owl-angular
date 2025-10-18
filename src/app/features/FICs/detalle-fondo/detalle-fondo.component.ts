@@ -39,7 +39,9 @@ export class DetalleFondoComponent {
   private viewReady = false;
   rentabilidadesHistoricas?: { [key: string]: Historico[] };
   volatilidadesHistoricas?: { [key: string]: Historico[] };
- 
+  private chartRentabilidadInstance?: echarts.ECharts;
+  mostrarBienvenida: boolean = false;
+  mostrarPolitica: boolean = false; // Control para mostrar/ocultar la política de inversión
 
   rentabilidadHistoricaFiltrada?: {
     [key: string]: {
@@ -62,15 +64,26 @@ export class DetalleFondoComponent {
   };
 
   ngOnInit(): void {
+    this.verificarPrimeraVez();
     this.ficService.findById(this.queryParam ? +this.queryParam : this.id).subscribe(
       (data) => {
         this.fondo = data;
+        this.fondo.nombre_fic = this.fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');       
         console.log('Datos del fondo:', this.fondo);
         this.cargarLogo();
         this.cargarComposiciones();
-        if (this.viewReady) {
-          this.renderPieCharts();
-        }
+        
+        // Esperar a que la vista esté lista
+        setTimeout(() => {
+          if (this.viewReady) {
+            this.renderPieCharts();
+            // Renderizar los gráficos
+            console.log('Intentando renderizar gráficos desde ngOnInit');
+            this.renderInversionesChart();
+            this.renderDuracionesChart();
+          }
+        }, 0);
+        
         this.cargarInformacionGeneral();
         this.cargarPart();
       },
@@ -84,25 +97,68 @@ export class DetalleFondoComponent {
     this.viewReady = true;
     if (this.fondo) {
       this.renderPieCharts();
+      console.log('Intentando renderizar gráfico de inversiones desde ngAfterViewInit');
+      this.renderInversionesChart();
+      this.renderDuracionesChart();
     }
   }
-    cargarLogo() {
+  closeWelcomeScreen() {
+    const welcomeScreen = document.getElementById('welcome-screen');
+    const closeButton = document.getElementById('closeButton');
+    const owl = document.getElementById('OwlAyuda90');
+    if (welcomeScreen && closeButton && owl) {
+      welcomeScreen.style.display = 'none';
+      owl.classList.toggle('hide');
+    }
+  }
+    verificarPrimeraVez() {
+      localStorage.setItem('primeraVisita', 'false');
+      console.log('Verificando primera vez...');
+
+      const yaVisito = localStorage.getItem('primeraVisita');
+
+      if (!yaVisito) {
+        // Primera vez que visita
+        this.mostrarBienvenida = true;
+        // Marcar que ya visitó (permanentemente)
+        localStorage.setItem('primeraVisita', 'true');
+      }
+  }
+
+  cerrarBienvenida() {
+    //this.mostrarBienvenida = false;
+  }
+
+  alternarPolitica(event?: any) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.mostrarPolitica = !this.mostrarPolitica;
+    if (this.mostrarPolitica) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }
+
+  cargarLogo() {
     // Itera sobre cada 'fondo' en el array 'fondos'
     if(this.fondo){
-      // Crea un nuevo objeto Image para verificar la existencia del logo
-      const img = new Image();
+        // Crea un nuevo objeto Image para verificar la existencia del logo
+    const img = new Image();
 
-      // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
-      this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.png';
+    // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
+    this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.png';
 
-      // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
-      img.onerror = () => {
-        if (this.fondo) {
-        this.fondo.logo = 'assets/images/FIC.png'; // Ruta del logo predeterminado
-      }};
+    // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
+    img.onerror = () => {
+      if (this.fondo) {
+      this.fondo.logo = 'assets/images/FIC.png'; // Ruta del logo predeterminado
+    }};
 
-      // Inicia la carga de la imagen para activar el manejador de error si falla
-      img.src = this.fondo.logo;
+        // Inicia la carga de la imagen para activar el manejador de error si falla
+    img.src = this.fondo.logo;
   }
 }
 
@@ -113,9 +169,10 @@ export class DetalleFondoComponent {
   cargarPart(){
     if(this.fondo){
       this.fondo.rentabilidad_historicas.forEach(item => {
-      this.participaciones.push(item.tipo_de_participacion);
-    });
-    this.participaciones.push('Mostrar todos');
+        this.participaciones.push(item.tipo_de_participacion);
+      });
+      this.participaciones.push('Mostrar todos');
+      this.participaciones.push('Promedio');
     }
     console.log(this.participaciones);
   }
@@ -128,20 +185,125 @@ export class DetalleFondoComponent {
 
   rentabilidadesHistoricasFiltradas: any[] = [];
   volatilidadesHistoricasFiltradas: any[] = [];
+  participacionSeleccionada: string = '';
   seleccionarPart(participacion: string){
     console.log(participacion);
+    this.participacionSeleccionada = participacion;
+    
     if(participacion === 'Mostrar todos' && this.fondo){
       this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas;
       this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas;
-    } else if(this.fondo ){ 
+      this.cargarInformacionGeneral();
+    } else if(participacion === 'Promedio' && this.fondo) {
+      // Calcular el promedio de todas las participaciones
+      const promedios = {
+        ultimo_mes: 0,
+        ultimo_6_meses: 0,
+        ultimo_anio: 0,
+        ultimo_2_anios: 0,
+        ultimo_3_anios: 0
+      };
+      
+      const total = this.fondo.rentabilidad_historicas.length;
+      
+      this.fondo.rentabilidad_historicas.forEach(item => {
+        promedios.ultimo_mes += item.ultimo_mes;
+        promedios.ultimo_6_meses += item.ultimo_6_meses;
+        promedios.ultimo_anio += item.ultimo_anio;
+        promedios.ultimo_2_anios += item.ultimo_2_anios;
+        promedios.ultimo_3_anios += item.ultimo_3_anios;
+      });
+
+      Object.keys(promedios).forEach(key => {
+        promedios[key as keyof typeof promedios] = promedios[key as keyof typeof promedios] / total;
+      });
+
+      this.rentabilidadesHistoricasFiltradas = [{
+        id: 0,
+        anio_corrido: 0,
+        tipo_de_participacion: 'Promedio',
+        ...promedios
+      }];
+
+      const promediosVolatilidad = {
+        ultimo_mes: 0,
+        ultimo_6_meses: 0,
+        ultimo_anio: 0,
+        ultimo_2_anios: 0,
+        ultimo_3_anios: 0
+      };
+
+      this.fondo.volatilidad_historicas.forEach(item => {
+        promediosVolatilidad.ultimo_mes += item.ultimo_mes;
+        promediosVolatilidad.ultimo_6_meses += item.ultimo_6_meses;
+        promediosVolatilidad.ultimo_anio += item.ultimo_anio;
+        promediosVolatilidad.ultimo_2_anios += item.ultimo_2_anios;
+        promediosVolatilidad.ultimo_3_anios += item.ultimo_3_anios;
+      });
+
+      Object.keys(promediosVolatilidad).forEach(key => {
+        promediosVolatilidad[key as keyof typeof promediosVolatilidad] = promediosVolatilidad[key as keyof typeof promediosVolatilidad] / total;
+      });
+
+      this.volatilidadesHistoricasFiltradas = [{
+        id: 0,
+        anio_corrido: 0,
+        tipo_de_participacion: 'Promedio',
+        ...promediosVolatilidad
+      }];
+
+      this.cargarRentabilidadHistoricas(this.rentabilidadesHistoricasFiltradas);
+      this.cargarVolatilidadesHistoricas(this.volatilidadesHistoricasFiltradas);
+      this.tipoParticipacion = 'Promedio';
+      this.rentabilidadGeneral = parseFloat((promedios.ultimo_mes * 100).toFixed(2));
+    } else if(this.fondo) { 
       this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
       this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
+      
+      // Actualizar datos para la participación seleccionada
+      this.cargarRentabilidadHistoricas(this.rentabilidadesHistoricasFiltradas);
+      this.cargarVolatilidadesHistoricas(this.volatilidadesHistoricasFiltradas);
+      this.tipoParticipacion = participacion;
+      this.rentabilidadGeneral = parseFloat((this.rentabilidadesHistoricasFiltradas[0].ultimo_mes * 100).toFixed(2));
     } else {
       this.rentabilidadesHistoricasFiltradas = [];
       this.volatilidadesHistoricasFiltradas = [];
     }
+    
+    this.destruirGraficaRentabilidad();
+    // Re-renderizar con los nuevos datos
     this.renderRentabilidadChart();
+
+    this.renderInversionesChart();
   }
+
+  destruirGraficaRentabilidad() {
+  // Verificar si existe una instancia de la gráfica
+  if (this.chartRentabilidadInstance) {
+    // Remover el listener de resize si existe
+    window.removeEventListener('resize', this.resizeRentabilidadHandler);
+    
+    // Destruir la instancia de echarts
+    this.chartRentabilidadInstance.dispose();
+    
+    // Limpiar la referencia
+    this.chartRentabilidadInstance = undefined;
+    
+    // Opcional: Limpiar el contenedor HTML
+    const container = this.chartRentabilidad?.nativeElement;
+    if (container) {
+      container.innerHTML = '';
+    }
+    
+    console.log('Gráfica de rentabilidad destruida correctamente');
+  }
+  }
+
+  private resizeRentabilidadHandler = () => {
+    if (this.chartRentabilidadInstance) {
+      this.chartRentabilidadInstance.resize();
+    }
+  };
 
   cargarInformacionGeneral() {
   console.log('Cargando informacion general...');
@@ -375,8 +537,13 @@ export class DetalleFondoComponent {
       return;
     }
 
-    const chart = echarts.init(container);
-    this.charts.push(chart);
+    // Destruir instancia anterior si existe
+    if (this.chartRentabilidadInstance) {
+      this.chartRentabilidadInstance.dispose();
+    }
+
+    // Crear nueva instancia
+    this.chartRentabilidadInstance = echarts.init(container);
 
     const periodos = [
       'ultimo_3_anios',
@@ -386,34 +553,48 @@ export class DetalleFondoComponent {
       'ultimo_mes'
     ];
 
-    // --- 1. Encontrar la participación con menor rentabilidad en ultimo_mes ---
-    let participacionMenor: string | null = null;
-    let valorMenor = Number.MAX_VALUE;
+    // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
+    let participacionMostrar = this.participacionSeleccionada;
+    if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
+      let valorMenor = Number.MAX_VALUE;
+      Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
+        const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
+        if (r !== undefined && r < valorMenor) {
+          valorMenor = r;
+          participacionMostrar = tipo;
+        }
+      });
+    }
 
-    Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
-      const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
-      if (r && r < valorMenor) {
-        valorMenor = r;
-        participacionMenor = tipo;
-      }
-    });
+    if (!participacionMostrar) return;
 
-    if (!participacionMenor) return;
+    // --- 2. Rentabilidad de la participación ---
+    const rentabilidadData = periodos.map(clave => 
+      parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+    );
 
-    // --- 2. Rentabilidad de esa participación ---
     const rentabilidadSeries: echarts.EChartsOption['series'] = [
       {
-        name: `Rentabilidad ${participacionMenor}`,
+        name: `Rentabilidad ${participacionMostrar}`,
         type: 'bar',
-        data: periodos.map(clave => this.rentabilidadesHistoricas![participacionMenor!][0][clave as keyof Historico]),
+        data: rentabilidadData,
         itemStyle: {
           borderRadius: [6, 6, 0, 0],
           color: '#588bd2'
+        },
+        label: {
+          show: true,
+          position: 'top',
+          formatter: '{c}%'
         }
       }
     ];
 
-    // --- 3. Volatilidad correspondiente a la misma participación ---
+    // --- 3. Volatilidad correspondiente ---
+    const volatilidadData = periodos.map(clave =>
+      parseFloat((this.volatilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+    );
+
     const volatilidadSerie: echarts.SeriesOption = {
       name: 'Volatilidad',
       type: 'line',
@@ -422,39 +603,241 @@ export class DetalleFondoComponent {
       symbol: 'circle',
       symbolSize: 8,
       lineStyle: { width: 3, type: 'solid' },
-      data: periodos.map(clave => this.volatilidadesHistoricas![participacionMenor!][0][clave as keyof Historico]),
-      itemStyle: { color: '#ffbd59' }
+      data: volatilidadData,
+      itemStyle: { color: '#ffbd59' },
+      label: {
+        show: true,
+        formatter: '{c}'
+      }
     };
-
-    const columnColors = [
-      "#437ac6ff", "#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff",
-      "#ffbd59", "#f9c66fff", "#f7c06fff", "#f5b96fff", "#f3b26fff", "#f0a96fff"
-    ];
 
     const option: echarts.EChartsOption = {
-      title: {
+      /*title: {
         text: 'Rentabilidad vs Volatilidad',
         left: 'center',
-        textStyle: { fontSize: 14 }
+        textStyle: { 
+          fontSize: 16,
+          fontFamily: 'Poppins, sans-serif',
+          fontWeight: 'bold'
+        }
+      },*/
+      tooltip: { 
+        trigger: 'item'
       },
-      tooltip: { trigger: 'axis' },
-      legend: { top: 'bottom' },
-      xAxis: { type: 'category', data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'] },
+      legend: { 
+        top: 'bottom',
+        data: [`Rentabilidad ${participacionMostrar}`, 'Volatilidad']
+      },
+      xAxis: { 
+        type: 'category', 
+        data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
+        axisLabel: {
+          interval: 0,
+          fontSize: 12
+        }
+      },
       yAxis: [
-        { type: 'value', name: 'Rentabilidad (%)', position: 'left' },
-        { type: 'value', name: 'Volatilidad', position: 'right' }
+        { 
+          type: 'value', 
+          name: 'Rentabilidad (%)', 
+          position: 'left',
+          axisLabel: {
+            formatter: '{value}%'
+          }
+        },
+        { 
+          type: 'value', 
+          name: 'Volatilidad', 
+          position: 'right',
+          splitLine: {
+            show: false
+          }
+        }
       ],
       series: [...rentabilidadSeries, volatilidadSerie],
-      grid: { left: 60, right: 60, bottom: 60, top: 60 },
-      color: columnColors
+      grid: { 
+        left: '5%', 
+        right: '5%', 
+        bottom: '10%', 
+        top: '15%',
+        containLabel: true
+      },
+      color: ['#588bd2', '#ffbd59']
     };
 
-    chart.setOption(option);
-    window.addEventListener('resize', () => chart.resize());
+    
+    this.chartRentabilidadInstance.setOption(option);
+
+    window.removeEventListener('resize', this.resizeRentabilidadHandler);
+    window.addEventListener('resize', this.resizeRentabilidadHandler);
   }
 
 
-  //
+  @ViewChild('chartInversiones') chartInversiones!: ElementRef;
+  @ViewChild('chartDuracionesPlazo') chartDuracionesPlazo!: ElementRef;
+  
+  renderDuracionesChart() {
+    if (!this.fondo?.plazo_duraciones || this.fondo.plazo_duraciones.length === 0) {
+      console.log('No hay datos suficientes para el gráfico de duraciones por plazo');
+      return;
+    }
+
+    const container = this.chartDuracionesPlazo?.nativeElement;
+    if (!container) {
+      console.warn('Contenedor chartDuracionesPlazo no encontrado');
+      return;
+    }
+
+    // Destruir gráfico anterior si existe
+    const existingChart = echarts.getInstanceByDom(container);
+    if (existingChart) {
+      existingChart.dispose();
+    }
+
+    const chart = echarts.init(container);
+    this.charts.push(chart);
+
+    const data = this.fondo.plazo_duraciones.map(duracion => ({
+      name: duracion.plazo,
+      value: parseFloat((duracion.participacion * 100).toFixed(2))
+    }));
+
+    const option: echarts.EChartsOption = {
+      tooltip: {
+        trigger: 'item',
+        formatter: '{b}: {c}%'
+      },
+      series: [{
+        name: 'Duraciones por plazo',
+        type: 'pie',
+        radius: '70%',
+        data: data,
+        emphasis: {
+          itemStyle: {
+            shadowBlur: 10,
+            shadowOffsetX: 0,
+            shadowColor: 'rgba(0, 0, 0, 0.5)'
+          }
+        },
+        label: {
+          show: true,
+          formatter: '{b}\n{c}%'
+        }
+      }],
+      color: ["#437ac6ff", "#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff"]
+    };
+
+    chart.setOption(option);
+
+    // Manejar el resize
+    window.addEventListener('resize', () => chart.resize());
+  }
+
+  renderInversionesChart() {
+    console.log('Datos completos del fondo:', this.fondo);
+    console.log('Principales inversiones:', this.fondo?.principales_inversiones);
+    
+    if (!this.fondo?.principales_inversiones || this.fondo.principales_inversiones.length === 0) {
+      console.log('No hay datos suficientes para el gráfico de inversiones');
+      return;
+    }
+
+    const container = this.chartInversiones?.nativeElement;
+    if (!container) {
+      console.warn('Contenedor chartInversiones no encontrado');
+      return;
+    }
+
+    // Ordenar inversiones de mayor a menor y limitar a las 10 principales
+    const inversiones = [...this.fondo.principales_inversiones]
+      .sort((a, b) => b.participacion - a.participacion)
+      .reverse(); // Revertimos el orden para que aparezca de mayor a menor en el gráfico vertical
+
+    console.log('Inversiones procesadas:', inversiones);
+
+    // Destruir gráfico anterior si existe
+    const existingChart = echarts.getInstanceByDom(container);
+    if (existingChart) {
+      existingChart.dispose();
+    }
+
+    const chart = echarts.init(container);
+    this.charts.push(chart);
+
+    // Preparar datos para el gráfico
+    const data = inversiones.map(inv => ({
+      porcentaje: parseFloat((inv.participacion * 100).toFixed(2)), // Asegurar 2 decimales
+      nombre: inv.emisor
+    }));
+
+    const option: echarts.EChartsOption = {
+      /*title: {
+        text: 'Principales Inversiones',
+        left: '20%',
+        textStyle: { 
+          fontSize: 16,
+          fontFamily: 'Poppins, sans-serif',
+          fontWeight: 'bold'
+        }
+      },*/
+      tooltip: {
+        trigger: 'item'
+      },
+      yAxis: {
+        type: 'category',
+        data: inversiones.map(d => d.emisor),
+        axisLabel: {
+          fontSize: 12
+        }
+      },
+      xAxis: {
+        type: 'value',
+        name: 'Participación (%)',
+        nameLocation: 'middle',
+        nameGap: 30,
+        min: 0,
+        max: function(value) {
+          return Math.ceil(value.max * 1.1);
+        },
+        axisLabel: {
+          formatter: '{value}%'
+        }
+      },
+      series: [{
+        name: 'Inversiones',
+        type: 'bar',
+        data: inversiones.map(inv => {
+          const valor = Number((inv.participacion * 100).toFixed(2));
+          return valor;
+        }),
+        itemStyle: {
+          borderRadius: [0, 6, 6, 0],
+          color: '#588bd2'
+        },
+        label: {
+          show: true,
+          position: 'right',
+          formatter: '{c}%',
+          fontSize: 12
+        },
+        barWidth: '50%'
+      }],
+      grid: { 
+        left: '0%', 
+        right: '5%', 
+        bottom: '5%', 
+        top: '5%',
+        containLabel: true// Esto permite que el gráfico se alinee naturalmente a la izquierda
+      }
+    };
+
+    chart.setOption(option);
+
+    // Limpiar el listener anterior si existe
+    window.removeEventListener('resize', () => chart.resize());
+    // Agregar nuevo listener
+    window.addEventListener('resize', () => chart.resize());
+  }
 
   /*=====Driver JS - Tour de ayuda=====*/
   startTour() {
@@ -468,8 +851,8 @@ export class DetalleFondoComponent {
     {
       element: '#focus',
       popover: {
-        title: '% de efectivo anual',
-        description: 'Cuanto ganas en un año de invertir',
+        title: 'Rendimiento',
+        description: 'Cuanto ganas con tu inversion, ligado al tipo de participacion que tengas en el fondo',
         side: 'bottom',
         align: 'center'
       }
@@ -503,8 +886,3 @@ export class DetalleFondoComponent {
     }
   ]});
 }
-
-
-
-
-

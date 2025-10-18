@@ -39,9 +39,11 @@ export class RegistroComponent implements OnInit {
     if (this.registroForm.valid) {
       this.loading = true;
       this.error = '';
+      //CAmbiar por valor real
+      const fechaNacimiento = '1990-01-01';
       const { nombre, correo, contrasena } = this.registroForm.value;
 
-      this.authService.register(nombre, correo, contrasena).subscribe({
+      this.authService.register(nombre, correo, contrasena, fechaNacimiento).subscribe({
         next: () => {
           this.router.navigate(['/user/cuestionario']);
         },

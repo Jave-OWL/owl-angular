@@ -1,3 +1,19 @@
+/* ==========================================================================
+   Welcome Screen y Driver JS
+   ========================================================================== */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 998;
+}
+
 .tour {
     position: fixed;
     bottom: 2%;
@@ -14,10 +30,95 @@
     transition: 0.3s ease;
 }
 
+.tour.highlited {
+    box-shadow: 0px 0px 5px 1px rgba(255, 255, 255, 0.2);
+    transition: 0.3s ease;
+}
+
 .tour:hover {
     background-color: var(--color-main-hover);
     transition: 0.3s ease;
 }
+
+.caja-texto {
+    width: 150px;
+    height: 160px;
+    position: fixed;
+    bottom: 200px;
+    right: 130px;
+    background-color: var(--color-main);
+    border-radius: 40%;
+    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+    padding: 8px;
+    animation: bubbleShow 0.2s;
+    z-index: 9999999;
+    opacity: 1;
+}
+
+.caja-texto p {
+    color: aliceblue;
+}
+
+.caja-texto button {
+    display: flex;
+    color: var(--color-main); 
+    background-color: aliceblue;
+    border-radius: var(--internal-border-radius);
+    border: none;
+    font-weight: 600;
+    margin: 0 auto;
+}
+
+.caja-texto::after {
+    content: "";
+    position: absolute;
+    bottom: -13.5px;
+    right: -13.5px;
+    border-width: 25px;
+    border-style: solid;
+    border-color: var(--color-main) transparent transparent transparent;
+    transform: rotate(-45deg);
+}
+
+@keyframes bubbleShow {
+    0% {
+        opacity: 0;
+    }
+    100% { opacity: 1; animation-delay: 2s;}
+}
+
+#OwlAyuda90 {
+    position: fixed;
+    bottom: 80px;
+    right: -20px;
+    height: 180px;
+    z-index: 1000;
+    animation: show 0.8s;
+}
+
+#OwlAyuda90.hide {
+    animation: show 0.8s forwards;
+}
+
+#OwlAyuda90.show {
+    display: block;
+}
+
+@keyframes show {
+    0% { transform: translateX(50px); }
+    50% { transform: translateX(-17px); }
+    100% { transform: translateX(0px); }
+}
+
+@keyframes hide {
+    0% { transform: translateX(0px); }
+    50% { transform: translateX(-17px); }
+    100% { transform: translateX(150px); }
+}
+
+/* ==========================================================================
+   Tipografia y Estilos Base
+   ========================================================================== */
 
 .volver * {
     color: var(--color-main);
@@ -60,6 +161,110 @@
     align-self: center;
 }
 
+#iconoPolitica {
+    font-size: 18px;
+    color: var(--color-main);
+    align-self: center;
+    height: fit-content;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.3s ease;
+    transform: translateX(-5px) translateY(-13px);
+}
+
+.titulo-texto i:hover {
+    color: var(--color-main-hover);
+}
+
+/* Estilos de la ventana de información */
+.fondo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.ventana-info {
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.contenedor-info {
+    overflow-y: auto;
+    max-height: calc(80vh - 48px);
+}
+
+.ventana-info h2 {
+    color: var(--color-main);
+    margin-bottom: 16px;
+    padding-right: 30px;
+}
+
+.ventana-info p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.boton-cerrar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background: none;
+    font-size: 24px;
+    color: var(--color-main);
+    cursor: pointer;
+    padding: 4px 8px;
+}
+
+.boton-cerrar:hover {
+    color: var(--color-main-hover);
+}
+
+.boton-ok {
+    background-color: var(--color-main);
+    color: white;
+    border: none;
+    padding: 8px 24px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ok:hover {
+    background-color: var(--color-main-hover);
+}
+
 .card {
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
@@ -70,15 +275,12 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 90px;
     width: 100%;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .dueno {
@@ -100,10 +302,8 @@
 
 #focus p{
     color: aliceblue;
-    text-decoration: underline wavy 1px;
+    text-decoration: underline 1.5px solid;
 }
-
-
 
 #focus i{
     font-size: 10px;
@@ -160,8 +360,8 @@
     align-items: center;
 }
 
-.titulo-rendimiento span {
-    text-decoration: underline wavy 1px;
+#participacion {
+    text-decoration: underline 1.5px solid;
 }
 
 .composiciones {
@@ -180,19 +380,50 @@
     height: fit-content;
     width: 100%;
 }
-/*aaaa*/
+
 .chart-container {
     width: 100%;
     height: 400px;
     position: relative;
     display: flex;
     flex-direction: column;
+}
+
+/* Los gráficos circulares mantienen el centrado */
+.composicion .chart-container {
     align-items: center;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 20px;
+}
+
+.principales-inversiones {
+    padding: 20px;
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+}
+
+.duraciones-plazo {
+    padding: 20px;
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+}
+
+#chartInversiones, #chartDuracionesPlazo {
+    width: 100%;
+    height: 400px;
 }
 
 .other-chart-container {
     width: 100%;
-    height: 400px;
+    height: 80%;
+    top: 10px;
     position: relative;
 }
 
@@ -240,37 +471,84 @@
 }
 
 .participaciones-dropdown.show {
-    display: block;
+    display:block;
+    position: absolute;
+    top: 70px;
+    right: -40px;
+    width: fit-content;
+    height: fit-content;
 }
 
 .informacion-rendimiento {
     display: flex;
     flex-direction: row;
-    gap: 28px;
+    justify-content: space-between;
     margin-top: 20px;
     height: 550px;
 }
 
+.participaciones {
+    background-color: var(--color-main);
+    border: none;
+    padding: 8px 12px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 14px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+.participaciones i {
+    color: var(--color-contenido);
+    font-size: 16px;
+    position: relative;
+}
+
 #rendimiento-card {
+    position: relative;
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     height: 100%;
     width: calc(70% - 26*2px);
+    padding: 20px 30px;
+}
+
+#rendimiento-card h3 {
+    margin-top: 0;
+    margin-bottom: 0px;
 }
 
 #info-fondo {
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     font-size: 14px;
     text-align: left;
     width: calc(30% + 26px);
     height: 100%;
     text-align: center;
 }
+
+.card-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 20px 30px;
+}
+
+.card-info i {
+    color: var(--color-main);
+    font-size: 20px;
+    align-self: center;
+}
+
+.item span {
+    font-weight: 500;
+}
+
 .separador {
     border: 1px solid var(--color-background);
     width: 90%;
