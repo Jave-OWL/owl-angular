@@ -1,34 +1,70 @@
 <section class="content">
+<button class="tour" (click)="startTour()">?</button>
     <div class="titulo">
         <div class="texto">
             <h2>Explorar Fondos</h2>
             <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
         </div>
-        <div class="icono">
-            <div class="contenedor-imagen">
-                <img id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
-            </div>
-        </div>
+            <img hidden id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
     </div>
 <div class="contenedor-busqueda">
     <input class="input-busqueda" 
            type="text" 
            placeholder="Busca un fondo..."
            (input)="buscarFondos($event)">
-    <i class="bi bi-filter"></i>
+    <div class="buttons">
+        <button (click)="showDropdownGestor()"><i class="bi bi-filter"></i></button>
+            <div class="dropdownGestor" class="dropdown-info">
+                <div class="triangle"></div>    
+                <p *ngFor="let gestor of fondos">
+                    <span (click)="filtrarPorGestor(gestor.gestor)">{{gestor.gestor}}</span>
+                </p>
+            </div>
+        <button><i class="bi bi-search"></i></button>
+        <button (click)="showDropdownEA()">EA</button>
+            <div id="dropdownEA" class="dropdown-info">
+                <div class="triangle"></div>    
+                <p (click)="cargarPromedioEA()">EA Promedio</p>
+                <p (click)="cargarEA()">EA Minima</p>
+                <p (click)="cargarMaxEA()">EA Maxima</p>
+            </div>
+        <button><i class="bi bi-arrow-down-up"></i></button>
 </div>
-<div class="results-grid">
-    <button *ngFor="let fondo of fondosFiltrados" class="result-item">
-        <div class="result-info">
-            <section class="izq">
+</div>
+
+<div class="resultados-recomendados">
+
+</div>
+
+<div *ngIf="fondosFiltrados.length > 0" class="resultados">
+    <button *ngFor="let fondo of fondosFiltrados" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
+        <div class="info-fic">
+            <div class="top">
+
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
-                <p [id]="fondo.riesgo === 'Riesgo Alto' ? 'alto' : (fondo.riesgo === 'Riesgo Medio' ? 'medio' : (fondo.riesgo === 'Riesgo Bajo' ? 'bajo' : (fondo.riesgo === 'Riesgo Variable' ? 'variable' : '')))">{{fondo.riesgo}}</p>
-            </section>
-            <section class="der">
-                <h5>{{fondo.nombre}}</h5>
+            </div>
+            <div class="bottom">     
+                <h5>{{fondo.nombre_fic}}</h5>
                 <p>{{fondo.rentabilidad}}</p>
-            </section>
-        </div>
+                <p id="ea">{{fondo.ea}}%</p>
+            </div>
+                <div class="hover-info">
+                    <div class="triangle"></div>    
+                    <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
+                        <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
+                    </div>
+                </div>
+            </div>
     </button>
+</div>
+
+
+<div *ngIf="fondosFiltrados.length === 0 && error === false" class="no-results">
+    <span *ngIf="errorBusqueda===false" class="loader"></span>
+    <p *ngIf="errorBusqueda===true && error===false" class="no-results">No se encontraron resultados que coincidan con tu busqueda.</p>
+</div>
+
+<div *ngIf="error === true" class="error">
+    <p class="no-results">Ocurrió un error al cargar los fondos. Por favor, intenta nuevamente más tarde.</p>
 </div>
 </section>

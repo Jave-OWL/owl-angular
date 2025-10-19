@@ -1,35 +1,24 @@
 <header id="header" class="header">
     <img id="logo" routerLink="/" src="assets/images/OwlLogo.png" alt="Logo" />
-    <div [ngSwitch]="getRol()">
-        <ng-container *ngSwitchCase="'administrador'">
-            <div class="nav">
-                <button routerLink="/" routerLinkActive="router-link-active"
-                    [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/explorar-fondos" routerLinkActive="router-link-active">Explorar Fondos</button>
-                <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
-            </div>
-        </ng-container>
-        <ng-container *ngSwitchCase="'usuario'">
-            <div class="nav">
-                <button routerLink="/" routerLinkActive="router-link-active"
-                    [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-                <button routerLink="/explorar-fondos" routerLinkActive="router-link-active">Explorar Fondos</button>
-                <button routerLink="/dashboard" routerLinkActive="router-link-active">Dashboard</button>
-                <button routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
-            </div>
-        </ng-container>
+    <div class="nav">
+        <button routerLink="/" routerLinkActive="router-link-active"
+            [routerLinkActiveOptions]="{exact: true}">Inicio</button>
+        <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
+        <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
+        <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
     </div>
-    <div *ngIf="usuarioAuth() == false" class="auth">
+    <div *ngIf="!usuarioAuth()" class="auth">
         <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
         <button class="registro" routerLink="/auth/registro">Registro</button>
     </div>
     <div *ngIf="usuarioAuth()">
-        <div class="dropdown">
-            <button (click)="dropdown()" class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bi bi-person-fill"></i>
+        <div (click)="dropdown()" class="dropdown">
+            <p class="nombreUsuario">{{ getNombreUsuario() }}</p>
+            <button class="dropdown-toggle" type="button" id="dropdownMenuButton">
+                <i id="iconoPersona" class="bi bi-person-circle"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <div class="triangle"></div>    
                 <a class="dropdown-item" routerLink="/">Perfil<i class="bi bi-person"></i></a>
                 <a class="dropdown-item" routerLink="/user/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>
                 <div class="dropdown-divider"></div>

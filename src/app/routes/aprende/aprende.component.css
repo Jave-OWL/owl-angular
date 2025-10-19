@@ -1,0 +1,93 @@
+.titulo {
+    background-color: var(--color-tertiary);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    text-align: center;
+}
+
+.titulo h2 {
+    font-weight: 600;
+    font-size: 28px;
+    padding-bottom: 40px;
+    padding-top: 80px;
+    margin: 0 auto;
+    max-width: 80%;
+    text-align: center;
+}
+
+#OwlGuia {
+    position: absolute;
+    width: 240px;
+    top: calc(var(--header-size) + 78px);
+    right: 120px;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-main);
+    transition: 0.2s ease-in-out;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--color-main-hover);
+    transition: 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+h3 {
+    font-weight: 500;
+    font-size: 25px;
+    margin-top: 35px;
+    margin-bottom: 10px;
+    color: var(--color-main);
+}
+
+p {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.diferencias {
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    gap: 20px;
+    padding-left: 0;
+}
+
+ul i {
+    color: var(--color-main);
+    margin-right: 5px;
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+li {
+    list-style: none;
+}
+
+li {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.beneficios {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+}
+
+.beneficios > div {
+    background-color: var(--color-tertiary);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: justify;
+}

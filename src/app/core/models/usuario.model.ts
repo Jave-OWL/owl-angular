@@ -3,5 +3,6 @@ export interface Usuario {
     nombre: string;
     correo: string;
     contrasenia: string;
-    rol: 'administrador' | 'usuario';
+    is_admin: boolean;
+    //fechaNacimiento: string;
 }

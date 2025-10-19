@@ -4,28 +4,30 @@
 :root {
   /*-----Colores globales-----*/
   --color-main: #588bd2;
-  --color-main-hover: #345788;
+  --color-main-hover: #395d90;
   --color-primary: #90acd3;
   --color-secondary: #bbc7e5;
+  --color-tertiary: #d0dbf5;
   --color-accent: #ffbd59;
   /*#edf4fe*/
-  --color-background: #edf2fe;
+  --color-background: hwb(222 95% 0%); /*93%*/
   /*
   --color-general-text: rgb(37, 57, 62);
   */
   --color-general-text: hwb(244 20% 73%);
+  --color-general-text-light: hwb(240 54% 35%);
   --color-disabled: #bdbdbd;
 
   --color-contenido: #fefefe;
 
   --color-headerfooter: #ffffff;
   /*-----Borde global-----*/
-  --internal-border-radius: 15px;
-  --border-radius: 15px;
+  --internal-border-radius: 10px;
+  --border-radius: 12px;
   /*-----Sombra global*-----/
   /*offset-x | offset-y | blur-radius | spread-radius | color*/
   --light-box-shadow: 1px 0px 5px 1px rgba(0, 0, 0, 0.05);
-  --medium-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.2);
+  --medium-box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.15);
   --dark-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.3);
   /*-----Tamaños globales-----*/
   --small-size: 0.75rem;

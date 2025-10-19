@@ -2,15 +2,20 @@
     <div class="contenedor-imagen">
         <img id="logo" src="assets/images/OwlSerio.png" alt="Logo" />
     </div>
-    <section class="cuestionario">
-        <h1 hidden class="color-alt">Perfil de Riesgo</h1>
-        <h1>Perfil de Riesgo</h1>
-
-        <div class="pregunta-paginas" [ngSwitch]="currentPage">
+    <section class="cuestionario" id="cuestionario-riesgo">
+        <div id="contenedor-preguntas">
+            <!-- Bienvenida: se muestra antes de las preguntas -->
+            <div class="bienvenida" *ngIf="showWelcome">
+                <h2>¡Bienvenido a OWL!</h2>
+                <p>Antes de comenzar, queremos conocer un poco sobre tu tolerancia al riesgo. Responde con sinceridad para obtener un perfil adecuado.</p>
+                <button class="btn btn-primary" (click)="startQuestionnaire()">Comenzar cuestionario</button>
+            </div>
+            <h1 *ngIf="!showWelcome">Perfil de Riesgo</h1>
+            <div class="pregunta-paginas" *ngIf="!showWelcome" [ngSwitch]="currentPage">
             <!-- Página 1 -->
             <div class="progress">
                 <div class="progress-bar" role="progressbar" 
-                    [style.width]="(currentPage/(numPreguntas + 1))*100 + '%'"
+                    [style.width]="(currentPage/(numPreguntas))*100 + '%'"
                     [style.backgroundColor]="getColorProgreso()"
                     [attr.aria-valuenow]="currentPage" 
                     aria-valuemin="0" 
@@ -19,7 +24,14 @@
 
             <ng-container *ngFor="let pregunta of preguntas; let i = index">
                 <div class="pregunta-pagina" *ngSwitchCase="i + 1">
-                    <p class="pregunta-texto">{{pregunta}}</p>
+                    <p class="pregunta-texto">
+                        <ng-container *ngFor="let parte of pregunta.partes">
+                            <ng-container *ngIf="isPreguntaParte(parte); else textoNormal">
+                            <span class="tooltip-palabra" [attr.data-tooltip]="parte.definicion">{{ parte.palabra }}</span>
+                            </ng-container>
+                            <ng-template #textoNormal>{{ parte }}</ng-template>
+                        </ng-container>
+                    </p>
                     <div class="opciones">
                         <p id="texto-izq" class="texto-opcion">De Acuerdo</p>
                         <input class="seleccion" id="opcion-grande" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
@@ -36,14 +48,14 @@
                     </div>
                 </div>
             </ng-container>
-
         </div>
-        <!-- Navegación -->
-        <div class="navigation">
+    <!-- Navegación -->
+    <div class="navigation" *ngIf="!showWelcome">
             <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
             <span class="page-indicator">{{ currentPage }} / {{ numPreguntas }}</span>
             <button class="btn btn-primary" (click)="nextPage()" *ngIf="currentPage < numPreguntas">Siguiente</button>
-            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Finalizar</button>
+            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Pasar a preguntas demográficas</button>
+        </div>
         </div>
     </section>
 </div>

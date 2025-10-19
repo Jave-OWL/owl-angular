@@ -1,88 +1,90 @@
-import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../../../core/models/usuario.model';
-import { Administrador } from '../../../core/models/administrador.model';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterModule, ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-inicio-sesion',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink, RouterModule],
   templateUrl: './inicio-sesion.component.html',
   styleUrl: './inicio-sesion.component.css'
 })
-export class InicioSesionComponent implements OnInit {
+export class InicioSesionComponent implements OnInit, AfterViewInit {
   currentImageSrc: string = 'assets/images/OwlLlave.png';
+  returnUrl: string = '/';
 
   formData = {
     correo: '',
     contrasena: ''
   };
 
-  usuarios: Usuario[] = [
-    {
-      id: 1,
-      nombre: 'ejemplo',
-      correo: 'correo@ejemplo.com',
-      contrasenia: '123456',
-      rol: 'usuario'
-    },
-    {
-      id: 2,
-      nombre: 'admin',
-      correo: 'admin@ejemplo.com',
-      contrasenia: '654321',
-      rol: 'administrador'
-    }
-  ];
+  private formulario: HTMLElement | null = null;
+  private exito: HTMLElement | null = null;
 
-  constructor(private router: Router) {} 
-
-  private usuarioEncontrado: Boolean = false;
-
-  private formulario = document.querySelector('.contenido-form') as HTMLElement;
-  private exito = document.querySelector('.mensaje-confirmacion') as HTMLElement;
-
-  ngAfterViewInit() {
-  this.formulario = document.querySelector('.contenido-form') as HTMLElement;
-  this.exito = document.querySelector('.mensaje-confirmacion') as HTMLElement;
-  }
-
-  findusuario(correo: string, contrasenia: string) {
-    return this.usuarios.find(u => u.correo === correo && u.contrasenia === contrasenia);
-    //Llamado a servicio cuando se implemente backend
-    // return this.usuarioService.findUsuario(correo, contrasenia);
-  }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
-    
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+
+    if (this.authService.isLoggedIn()) {
+      const user = this.authService.getCurrentUser();
+      if (this.returnUrl !== '/') {
+        this.router.navigateByUrl(this.returnUrl);
+      } else {
+        this.redirectToDashboard(user?.is_admin || false);
+      }
+    }
+  }
+
+  ngAfterViewInit() {
+    this.formulario = document.querySelector('.contenido-form');
+    this.exito = document.querySelector('.mensaje-confirmacion');
   }
 
   iniciarSesion(correo: string, contrasenia: string) {
-    const usuario = this.findusuario(correo, contrasenia);
-
-  if (usuario) {
-    const rol = usuario.rol === 'usuario' ? 'usuario' : 'administrador';
-    const ruta = usuario.rol === 'usuario' ? 'user/dashboard' : 'admin/dashboard';
-
-    this.cambiarImagen('exito');
-    localStorage.setItem('rol', rol);
-    console.log('Rol guardado en localStorage:', localStorage.getItem('rol'));
-
-    setTimeout(() => {
-      this.router.navigate([ruta]);
-    }, 2500);
-
-    if (usuario) {
-      this.formulario.style.display = 'none';
-      this.exito.style.display = 'flex';
-      console.log('Formulario ocultado, mensaje de exito mostrado');
+    if (!correo || !contrasenia) {
+      this.cambiarImagen('error');
+      return;
     }
-  } else {
-    console.log('Usuario o administrador no encontrado');
-    this.cambiarImagen('error');
+
+    this.authService.login(correo, contrasenia).subscribe({
+      next: (response: any) => {
+        console.log('Response from login:', response);
+        this.cambiarImagen('exito');
+        
+        if (this.formulario && this.exito) {
+          this.formulario.style.display = 'none';
+          this.exito.style.display = 'flex';
+        }
+        
+        setTimeout(() => {
+          if (this.returnUrl !== '/') {
+            this.router.navigateByUrl(this.returnUrl);
+          } else {
+            // Asumiendo que el usuario viene directamente en la respuesta
+            const user = response.user ?? response;
+            this.redirectToDashboard(user.is_admin ?? false);
+          }
+        }, 2500);
+      },
+      error: (error) => {
+        console.error('Error de inicio de sesión:', error);
+        this.cambiarImagen('error');
+      }
+    });
   }
-}
+
+  private redirectToDashboard(isAdmin: boolean) {
+    const route = isAdmin ? '/admin/dashboard' : '/user/dashboard';
+    this.router.navigateByUrl(route);
+  }
+
   cambiarImagen(estadoLogin: string) {
     let imagen = '';
     let imagenDefault = this.currentImageSrc;

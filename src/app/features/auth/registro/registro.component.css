@@ -41,12 +41,21 @@ h3 {
     margin-bottom: 20px;
 }
 
-p{
+p {
     color: var(--color-disabled);
     font-size: 14px;
     text-align: center;
     font-weight: 400;
     margin-bottom: 20px;
+}
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    border-radius: var(--internal-border-radius);
+    margin-bottom: 20px;
+    text-align: center;
 }
 
 .registro {
@@ -79,28 +88,46 @@ a:hover {
     border-radius: var(--border-radius);
 }
 
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
 input[type="email"],
 input[type="password"],
 input[type="text"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 0px;
     border: 1px solid var(--color-disabled);
-    border-radius: 15px;
+    border-radius: var(--internal-border-radius);
     font-size: 14px;
     font-weight: 300;
+    transition: border-color 0.3s ease;
 }
 
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="text"]:focus {
     border-color: var(--color-main);
     outline: none;
 }
 
-label {
-    font-weight: 600;
-    margin-left: 10px;
-    margin-top: 20px;
+input.invalid {
+    border-color: #c62828;
+}
+
+.error-text {
+    color: #c62828;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-left: 2px;
+    display: block;
 }
 
 .gris {
@@ -118,7 +145,7 @@ button {
     background-color: var(--color-main);
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: var(--internal-border-radius);
     cursor: pointer;
     font-size: 1.4rem;
     font-weight: 500;
@@ -126,9 +153,18 @@ button {
     transition: 0.3s ease;
 }
 
-button:hover {
-    background-color: #426ba4;
+button:hover:not(:disabled) {
+    background-color: var(--color-main-hover);
     transition: 0.3s ease;
+}
+
+button:disabled {
+    background-color: var(--color-disabled);
+    cursor: not-allowed;
+}
+
+button span {
+    color: #fff;
 }
 
 .opciones-adicionales {

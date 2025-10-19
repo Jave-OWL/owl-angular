@@ -1,28 +1,146 @@
-<section>
-    <div class="titulo-fondo">
+<div class="overlay" style="z-index: 999">
+    <button class="tour" (click)="startTour()">?</button>
+    <img *ngIf="mostrarBienvenida===true" id="OwlAyuda90" src="assets/images/OwlAyuda90.png" alt="">
+    <div *ngIf="mostrarBienvenida===true" class="caja-texto">
+        <p style="text-align: center;">Hola!</p>
+        <p>Recuerda que puedes ver la guia de la informacion del fic aqui abajo</p>
+        <button id="closeButton" (click)="closeWelcomeScreen()" (keydown.enter)="closeWelcomeScreen()">Ok</button>
+    </div>
+</div>
 
+<div *ngIf="mostrarPolitica" class="fondo-modal" (click)="alternarPolitica()">
+    <div class="ventana-info" (click)="$event.stopPropagation()">
+        <div class="contenedor-info">
+            <button class="boton-cerrar" (click)="alternarPolitica()"><i style="color: var(--color-main);" class="bi bi-x"></i></button>
+            <h2>Política de Inversión</h2>
+            <p>{{fondo?.politica_de_inversion}}</p>
+            <button class="boton-ok" (click)="alternarPolitica()">Cerrar</button>
+        </div>
     </div>
-    <h2 class="titulo">
-        Comportamiento del Fondo
-    </h2>
-    <div class="botones">
-        <button class="seleccion-mes">
-            <p>6M</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>1A</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>3A</p>
-        </button>
-        <button class="seleccion-mes">
-            <p>MAX</p>
-        </button>
+</div>
+
+<div *ngIf="mostrarBienvenida===true" id="welcome-screen" class="welcome-screen">
+</div>
+<div class="volver">
+    <a class="link-volver" href="fics/explorar"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar
+            fondos</i></a>
+</div>
+<section>
+    <div class="titulo">
+        <div class="titulo-texto">
+            <img id="logo" [src]="fondo?.logo" alt="Logo" />
+            <h1>{{fondo?.nombre_fic}} <i id="iconoPolitica" class="bi bi-question-circle" (click)="alternarPolitica()"></i></h1>
+        </div>
+        <p class="riesgo"
+            [id]="fondo?.riesgo === 'Alto' ? 'alto' : (fondo?.riesgo === 'Medio' ? 'medio' : (fondo?.riesgo === 'Bajo' ? 'bajo' : (fondo?.riesgo === 'Riesgo Variable' ? 'variable' : '')))">
+            Riesgo {{fondo?.riesgo}}</p>
     </div>
-    <div class="descripcion">
-        <h2>Descripción</h2>
-        <p>
-            Este fondo de inversión se centra en ofrecer una rentabilidad estable a largo plazo, invirtiendo en una combinación diversificada de activos financieros. Con un enfoque en la sostenibilidad y la responsabilidad social, busca maximizar el retorno para los inversionistas mientras minimiza los riesgos asociados.
-        </p>
+    <div class="informacion-top">
+        <div class="card" id="focus">
+            <h3>Rentabilidad</h3>
+            <p>{{rentabilidadGeneral}}%</p>
+            <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i
+                    class="bi bi-arrow-up-right"></i></p>
+        </div>
+        <div id="gestor" class="card">
+            <h3>Gestor</h3>
+            <p>{{fondo?.gestor}}</p>
+        </div>
+        <div id="custodio" class="card">
+            <h3>Custodio</h3>
+            <p>{{fondo?.custodio}}</p>
+        </div>
+        <div class="card">
+            <h3>Fecha de corte</h3>
+            <p>{{fondo?.fecha_corte | date:'dd - MM - yyyy'}}</p>
+        </div>
+    </div>
+
+    <div class="informacion-rendimiento">
+        <div id=rendimiento-card class="card">
+            <button class="participaciones" (click)="mostrarPart()"><i class="bi bi-filter"></i></button>
+            <h3>Comportamiento en el tiempo</h3>
+            <span id="participacion">{{tipoParticipacion}}</span>
+            <div #chartRentabilidad class="other-chart-container"></div>
+            <div class="participaciones-dropdown">
+                <ul>
+                    <li *ngFor="let participacion of participaciones" (click)="seleccionarPart(participacion)">
+                        {{participacion}}</li>
+                </ul>
+            </div>
+        </div>
+        <div id="info-fondo">
+            <h3>Información general</h3>
+            <div class="card-info">
+                <div class="item">
+                    <i class="bi bi-calendar-week-fill"></i>
+                    <p><span>Inicio de operaciones</span></p>
+                    <p>{{fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones | date:'dd - MM - yyyy'}}</p>
+                </div>
+                 <div class="item">
+                    <i class="bi bi-currency-exchange"></i>
+                    <p><span>Valor del fondo</span></p>
+                    <p>{{fondo?.caracteristicas?.[0]?.valor | currency:'COP':'symbol':'1.2-2'}}</p>
+                </div>
+                 <div class="item">
+                    <i class="bi bi-briefcase-fill"></i>
+                    <p><span>Unidades vendidas</span></p>
+                    <p>{{fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion | number}}</p>
+                </div>
+                <div class="item">
+                    <i class="bi bi-piggy-bank-fill"></i>
+                    <p><span>Tipo de fondo</span></p>
+                    <p>{{ (fondo?.caracteristicas?.[0]?.tipo?.replace('Fondo de Inversión Colectiva', '')) | titlecase}}</p>
+                </div>
+                <div class="item">
+                    <i class="bi bi-percent"></i>
+                    <p><span>Calificación</span></p>
+                    <p>{{fondo?.calificaciones?.[0]?.calificacion}}%</p>
+                </div>
+                <div class="item">
+                    <i class="bi bi-people-fill"></i>
+                    <p><span>Entidad Calificadora</span></p>
+                    <p>{{fondo?.calificaciones?.[0]?.entidad_calificadora}}</p>
+                </div>
+            </div>
+            <div class="item">
+                    <i style="color: var(--color-main);" class="bi bi-clock-fill"></i>
+                    <p><span>Última calificación</span></p>
+                    <p>{{fondo?.calificaciones?.[0]?.fecha_ultima_calificacion | date:'dd - MM - yyyy'}}</p>
+                </div>
+        </div>
+    </div>
+
+    <div class="charts-grid">
+        <div class="principales-inversiones">
+            <h3>Principales inversiones</h3>
+            <div #chartInversiones id="chartInversiones" class="chart-container"></div>
+        </div>
+        <div class="duraciones-plazo">
+            <h3>Duraciones por plazo</h3>
+            <div #chartDuracionesPlazo class="chart-container"></div>
+        </div>
+    </div>
+
+    <div class="composiciones">
+        <div class="composicion">
+            <div #chartCalificacion class="chart-container">
+            </div>
+        </div>
+        <div class="composicion">
+            <div #chartTipoRenta class="chart-container"></div>
+        </div>
+        <div class="composicion">
+            <div #chartPaisEmisor class="chart-container"></div>
+        </div>
+        <div class="composicion">
+            <div #chartMoneda class="chart-container"></div>
+        </div>
+        <div class="composicion">
+            <div #chartActivo class="chart-container"></div>
+        </div>
+        <div class="composicion">
+            <div #chartSectorEconomico class="chart-container"></div>
+        </div>
     </div>
 </section>
