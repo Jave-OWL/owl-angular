@@ -37,7 +37,7 @@ export class AuthService {
   }
 
   register(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, { 
+    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/signup`, { 
       nombre, 
       correo, 
       contrasenia, 
