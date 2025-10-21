@@ -68,6 +68,19 @@
                 </span>
             </div>
 
+                <div class="form-group">
+                    <label for="fechaNacimiento">Fecha de nacimiento</label>
+                    <input 
+                        type="date" 
+                        id="fechaNacimiento"
+                        formControlName="fechaNacimiento" 
+                        [class.invalid]="hasError('fechaNacimiento')"
+                    >
+                    <span class="error-text" *ngIf="hasError('fechaNacimiento')">
+                        {{ getErrorMessage('fechaNacimiento') }}
+                    </span>
+                </div>
+
             <button type="submit" [disabled]="loading || registroForm.invalid">
                 <span *ngIf="!loading">Registrar</span>
                 <span *ngIf="loading">Registrando...</span>

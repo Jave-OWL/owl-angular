@@ -25,40 +25,39 @@ export class RegistroComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.registroForm = this.fb.group({
-      nombre: ['', [Validators.required, Validators.minLength(3)]],
-      correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', [Validators.required, Validators.minLength(6)]],
-      confirmarContrasena: ['', [Validators.required]]
-    }, {
-      validators: this.validarContrasenas
-    });
+      this.registroForm = this.fb.group({
+        nombre: ['', [Validators.required, Validators.minLength(3)]],
+        correo: ['', [Validators.required, Validators.email]],
+        contrasena: ['', [Validators.required, Validators.minLength(6)]],
+        confirmarContrasena: ['', [Validators.required]],
+        fechaNacimiento: ['', [Validators.required]]
+      }, {
+        validators: this.validarContrasenas
+      });
   }
 
   onSubmit() {
-    if (this.registroForm.valid) {
-      this.loading = true;
-      this.error = '';
-      //CAmbiar por valor real
-      const fechaNacimiento = '1990-01-01';
-      const { nombre, correo, contrasena } = this.registroForm.value;
+      if (this.registroForm.valid) {
+        this.loading = true;
+        this.error = '';
+        const { nombre, correo, contrasena, fechaNacimiento } = this.registroForm.value;
 
-      this.authService.register(nombre, correo, contrasena, fechaNacimiento).subscribe({
-        next: () => {
-          this.router.navigate(['/user/cuestionario']);
-        },
-        error: (error) => {
-          this.loading = false;
-          this.error = error.message || 'Error en el registro';
-          if (error.message === 'Email already exists') {
-            this.error = 'El correo electrónico ya está registrado';
+        this.authService.register(nombre, correo, contrasena, fechaNacimiento).subscribe({
+          next: () => {
+            this.router.navigate(['/user/cuestionario']);
+          },
+          error: (error) => {
+            this.loading = false;
+            this.error = error.message || 'Error en el registro';
+            if (error.message === 'Email already exists') {
+              this.error = 'El correo electrónico ya está registrado';
+            }
+            this.currentImageSrc = 'assets/images/OwlLlaveError.png';
           }
-          this.currentImageSrc = 'assets/images/OwlLlaveError.png';
-        }
-      });
-    } else {
-      this.markFormGroupTouched(this.registroForm);
-    }
+        });
+      } else {
+        this.markFormGroupTouched(this.registroForm);
+      }
   }
 
   validarContrasenas(group: FormGroup) {
@@ -80,18 +79,21 @@ export class RegistroComponent implements OnInit {
 
   // Métodos de ayuda para la validación
   getErrorMessage(controlName: string): string {
-    const control = this.registroForm.get(controlName);
-    
-    if (control?.errors && control.touched) {
-      if (control.errors['required']) return 'Este campo es requerido';
-      if (control.errors['email']) return 'Ingresa un correo electrónico válido';
-      if (control.errors['minlength']) {
-        const minLength = control.errors['minlength'].requiredLength;
-        return `Mínimo ${minLength} caracteres`;
+      const control = this.registroForm.get(controlName);
+
+      if (control?.errors && control.touched) {
+        if (control.errors['required']) return 'Este campo es requerido';
+        if (control.errors['email']) return 'Ingresa un correo electrónico válido';
+        if (control.errors['minlength']) {
+          const minLength = control.errors['minlength'].requiredLength;
+          return `Mínimo ${minLength} caracteres`;
+        }
+        if (controlName === 'fechaNacimiento' && control.errors['required']) {
+          return 'La fecha de nacimiento es obligatoria';
+        }
       }
-    }
-    
-    return '';
+
+      return '';
   }
 
   hasError(controlName: string): boolean {

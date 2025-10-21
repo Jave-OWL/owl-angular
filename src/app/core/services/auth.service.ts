@@ -42,7 +42,7 @@ export class AuthService {
       correo, 
       contrasenia, 
       fechaNacimiento,
-      is_admin: false,  // Los nuevos usuarios siempre son usuarios regulares
+      is_admin: false,  // Los nuevos usuarios nunca son admin
     }).pipe(
       tap(response => {
         localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
