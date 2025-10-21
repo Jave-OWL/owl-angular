@@ -36,20 +36,22 @@ export class AuthService {
       );
   }
 
-  register(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/signup`, { 
-      nombre, 
-      correo, 
-      contrasenia, 
-      fechaNacimiento,
-      is_admin: false,  // Los nuevos usuarios nunca son admin
-    }).pipe(
-      tap(response => {
-        localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
-        localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-        this.currentUserSubject.next(response.user);
-      })
-    );
+  register(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string):
+     Observable<AuthResponse> {
+      console.log('Registering user with data:', { nombre, correo, contrasenia, fecha_nacimiento: fechaNacimiento });
+      return this.http.post<AuthResponse>(`${environment.apiUrl}/auth/signup`, { 
+        nombre, 
+        correo, 
+        contrasenia, 
+        fecha_nacimiento: fechaNacimiento,
+        is_admin: false,  // Los nuevos usuarios nunca son admin
+      }).pipe(
+        tap(response => {
+          localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
+          localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
+          this.currentUserSubject.next(response.user);
+        })
+      );
   }
 
   logout(): void {
