@@ -1,29 +1,32 @@
 <header id="header" class="header">
     <img id="logo" routerLink="/" src="assets/images/OwlLogo.png" alt="Logo" />
-    <div class="nav">
-        <button routerLink="/" routerLinkActive="router-link-active"
-            [routerLinkActiveOptions]="{exact: true}">Inicio</button>
-        <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
-        <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
-        <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
-    </div>
-    <div *ngIf="!usuarioAuth()" class="auth">
-        <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
-        <button class="registro" routerLink="/auth/registro">Registro</button>
-    </div>
-    <div *ngIf="usuarioAuth()">
-        <div (click)="dropdown()" class="dropdown">
-            <p class="nombreUsuario">{{ getNombreUsuario() }}</p>
-            <button class="dropdown-toggle" type="button" id="dropdownMenuButton">
-                <i id="iconoPersona" class="bi bi-person-circle"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                <div class="triangle"></div>    
-                <a class="dropdown-item" routerLink="/">Perfil<i class="bi bi-person"></i></a>
-                <a class="dropdown-item" routerLink="/user/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" (click)="cerrarSesion()">Salir<i class="bi bi-box-arrow-right"></i></a>
-            </div>
-        </div>
-    </div>
+    <!-- Mostrar solo el logo si está en /user/cuestionario -->
+    <ng-container *ngIf="!isCuestionario()">
+      <div class="nav" *ngIf="usuarioAuth()">
+          <button routerLink="/" routerLinkActive="router-link-active"
+              [routerLinkActiveOptions]="{exact: true}">Inicio</button>
+          <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
+          <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
+          <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
+      </div>
+      <div *ngIf="!usuarioAuth()" class="auth">
+          <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
+          <button class="registro" routerLink="/auth/registro">Registro</button>
+      </div>
+      <div *ngIf="usuarioAuth()">
+          <div (click)="dropdown()" class="dropdown">
+              <p class="nombreUsuario">{{ getNombreUsuario() }}</p>
+              <button class="dropdown-toggle" type="button" id="dropdownMenuButton">
+                  <i id="iconoPersona" class="bi bi-person-circle"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <div class="triangle"></div>    
+                  <a class="dropdown-item" routerLink="/">Perfil<i class="bi bi-person"></i></a>
+                  <a class="dropdown-item" routerLink="/user/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="cerrarSesion()">Salir<i class="bi bi-box-arrow-right"></i></a>
+              </div>
+          </div>
+      </div>
+    </ng-container>
 </header>
