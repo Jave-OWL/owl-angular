@@ -13,6 +13,9 @@ import { Usuario } from '../../core/models/usuario.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  isCuestionario(): boolean {
+    return this.router.url.startsWith('/user/cuestionario');
+  }
   currentUser: Usuario | null = null;
 
   constructor(

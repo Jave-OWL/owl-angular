@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -20,7 +20,7 @@ interface Pregunta {
   templateUrl: './cuestionario.component.html',
   styleUrl: './cuestionario.component.css'
 })
-export class CuestionarioComponent {
+export class CuestionarioComponent implements OnInit {
   // Mostrar pantalla de bienvenida antes de las preguntas
   showWelcome: boolean = true;
 
@@ -35,10 +35,32 @@ export class CuestionarioComponent {
 
   suma: number = 0;
 
-  numPreguntas = 8;
+  // Número total de páginas (preguntas tipo Likert + 1 pregunta sí/no + 1 multiselección)
+  numPreguntas: number = 0;
 
   currentPage: number = 1;
-  answers: number[] = new Array(this.numPreguntas).fill(0);
+  // Solo para las preguntas tipo Likert (se ajusta en ngOnInit)
+  answers: number[] = [];
+
+  // Pregunta sí/no: "Quiero poder sacar mi dinero en cualquier momento"
+  retiroInmediato: string = '';
+
+  // Nueva pregunta multiselección: duración de inversión
+  durationOptions = [
+    { id: '1-180', label: '1 - 180 días' },
+    { id: '180-365', label: '180 días a 1 año' },
+    { id: '1-3', label: '1 a 3 años' },
+    { id: '3-5', label: '3 a 5 años' },
+    { id: '5+', label: 'más de 5 años' }
+  ];
+  selectedDurations: string[] = [];
+
+  ngOnInit(): void {
+    // Ajusta el número de preguntas y el array de respuestas automáticamente
+    // numPreguntas = preguntas Likert + 1 sí/no + 1 multiselección
+    this.numPreguntas = this.preguntas.length + 2;
+    this.answers = new Array(this.preguntas.length).fill(0);
+  }
 
   getColorProgreso(): string {
     const progress = (this.currentPage / (this.numPreguntas)) * 100;
@@ -116,9 +138,19 @@ export class CuestionarioComponent {
 
   nextPage() {
     if (this.currentPage < this.numPreguntas) {
-      if (this.answers[this.currentPage - 1] === 0) {
-        alert('Por favor, responde la pregunta antes de continuar.');
-        return;
+      // Validación para las preguntas tipo Likert (páginas 1..preguntas.length)
+      if (this.currentPage <= this.preguntas.length) {
+        if (this.answers[this.currentPage - 1] === 0) {
+          alert('Por favor, responde la pregunta antes de continuar.');
+          return;
+        }
+      }
+      // Validación para la pregunta sí/no (página preguntas.length + 1)
+      if (this.currentPage === this.preguntas.length + 1) {
+        if (this.retiroInmediato === '') {
+          alert('Por favor, responde la pregunta de retiro inmediato.');
+          return;
+        }
       }
       this.currentPage++;
     }
@@ -132,9 +164,32 @@ export class CuestionarioComponent {
     }
   }
 
+  // Helpers para manejar la multiselección
+  isDurationSelected(id: string): boolean {
+    return this.selectedDurations.includes(id);
+  }
+
+  toggleDuration(id: string, checked: boolean) {
+    if (checked) {
+      if (!this.selectedDurations.includes(id)) {
+        this.selectedDurations = [...this.selectedDurations, id];
+      }
+    } else {
+      this.selectedDurations = this.selectedDurations.filter(x => x !== id);
+    }
+  }
+
   submitAnswers() {
+    // Validación de la página de multiselección (última página)
+    if (this.currentPage === this.preguntas.length + 2 && this.selectedDurations.length === 0) {
+      alert('Por favor, selecciona al menos una opción.');
+      return;
+    }
+
     this.sumarRespuestas();
-    console.log('Respuestas enviadas:', this.answers);
+    console.log('Respuestas enviadas (Likert):', this.answers);
+    console.log('Retiro inmediato:', this.retiroInmediato);
+    console.log('Duraciones seleccionadas:', this.selectedDurations);
     if (this.suma <= 18) {
       alert('Perfil Conservador');
       // Enviar respuestas al backend

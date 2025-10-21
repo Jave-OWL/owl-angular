@@ -48,6 +48,36 @@
                     </div>
                 </div>
             </ng-container>
+
+            <!-- Página sí/no: retiro inmediato -->
+            <div class="pregunta-pagina" *ngSwitchCase="preguntas.length + 1">
+                <p class="pregunta-texto">
+                    ¿Quieres poder sacar tu dinero en cualquier momento?
+                </p>
+                <div class="opciones">
+                    <label>
+                        <input type="radio" name="retiroInmediato" [(ngModel)]="retiroInmediato" value="si"> Sí
+                    </label>
+                    <label>
+                        <input type="radio" name="retiroInmediato" [(ngModel)]="retiroInmediato" value="no"> No
+                    </label>
+                </div>
+            </div>
+
+            <!-- Página extra: multiselección de duración de inversión -->
+            <div class="pregunta-pagina" *ngSwitchCase="preguntas.length + 2">
+                <p class="pregunta-texto">
+                    ¿Cuántos días quieres invertir tu dinero? (puedes seleccionar una o más opciones)
+                </p>
+                <div class="lista-opciones">
+                    <label class="opcion-checkbox" *ngFor="let opt of durationOptions">
+                        <input type="checkbox" #cb
+                               [checked]="isDurationSelected(opt.id)"
+                               (change)="toggleDuration(opt.id, cb.checked)" />
+                        <span>{{ opt.label }}</span>
+                    </label>
+                </div>
+            </div>
         </div>
     <!-- Navegación -->
     <div class="navigation" *ngIf="!showWelcome">
