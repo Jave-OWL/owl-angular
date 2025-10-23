@@ -1,12 +1,18 @@
 <div class="overlay" style="z-index: 999">
-    <button class="tour" (click)="startTour()">?</button>
-    <img *ngIf="mostrarBienvenida===true" id="OwlAyuda90" src="assets/images/OwlAyuda90.png" alt="">
-    <div *ngIf="mostrarBienvenida===true" class="caja-texto">
-        <p style="text-align: center;">Hola!</p>
-        <p>Recuerda que puedes ver la guia de la informacion del fic aqui abajo</p>
-        <button id="closeButton" (click)="closeWelcomeScreen()" (keydown.enter)="closeWelcomeScreen()">Ok</button>
-    </div>
+        <button class="tour" (click)="startTour()">?</button>
+        <img *ngIf="mostrarBienvenida===true" id="OwlAyuda90" src="assets/images/OwlAyuda90.png" alt="">
+        <div *ngIf="mostrarBienvenida===true" class="caja-texto">
+                <p style="text-align: center;">Hola!</p>
+                <p>Recuerda que puedes ver la guia de la informacion del fic aqui abajo</p>
+                <button id="closeButton" (click)="closeWelcomeScreen()" (keydown.enter)="closeWelcomeScreen()">Ok</button>
+        </div>
 </div>
+
+<a class="fic-link" href="{{fondo?.url}}" target="_blank" rel="noopener noreferrer">
+    <button class="fic-link">
+        <p>WWW</p>
+    </button>
+</a>
 
 <div *ngIf="mostrarPolitica" class="fondo-modal" (click)="alternarPolitica()">
     <div class="ventana-info" (click)="$event.stopPropagation()">
@@ -31,9 +37,7 @@
             <img id="logo" [src]="fondo?.logo" alt="Logo" />
             <h1>{{fondo?.nombre_fic}} <i id="iconoPolitica" class="bi bi-question-circle" (click)="alternarPolitica()"></i></h1>
         </div>
-        <p class="riesgo"
-            [id]="fondo?.riesgo === 'Alto' ? 'alto' : (fondo?.riesgo === 'Medio' ? 'medio' : (fondo?.riesgo === 'Bajo' ? 'bajo' : (fondo?.riesgo === 'Riesgo Variable' ? 'variable' : '')))">
-            Riesgo {{fondo?.riesgo}}</p>
+        <p class="riesgo" [id]="getTipoId(fondo?.tipo)">{{fondo?.tipo}}</p>
     </div>
     <div class="informacion-top">
         <div class="card" id="focus">
@@ -58,11 +62,13 @@
 
     <div class="informacion-rendimiento">
         <div id=rendimiento-card class="card">
-            <button class="participaciones" (click)="mostrarPart()"><i class="bi bi-filter"></i></button>
+            <button class="participaciones" (click)="mostrarPart()" [style.visibility]="participaciones.length <= 1 ? 'hidden' : 'visible'">
+                <i class="bi bi-filter"></i>
+            </button>
             <h3>Comportamiento en el tiempo</h3>
             <span id="participacion">{{tipoParticipacion}}</span>
             <div #chartRentabilidad class="other-chart-container"></div>
-            <div class="participaciones-dropdown">
+            <div class="participaciones-dropdown" [style.visibility]="participaciones.length <= 1 ? 'hidden' : 'visible'">
                 <ul>
                     <li *ngFor="let participacion of participaciones" (click)="seleccionarPart(participacion)">
                         {{participacion}}</li>

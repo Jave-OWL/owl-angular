@@ -8,15 +8,11 @@ import { FondosGuardadosComponent } from './fondos-guardados/fondos-guardados.co
 import { RankingComponent } from './ranking/ranking.component';
 
 const routes: Routes = [
-  { path: 'explorar', component: ExplorarFondosComponent },
-  { path: 'detalle', component: DetalleFondoComponent },
-  { path: 'comparar', component: ComparadorFondosComponent },
-  { 
-    path: 'guardados', 
-    component: FondosGuardadosComponent,
-    canActivate: [authGuard]
-  },
-  { path: 'ranking', component: RankingComponent },
+  { path: 'explorar', component: ExplorarFondosComponent, canActivate: [authGuard] },
+  { path: 'detalle', component: DetalleFondoComponent, canActivate: [authGuard] },
+  { path: 'comparar', component: ComparadorFondosComponent, canActivate: [authGuard] },
+  { path: 'guardados', component: FondosGuardadosComponent, canActivate: [authGuard] },
+  { path: 'ranking', component: RankingComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'explorar', pathMatch: 'full' }
 ];
 

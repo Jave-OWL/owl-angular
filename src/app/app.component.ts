@@ -21,6 +21,14 @@ export class AppComponent {
           generalPadding.style.paddingBottom = '0';
           generalPadding.style.paddingTop = '0';
         }
+      } else if (this.router.url === '/user/cuestionario') {
+        const generalPadding = document.getElementById('content');
+        if (generalPadding) {
+          generalPadding.style.paddingTop = 'calc(var(--header-size) + 30px)';
+          generalPadding.style.paddingBottom = '0px';
+          generalPadding.style.paddingLeft = '110px';
+          generalPadding.style.paddingRight = '110px';
+        }
       } else {
         const generalPadding = document.getElementById('content');
         if (generalPadding) {

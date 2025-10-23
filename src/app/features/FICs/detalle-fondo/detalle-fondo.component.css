@@ -177,6 +177,38 @@
     color: var(--color-main-hover);
 }
 
+.fic-link {
+    position: fixed;
+    bottom: 10%;
+    right: 2%;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: var(--color-contenido);
+    background-color: var(--color-main);
+    font-weight: 600;
+    font-size: 11px;
+    border: none;
+    box-shadow: var(--light-box-shadow);
+    transition: 0.3s ease;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.fic-link:hover {
+    background-color: var(--color-main-hover);
+    transition: 0.3s ease;
+}
+
+.fic-link i {
+    color: var(--color-contenido);
+}
+
+.fic-link p{
+    color: var(--color-contenido);
+    margin-bottom: 0;
+}
+
 /* Estilos de la ventana de información */
 .fondo-modal {
     position: fixed;
@@ -337,15 +369,19 @@
     margin: 0;
 }
 
-#alto {
+#alternativa {
+    background-color: #f5a623;
+}
+
+#variable {
    background-color: #1452a8;
 }
 
-#medio {
+#mixto {
     background-color: var(--color-main)
 }
 
-#bajo {
+#fija {
     background-color: #8fb6f5;
 }
 

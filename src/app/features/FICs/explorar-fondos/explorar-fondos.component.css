@@ -170,7 +170,7 @@ p {
     color: white;
     font-weight: 500;
     font-size: 15px;
-    width: 70px;
+    width: 110px;
     margin-bottom: 5px;
 }
 
@@ -179,7 +179,7 @@ p {
 .top {
     background-color: hwb(222 96% 0%);
     padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 0px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
@@ -358,21 +358,26 @@ p {
    Indicadores de Riesgo
    ========================================================================== */
 
-#alto {
+#alternativa {
+    background-color: #f5a623;
+}
+
+#variable {
    background-color: #1452a8;
 }
 
-#medio {
+#mixto {
     background-color: var(--color-main)
 }
 
-#bajo {
-    background-color: #8fc6f5;
+#fija {
+    background-color: #8fb6f5;
 }
 
 #variable {
     background-color: hwb(215 52% 65%);
 }
+
 
 @media (max-width: 768px) {
     .resultados {

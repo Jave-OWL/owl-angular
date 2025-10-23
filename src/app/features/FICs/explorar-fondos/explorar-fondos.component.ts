@@ -24,6 +24,11 @@ export class ExplorarFondosComponent {
   loaderTimeout: any;
   errorBusqueda: boolean = false;
 
+  // Nuevas propiedades para filtros y ordenamiento
+  gestoresUnicos: string[] = [];
+  gestorSeleccionado: string = '';
+  ordenSeleccionado: string = '';
+
   constructor(private ficService: FICService,
               private route: ActivatedRoute,
               private router: Router
@@ -62,6 +67,12 @@ export class ExplorarFondosComponent {
   showDropdownEA(){
     console.log("ShowDropdownEA");
     var dropdown = document.getElementById("dropdownEA");
+    dropdown?.classList.toggle("show");
+  }
+
+  showDropdownOrdenamiento(){
+    console.log("ShowDropdownOrdenamiento");
+    var dropdown = document.getElementById("dropdownOrdenamiento");
     dropdown?.classList.toggle("show");
   }
 
@@ -112,6 +123,7 @@ export class ExplorarFondosComponent {
         this.cargarInfo();
         this.cargarLogos();  
         this.cargarEA();
+        this.cargarGestoresUnicos();
         console.log(data);
       },
       (error: any) => {
@@ -135,26 +147,75 @@ export class ExplorarFondosComponent {
     });
   }
 
-  filtrarFondos(){
-    
+  getTipoId(tipo: string): string {
+    if (!tipo) return '';
+    const palabras = tipo.trim().split(/\s+/);
+    return palabras[palabras.length - 1].toLowerCase();
+  }
+
+  cargarGestoresUnicos() {
+    const gestoresSet = new Set(this.fondos.map(fondo => fondo.gestor));
+    this.gestoresUnicos = Array.from(gestoresSet).sort();
+  }
+
+  aplicarFiltros() {
+    this.fondosFiltrados = [...this.fondos];
+
+    // Aplicar filtro de búsqueda por texto
+    if (this.textoBusqueda.trim()) {
+      this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
+        fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
+        fondo.gestor.toLowerCase().includes(this.textoBusqueda.toLowerCase())
+      );
+    }
+
+    // Aplicar filtro por gestor
+    if (this.gestorSeleccionado) {
+      this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
+        fondo.gestor.toLowerCase() === this.gestorSeleccionado.toLowerCase()
+      );
+    }
   }
 
   filtrarPorGestor(gestor: string) {
-    this.fondosFiltrados = [...this.fondos].filter(fondo => fondo.gestor.toLowerCase() === gestor.toLowerCase());
+    this.gestorSeleccionado = gestor;
+    this.aplicarFiltros();
+    if (this.ordenSeleccionado) {
+      this.aplicarFiltro(this.ordenSeleccionado);
+    }
+  }
+
+  limpiarFiltroGestor() {
+    this.gestorSeleccionado = '';
+    this.aplicarFiltros();
+    if (this.ordenSeleccionado) {
+      this.aplicarFiltro(this.ordenSeleccionado);
+    }
   }
 
   aplicarFiltro(criterio: string) {
     this.criterioOrdenamiento = criterio;
-    this.fondosFiltrados = [...this.fondos].filter(fondo => 
-      fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase())
-    );
+    this.ordenSeleccionado = criterio;
+    
+    // Aplicar filtros primero
+    this.aplicarFiltros();
 
+    // Luego ordenar
     switch (criterio) {
-      case 'nombre':
+      case 'nombre-asc':
         this.fondosFiltrados.sort((a, b) => a.nombre_fic.localeCompare(b.nombre_fic));
         break;
-      case 'riesgo':
-        this.fondosFiltrados.sort((a, b) => a.riesgo.localeCompare(b.riesgo));
+      case 'nombre-desc':
+        this.fondosFiltrados.sort((a, b) => b.nombre_fic.localeCompare(a.nombre_fic));
+        break;
+      case 'ea-asc':
+        this.fondosFiltrados.sort((a, b) => (a.ea || 0) - (b.ea || 0));
+        break;
+      case 'ea-desc':
+        this.fondosFiltrados.sort((a, b) => (b.ea || 0) - (a.ea || 0));
+        break;
+      case 'tipo':
+        this.fondosFiltrados.sort((a, b) => a.tipo.localeCompare(b.tipo));
         break;
       case 'rentabilidad':
         this.fondosFiltrados.sort((a, b) => {
@@ -173,11 +234,13 @@ export class ExplorarFondosComponent {
 
     this.errorBusqueda = false
     this.textoBusqueda = event.target.value;
-    this.fondosFiltrados = [...this.fondos].filter(fondo => 
-      fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
-      fondo.gestor.toLowerCase().includes(this.textoBusqueda.toLowerCase())
-    );
-    this.aplicarFiltro(this.criterioOrdenamiento);
+    
+    this.aplicarFiltros();
+    
+    if (this.ordenSeleccionado) {
+      this.aplicarFiltro(this.ordenSeleccionado);
+    }
+    
     this.loaderTimeout = setTimeout(() => {
       if (this.fondosFiltrados.length === 0) {
         this.errorBusqueda = true;
@@ -203,12 +266,31 @@ export class ExplorarFondosComponent {
       },
       { 
         element: '.input-busqueda',
+        popover: {
+          title: 'Búsqueda',
+          description: 'Busca fondos por nombre o gestor.'
+        }
       },
       { 
         element: '.bi-filter',
+        popover: {
+          title: 'Filtro por Gestor',
+          description: 'Filtra los fondos por el gestor que administra el fondo.'
+        }
       },
       { 
         element: '.bi-search',
+        popover: {
+          title: 'Buscar',
+          description: 'Inicia la búsqueda con los filtros aplicados.'
+        }
+      },
+      {
+        element: '.bi-arrow-down-up',
+        popover: {
+          title: 'Ordenar',
+          description: 'Ordena los fondos por nombre o rentabilidad EA.'
+        }
       },
       {
         element: '.info-fic',

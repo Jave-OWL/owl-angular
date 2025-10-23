@@ -6,8 +6,8 @@ export interface FIC {
     custodio: string;
     fecha_corte: string;
     politica_de_inversion: string;
-    link: string;
-    riesgo: string;
+    url: string;
+    tipo: string;
     rentabilidad: number;
     calificaciones: any[];
     ea: number;

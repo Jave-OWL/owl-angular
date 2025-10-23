@@ -112,17 +112,22 @@ export class DetalleFondoComponent {
     }
   }
     verificarPrimeraVez() {
-      localStorage.setItem('primeraVisita', 'false');
       console.log('Verificando primera vez...');
-
       const yaVisito = localStorage.getItem('primeraVisita');
-
       if (!yaVisito) {
         // Primera vez que visita
         this.mostrarBienvenida = true;
         // Marcar que ya visitó (permanentemente)
         localStorage.setItem('primeraVisita', 'true');
+      } else {
+        this.mostrarBienvenida = false;
       }
+  }
+
+  getTipoId(tipo?: string): string {
+    if (!tipo) return '';
+    const palabras = tipo.trim().split(/\s+/);
+    return palabras[palabras.length - 1].toLowerCase();
   }
 
   cerrarBienvenida() {
@@ -171,8 +176,11 @@ export class DetalleFondoComponent {
       this.fondo.rentabilidad_historicas.forEach(item => {
         this.participaciones.push(item.tipo_de_participacion);
       });
-      this.participaciones.push('Mostrar todos');
-      this.participaciones.push('Promedio');
+      // Solo añadir 'Mostrar todos' y 'Promedio' si hay más de una participación
+      if (this.fondo.rentabilidad_historicas.length > 1) {
+        this.participaciones.push('Mostrar todos');
+        this.participaciones.push('Promedio');
+      }
     }
     console.log(this.participaciones);
   }
@@ -189,12 +197,15 @@ export class DetalleFondoComponent {
   seleccionarPart(participacion: string){
     console.log(participacion);
     this.participacionSeleccionada = participacion;
-    
-    if(participacion === 'Mostrar todos' && this.fondo){
-      this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas;
-      this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas;
-      this.cargarInformacionGeneral();
-    } else if(participacion === 'Promedio' && this.fondo) {
+      if(participacion === 'Mostrar todos' && this.fondo){
+        this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas;
+        this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas;
+        // Cargar todas las rentabilidades y volatilidades en el gráfico
+        this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
+        this.cargarVolatilidadesHistoricas(this.fondo.volatilidad_historicas);
+        this.tipoParticipacion = 'Todos';
+        this.rentabilidadGeneral = 0;
+      } else if(participacion === 'Promedio' && this.fondo) {
       // Calcular el promedio de todas las participaciones
       const promedios = {
         ultimo_mes: 0,
@@ -270,11 +281,10 @@ export class DetalleFondoComponent {
       this.volatilidadesHistoricasFiltradas = [];
     }
     
-    this.destruirGraficaRentabilidad();
-    // Re-renderizar con los nuevos datos
-    this.renderRentabilidadChart();
-
-    this.renderInversionesChart();
+  this.destruirGraficaRentabilidad();
+  // Re-renderizar con los nuevos datos
+  this.renderRentabilidadChart();
+  this.renderInversionesChart();
   }
 
   destruirGraficaRentabilidad() {
@@ -522,155 +532,178 @@ export class DetalleFondoComponent {
   //
   @ViewChild('chartRentabilidad') chartRentabilidad!: ElementRef;
   renderRentabilidadChart() {
-    if (
-      !this.rentabilidadesHistoricas ||
-      !this.volatilidadesHistoricas ||
-      Object.keys(this.rentabilidadesHistoricas).length === 0
-    ) {
-      console.log('No hay datos suficientes para el gráfico de rentabilidad/volatilidad');
-      return;
-    }
+      if (
+        !this.rentabilidadesHistoricas ||
+        !this.volatilidadesHistoricas ||
+        Object.keys(this.rentabilidadesHistoricas).length === 0
+      ) {
+        console.log('No hay datos suficientes para el gráfico de rentabilidad/volatilidad');
+        return;
+      }
 
-    const container = this.chartRentabilidad?.nativeElement;
-    if (!container) {
-      console.warn('Contenedor chartRentabilidad no encontrado');
-      return;
-    }
+      const container = this.chartRentabilidad?.nativeElement;
+      if (!container) {
+        console.warn('Contenedor chartRentabilidad no encontrado');
+        return;
+      }
 
-    // Destruir instancia anterior si existe
-    if (this.chartRentabilidadInstance) {
-      this.chartRentabilidadInstance.dispose();
-    }
+      // Destruir instancia anterior si existe
+      if (this.chartRentabilidadInstance) {
+        this.chartRentabilidadInstance.dispose();
+      }
 
-    // Crear nueva instancia
-    this.chartRentabilidadInstance = echarts.init(container);
+      // Crear nueva instancia
+      this.chartRentabilidadInstance = echarts.init(container);
 
-    const periodos = [
-      'ultimo_3_anios',
-      'ultimo_2_anios',
-      'ultimo_anio',
-      'ultimo_6_meses',
-      'ultimo_mes'
-    ];
+      const periodos = [
+        'ultimo_3_anios',
+        'ultimo_2_anios',
+        'ultimo_anio',
+        'ultimo_6_meses',
+        'ultimo_mes'
+      ];
 
-    // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
-    let participacionMostrar = this.participacionSeleccionada;
-    if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
-      let valorMenor = Number.MAX_VALUE;
-      Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
-        const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
-        if (r !== undefined && r < valorMenor) {
-          valorMenor = r;
-          participacionMostrar = tipo;
+      // Si se selecciona 'Mostrar todos', graficar todas las participaciones
+      if (this.participacionSeleccionada === 'Mostrar todos') {
+        const series: echarts.EChartsOption['series'] = [];
+        const legendData: string[] = [];
+        // Rentabilidad
+        Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
+          legendData.push(`Rentabilidad ${tipo}`);
+          series.push({
+            name: `Rentabilidad ${tipo}`,
+            type: 'bar',
+            data: periodos.map(clave => parseFloat((this.rentabilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
+            itemStyle: {
+              borderRadius: [6, 6, 0, 0],
+            },
+            label: {
+              show: true,
+              position: 'top',
+              formatter: '{c}%'
+            }
+          });
+        });
+        // Volatilidad
+        Object.keys(this.volatilidadesHistoricas).forEach(tipo => {
+          legendData.push(`Volatilidad ${tipo}`);
+          series.push({
+            name: `Volatilidad ${tipo}`,
+            type: 'line',
+            yAxisIndex: 1,
+            smooth: true,
+            symbol: 'circle',
+            symbolSize: 8,
+            lineStyle: { width: 3, type: 'solid' },
+            data: periodos.map(clave => parseFloat((this.volatilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
+            itemStyle: { color: '#ffbd59' },
+            label: {
+              show: true,
+              formatter: '{c}'
+            }
+          });
+        });
+        const option: echarts.EChartsOption = {
+          tooltip: { trigger: 'item' },
+          legend: { top: 'bottom', data: legendData },
+          xAxis: {
+            type: 'category',
+            data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
+            axisLabel: { interval: 0, fontSize: 12 }
+          },
+          yAxis: [
+            { type: 'value', name: 'Rentabilidad (%)', position: 'left', axisLabel: { formatter: '{value}%' } },
+            { type: 'value', name: 'Volatilidad', position: 'right', splitLine: { show: false } }
+          ],
+          series,
+          grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
+          color: ['#588bd2', '#ffbd59', '#437ac6ff', '#a0c5f8ff', '#ffbd59', '#f9c66fff', '#f5b96fff']
+        };
+        this.chartRentabilidadInstance.setOption(option);
+        window.removeEventListener('resize', this.resizeRentabilidadHandler);
+        window.addEventListener('resize', this.resizeRentabilidadHandler);
+        return;
+      }
+
+      // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
+      let participacionMostrar = this.participacionSeleccionada;
+      if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
+        let valorMenor = Number.MAX_VALUE;
+        Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
+          const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
+          if (r !== undefined && r < valorMenor) {
+            valorMenor = r;
+            participacionMostrar = tipo;
+          }
+        });
+      }
+
+      if (!participacionMostrar) return;
+
+      // --- 2. Rentabilidad de la participación ---
+      const rentabilidadData = periodos.map(clave => 
+        parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+      );
+
+      const rentabilidadSeries: echarts.EChartsOption['series'] = [
+        {
+          name: `Rentabilidad ${participacionMostrar}`,
+          type: 'bar',
+          data: rentabilidadData,
+          itemStyle: {
+            borderRadius: [6, 6, 0, 0],
+            color: '#588bd2'
+          },
+          label: {
+            show: true,
+            position: 'top',
+            formatter: '{c}%'
+          }
         }
-      });
-    }
+      ];
 
-    if (!participacionMostrar) return;
+      // --- 3. Volatilidad correspondiente ---
+      const volatilidadData = periodos.map(clave =>
+        parseFloat((this.volatilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+      );
 
-    // --- 2. Rentabilidad de la participación ---
-    const rentabilidadData = periodos.map(clave => 
-      parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
-    );
-
-    const rentabilidadSeries: echarts.EChartsOption['series'] = [
-      {
-        name: `Rentabilidad ${participacionMostrar}`,
-        type: 'bar',
-        data: rentabilidadData,
-        itemStyle: {
-          borderRadius: [6, 6, 0, 0],
-          color: '#588bd2'
-        },
+      const volatilidadSerie: echarts.SeriesOption = {
+        name: 'Volatilidad',
+        type: 'line',
+        yAxisIndex: 1,
+        smooth: true,
+        symbol: 'circle',
+        symbolSize: 8,
+        lineStyle: { width: 3, type: 'solid' },
+        data: volatilidadData,
+        itemStyle: { color: '#ffbd59' },
         label: {
           show: true,
-          position: 'top',
-          formatter: '{c}%'
+          formatter: '{c}'
         }
-      }
-    ];
+      };
 
-    // --- 3. Volatilidad correspondiente ---
-    const volatilidadData = periodos.map(clave =>
-      parseFloat((this.volatilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
-    );
-
-    const volatilidadSerie: echarts.SeriesOption = {
-      name: 'Volatilidad',
-      type: 'line',
-      yAxisIndex: 1,
-      smooth: true,
-      symbol: 'circle',
-      symbolSize: 8,
-      lineStyle: { width: 3, type: 'solid' },
-      data: volatilidadData,
-      itemStyle: { color: '#ffbd59' },
-      label: {
-        show: true,
-        formatter: '{c}'
-      }
-    };
-
-    const option: echarts.EChartsOption = {
-      /*title: {
-        text: 'Rentabilidad vs Volatilidad',
-        left: 'center',
-        textStyle: { 
-          fontSize: 16,
-          fontFamily: 'Poppins, sans-serif',
-          fontWeight: 'bold'
-        }
-      },*/
-      tooltip: { 
-        trigger: 'item'
-      },
-      legend: { 
-        top: 'bottom',
-        data: [`Rentabilidad ${participacionMostrar}`, 'Volatilidad']
-      },
-      xAxis: { 
-        type: 'category', 
-        data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
-        axisLabel: {
-          interval: 0,
-          fontSize: 12
-        }
-      },
-      yAxis: [
-        { 
-          type: 'value', 
-          name: 'Rentabilidad (%)', 
-          position: 'left',
-          axisLabel: {
-            formatter: '{value}%'
-          }
+      const option: echarts.EChartsOption = {
+        tooltip: { trigger: 'item' },
+        legend: { top: 'bottom', data: [`Rentabilidad ${participacionMostrar}`, 'Volatilidad'] },
+        xAxis: {
+          type: 'category',
+          data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
+          axisLabel: { interval: 0, fontSize: 12 }
         },
-        { 
-          type: 'value', 
-          name: 'Volatilidad', 
-          position: 'right',
-          splitLine: {
-            show: false
-          }
-        }
-      ],
-      series: [...rentabilidadSeries, volatilidadSerie],
-      grid: { 
-        left: '5%', 
-        right: '5%', 
-        bottom: '10%', 
-        top: '15%',
-        containLabel: true
-      },
-      color: ['#588bd2', '#ffbd59']
-    };
+        yAxis: [
+          { type: 'value', name: 'Rentabilidad (%)', position: 'left', axisLabel: { formatter: '{value}%' } },
+          { type: 'value', name: 'Volatilidad', position: 'right', splitLine: { show: false } }
+        ],
+        series: [...rentabilidadSeries, volatilidadSerie],
+        grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
+        color: ['#588bd2', '#ffbd59']
+      };
 
-    
-    this.chartRentabilidadInstance.setOption(option);
-
-    window.removeEventListener('resize', this.resizeRentabilidadHandler);
-    window.addEventListener('resize', this.resizeRentabilidadHandler);
-  }
+      this.chartRentabilidadInstance.setOption(option);
+      window.removeEventListener('resize', this.resizeRentabilidadHandler);
+      window.addEventListener('resize', this.resizeRentabilidadHandler);
+    }
 
 
   @ViewChild('chartInversiones') chartInversiones!: ElementRef;

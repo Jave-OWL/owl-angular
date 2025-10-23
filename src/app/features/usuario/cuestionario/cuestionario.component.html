@@ -1,91 +1,88 @@
 <div class="container">
     <div class="contenedor-imagen">
-        <img id="logo" src="assets/images/OwlSerio.png" alt="Logo" />
+        <img id="logo" [src]="showLoading ? 'assets/images/OwlCalculo.png' : 'assets/images/OwlSerio.png'" alt="Logo" />
     </div>
     <section class="cuestionario" id="cuestionario-riesgo">
         <div id="contenedor-preguntas">
             <!-- Bienvenida: se muestra antes de las preguntas -->
             <div class="bienvenida" *ngIf="showWelcome">
-                <h2>¡Bienvenido a OWL!</h2>
+                <h1>¡Bienvenido a OWL!</h1>
                 <p>Antes de comenzar, queremos conocer un poco sobre tu tolerancia al riesgo. Responde con sinceridad para obtener un perfil adecuado.</p>
                 <button class="btn btn-primary" (click)="startQuestionnaire()">Comenzar cuestionario</button>
             </div>
-            <h1 *ngIf="!showWelcome">Perfil de Riesgo</h1>
-            <div class="pregunta-paginas" *ngIf="!showWelcome" [ngSwitch]="currentPage">
-            <!-- Página 1 -->
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" 
-                    [style.width]="(currentPage/(numPreguntas))*100 + '%'"
-                    [style.backgroundColor]="getColorProgreso()"
-                    [attr.aria-valuenow]="currentPage" 
-                    aria-valuemin="0" 
-                    [attr.aria-valuemax]="numPreguntas"></div>
-            </div>
 
-            <ng-container *ngFor="let pregunta of preguntas; let i = index">
-                <div class="pregunta-pagina" *ngSwitchCase="i + 1">
+            <div class="pregunta-scroll" *ngIf="!showWelcome && !showResults && !showLoading">
+                <h1>Test de perfil de Riesgo</h1>
+                <p class="muted-text">
+                    Basado en el test "Grable & Lytton Risk Assessment" &copy;
+                    <span></span>
+                </p>
+                <!-- Preguntas tipo Likert -->
+                <div class="pregunta-item" *ngFor="let pregunta of preguntas; let i = index">
+                    <div class="pregunta-numero"><!-- Pregunta {{ i + 1 }} / {{ preguntas.length + 2 }} --> {{ i + 1 }} )</div>
                     <p class="pregunta-texto">
                         <ng-container *ngFor="let parte of pregunta.partes">
                             <ng-container *ngIf="isPreguntaParte(parte); else textoNormal">
-                            <span class="tooltip-palabra" [attr.data-tooltip]="parte.definicion">{{ parte.palabra }}</span>
+                                <span class="tooltip-palabra" [attr.data-tooltip]="parte.definicion">{{ parte.palabra }}</span>
                             </ng-container>
                             <ng-template #textoNormal>{{ parte }}</ng-template>
                         </ng-container>
                     </p>
                     <div class="opciones">
-                        <p id="texto-izq" class="texto-opcion">De Acuerdo</p>
-                        <input class="seleccion" id="opcion-grande" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
-                            value="5">
-                        <input class="seleccion" id="opcion-media" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
-                            value="4">
-                        <input class="seleccion" id="opcion-pequeña" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
-                            value="3">
-                        <input class="seleccion" id="opcion-media-d" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
-                            value="2">
-                        <input class="seleccion" id="opcion-grande-d" type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]"
-                            value="1">
-                        <p id="texto-der" class="texto-opcion">En Desacuerdo</p>
+                        <label *ngFor="let opcion of pregunta.opciones">
+                            <input type="radio" [name]="'pregunta' + (i + 1)" [(ngModel)]="answers[i]" [value]="opcion.valor" />
+                            <span>{{ opcion.texto }}</span>
+                        </label>
                     </div>
                 </div>
-            </ng-container>
+                <!-- Pregunta multiselección: duración de inversión -->
+                <div class="pregunta-item">
+                    <div class="pregunta-numero"><!-- Pregunta {{ preguntas.length + 1 }} / -->{{ preguntas.length + 1 }} ) </div>
+                    <p class="pregunta-texto">
+                        ¿Cuántos días quieres invertir tu dinero? (Selecciona una o más opciones)
+                    </p>
+                    <div class="lista-opciones">
+                        <label class="opcion-checkbox" *ngFor="let opt of durationOptions">
+                            <input type="checkbox" #cb
+                                   [checked]="isDurationSelected(opt.id)"
+                                   (change)="toggleDuration(opt.id, cb.checked)" />
+                            <span>{{ opt.label }}</span>
+                        </label>
+                    </div>
+                </div>
 
-            <!-- Página sí/no: retiro inmediato -->
-            <div class="pregunta-pagina" *ngSwitchCase="preguntas.length + 1">
-                <p class="pregunta-texto">
-                    ¿Quieres poder sacar tu dinero en cualquier momento?
-                </p>
-                <div class="opciones">
-                    <label>
-                        <input type="radio" name="retiroInmediato" [(ngModel)]="retiroInmediato" value="si"> Sí
-                    </label>
-                    <label>
-                        <input type="radio" name="retiroInmediato" [(ngModel)]="retiroInmediato" value="no"> No
-                    </label>
+                <!-- Botón de envío -->
+                <div class="navigation">
+                    <button class="btn btn-submit" 
+                            [disabled]="!isFormComplete()" 
+                            (click)="submitAnswers()">
+                        Terminar cuestionario
+                    </button>
                 </div>
             </div>
 
-            <!-- Página extra: multiselección de duración de inversión -->
-            <div class="pregunta-pagina" *ngSwitchCase="preguntas.length + 2">
-                <p class="pregunta-texto">
-                    ¿Cuántos días quieres invertir tu dinero? (puedes seleccionar una o más opciones)
-                </p>
-                <div class="lista-opciones">
-                    <label class="opcion-checkbox" *ngFor="let opt of durationOptions">
-                        <input type="checkbox" #cb
-                               [checked]="isDurationSelected(opt.id)"
-                               (change)="toggleDuration(opt.id, cb.checked)" />
-                        <span>{{ opt.label }}</span>
-                    </label>
+            <!-- Pantalla de carga -->
+            <div class="loading-screen" *ngIf="showLoading">
+                <div class="loading-content">
+                    <h1>Cargando resultados...</h1>
+                    <div class="loader"></div>
                 </div>
             </div>
-        </div>
-    <!-- Navegación -->
-    <div class="navigation" *ngIf="!showWelcome">
-            <button class="btn btn-primary" (click)="previousPage()" [disabled]="currentPage === 1">Anterior</button>
-            <span class="page-indicator">{{ currentPage }} / {{ numPreguntas }}</span>
-            <button class="btn btn-primary" (click)="nextPage()" *ngIf="currentPage < numPreguntas">Siguiente</button>
-            <button class="btn btn-success" (click)="submitAnswers()" *ngIf="currentPage === numPreguntas">Pasar a preguntas demográficas</button>
-        </div>
+
+            <!-- Resultados -->
+            <div class="resultado-card" *ngIf="showResults">
+                <h1>¡Cuestionario Completado!</h1>
+                <div class="resultado-score">
+                    <p class="score-label">Tu Puntuación:</p>
+                    <p class="score-value">{{ suma }}</p>
+                </div>
+                <div class="resultado-perfil">
+                    <p class="perfil-label">Perfil Detectado:</p>
+                    <p class="perfil-value">{{ resultadoPerfil }}</p>
+                </div>
+                <button class="btn btn-primary" (click)="resetQuestionnaire()">Volver a tomar el test</button>
+                <button class="btn btn-primary" (click)="goToDashboard()">Continuar</button>
+            </div>
         </div>
     </section>
 </div>

@@ -24,7 +24,6 @@ export const routes: Routes = [
         path: 'aprende',
         loadComponent: () => import('./routes/aprende/aprende.component').then((m) => m.AprendeComponent)
     },
-    // Feature modules with their own routing
     {
         path: 'fics',
         loadChildren: () => import('./features/FICs/fics-routing.module').then(m => m.FicsRoutingModule)
@@ -41,7 +40,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         data: { role: 'administrador' }
     },
-    // Not found route
+    // Not found 404
     {
         path: '**',
         loadComponent: () => import('./routes/pagenotfound/pagenotfound.component').then((m) => m.PagenotfoundComponent)

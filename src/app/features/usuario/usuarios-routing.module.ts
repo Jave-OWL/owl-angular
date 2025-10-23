@@ -8,11 +8,11 @@ import { CuestionarioComponent } from './cuestionario/cuestionario.component';
 import { SeleccionTipoInversionComponent } from './seleccion-tipo-inversion/seleccion-tipo-inversion.component';
 
 const routes: Routes = [
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'perfil', component: PerfilComponent },
-  { path: 'perfil-riesgo', component: PerfilRiesgoComponent },
-  { path: 'cuestionario', component: CuestionarioComponent },
-  { path: 'seleccion-inversion', component: SeleccionTipoInversionComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [authGuard] },
+  { path: 'perfil', component: PerfilComponent, canActivate: [authGuard] },
+  { path: 'perfil-riesgo', component: PerfilRiesgoComponent, canActivate: [authGuard] },
+  { path: 'cuestionario', component: CuestionarioComponent, canActivate: [authGuard] },
+  { path: 'seleccion-inversion', component: SeleccionTipoInversionComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 

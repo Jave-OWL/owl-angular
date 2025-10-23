@@ -16,8 +16,9 @@
         <button (click)="showDropdownGestor()"><i class="bi bi-filter"></i></button>
             <div class="dropdownGestor" class="dropdown-info">
                 <div class="triangle"></div>    
-                <p *ngFor="let gestor of fondos">
-                    <span (click)="filtrarPorGestor(gestor.gestor)">{{gestor.gestor}}</span>
+                <p (click)="limpiarFiltroGestor()">Todos los gestores</p>
+                <p *ngFor="let gestor of gestoresUnicos">
+                    <span (click)="filtrarPorGestor(gestor)">{{gestor}}</span>
                 </p>
             </div>
         <button><i class="bi bi-search"></i></button>
@@ -28,7 +29,14 @@
                 <p (click)="cargarEA()">EA Minima</p>
                 <p (click)="cargarMaxEA()">EA Maxima</p>
             </div>
-        <button><i class="bi bi-arrow-down-up"></i></button>
+        <button (click)="showDropdownOrdenamiento()"><i class="bi bi-arrow-down-up"></i></button>
+            <div id="dropdownOrdenamiento" class="dropdown-info">
+                <div class="triangle"></div>    
+                <p (click)="aplicarFiltro('nombre-asc')">Nombre A-Z</p>
+                <p (click)="aplicarFiltro('nombre-desc')">Nombre Z-A</p>
+                <p (click)="aplicarFiltro('ea-asc')">EA Ascendente</p>
+                <p (click)="aplicarFiltro('ea-desc')">EA Descendente</p>
+            </div>
 </div>
 </div>
 
@@ -40,7 +48,7 @@
     <button *ngFor="let fondo of fondosFiltrados" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
         <div class="info-fic">
             <div class="top">
-
+                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo}}</p>
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
             </div>
             <div class="bottom">     
