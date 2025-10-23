@@ -171,29 +171,52 @@ export class CuestionarioComponent implements OnInit {
   },
   {
     partes: [
-      'Estoy dispuesto a invertir en ',
-      { palabra: 'productos financieros más complejos', definicion: 'Inversiones más difíciles de entender, como fondos con derivados o divisas, que pueden tener más riesgo y mayor ganancia potencial.' },
-      ' si con eso puedo mejorar mis resultados.'
+      'Además de lo que ya posees, te han dado $1.000.000 de pesos. Ahora se te pide que elijas entre las siguientes opciones:'
     ],
     opciones: [
-      { texto: 'De acuerdo', valor: 4 },
-      { texto: 'Neutral', valor: 3 },
-      { texto: 'En desacuerdo', valor: 2 },
-      { texto: 'Totalmente en desacuerdo', valor: 1 }
+      { texto: 'Una ganancia segura de $500.000 pesos', valor: 4 },
+      { texto: 'Una posibilidad del 50% de ganar $1.000.000 de pesos y una posibilidad del 50% ganar nada', valor: 3 }
     ]
   },
   {
     partes: [
-      'Estoy dispuesto a que mis inversiones tengan ',
-      { palabra: 'rendimientos variables', definicion: 'Ganancias que no son estables: a veces altas, a veces bajas.' },
-      ' si eso aumenta mis posibilidades de ganar más.'
+      'Además de lo que ya posees, te han dado $2.000.000 de pesos. Ahora se te pide que elijas entre las siguientes opciones:'
     ],
     opciones: [
-      { texto: 'Totalmente de acuerdo', valor: 5 },
-      { texto: 'De acuerdo', valor: 4 },
-      { texto: 'Neutral', valor: 3 },
-      { texto: 'En desacuerdo', valor: 2 },
-      { texto: 'Totalmente en desacuerdo', valor: 1 }
+      { texto: 'Una perdida segura de $500.000 pesos', valor: 4 },
+      { texto: 'Una posibilidad del 50% de perder $1.000.000 de pesos y una posibilidad del 50% de perder nada', valor: 3 }
+    ]
+  },
+  {
+    partes: [
+      'Suponga que un pariente le ha dejado una herencia de 100 millones de pesos, estipulando en su testamento que usted debe invertir TODO ese dinero en UNA de las siguientes opciones. ¿Cuál opción elegiría?'
+    ],
+    opciones: [
+      { texto: 'Una cuenta de ahorros', valor: 1 },
+      { texto: 'Un fondo de inversion colectiva', valor: 2 },
+      { texto: 'Un portafolio con x y z', valor: 3 },
+      { texto: 'En materias primas como oro, plata y petroleo', valor: 4 }
+    ]
+  },
+  {
+    partes: [
+      'Si usted tuviera que invertir $20.000.000 de pesos, cual de las siguientes opciones de inversion considera mas atractiva para usted?'
+    ],
+    opciones: [
+      { texto: '60% en inversiones de bajo-riesgo, 30% en inversiones de mediano-riesgo y 10% en inversiones de alto-riesgo', valor: 1 },
+      { texto: '30% en inversiones de bajo-riesgo, 40% en inversiones de mediano-riesgo y 30% en inversiones de alto-riesgo', valor: 2 },
+      { texto: '10% en inversiones de bajo-riesgo, 40% en inversiones de mediano-riesgo y 50% en inversiones de alto-riesgo', valor: 3 }
+    ]
+  },
+  {
+    partes: [
+      'Tu amigo y vecino de confianza, un geólogo experimentado, está reuniendo un grupo de inversionistas para financiar una exploración minera de oro. Esta inversión podría generar entre 50 y 100 veces el monto invertido si tiene éxito. Sin embargo, si la mina fracasa, toda la inversión se perdería. Tu amigo estima que la probabilidad de éxito es solo del 20%. Si tuvieras el dinero, ¿cuánto invertirías?'
+    ],
+    opciones: [
+      { texto: 'Nada', valor: 1 },
+      { texto: 'El salario de un mes', valor: 2 },
+      { texto: 'El salario de tres meses', valor: 3 },
+      { texto: 'El salario de seis meses', valor: 4 }
     ]
   }
 ];
@@ -254,19 +277,19 @@ export class CuestionarioComponent implements OnInit {
     
     // Determinar el perfil basado en la suma
     if (this.suma <= 22) {
-      this.resultadoPerfil = 'Perfil Conservador';
+      this.resultadoPerfil = 'Conservador';
     }
     else if (this.suma <= 32) {
-      this.resultadoPerfil = 'Perfil Moderado';
+      this.resultadoPerfil = 'Moderado';
     }
     else if (this.suma <= 47) {
-      this.resultadoPerfil = 'Perfil Arriesgado';
+      this.resultadoPerfil = 'Arriesgado';
     }
     else {
       this.resultadoPerfil = 'Error al calcular los resultados. Por favor, inténtalo de nuevo en otro momento.';
     }
 
-    //Servicio a backen
+    //Servicio a backend
     //this.NNService.enviarRespuestas(this.answers, this.selectedDurations).subscribe();
 
     window.scrollTo(0, 0);
