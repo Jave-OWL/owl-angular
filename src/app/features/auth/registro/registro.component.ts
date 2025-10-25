@@ -13,7 +13,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './registro.component.css'
 })
 export class RegistroComponent implements OnInit {
-  currentImageSrc: string = 'assets/images/OwlNeutral.png';
+  currentImageSrc: string = 'assets/images/OwlNeutral.webp';
   registroForm!: FormGroup;
   loading = false;
   error: string = '';
@@ -52,7 +52,7 @@ export class RegistroComponent implements OnInit {
             if (error.message === 'Email already exists') {
               this.error = 'El correo electrónico ya está registrado';
             }
-            this.currentImageSrc = 'assets/images/OwlLlaveError.png';
+            this.currentImageSrc = 'assets/images/OwlLlaveError.webp';
           }
         });
       } else {

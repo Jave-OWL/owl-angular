@@ -72,13 +72,14 @@ p {
 .contenedor-busqueda {
     margin-top: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: left;
+    align-items: left;
     gap: 10px;
+    width: 100%;
 }
 
 .input-busqueda {
-    width: 80%;
+    width: 60%;
     padding: 10px 40px;
     font-size: 16px;
     color: var(--color-texto);
@@ -111,14 +112,33 @@ p {
     gap: 10px;
 }
 
-.dropdown-content {
-    position: relative;
-    width: max-content;
-    display: none;
+.custom-select {
+    width: fit-content;
+    padding: 10px 15px;
+    color: var(--color-texto);
     background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--internal-border-radius);
+    box-shadow: var(--light-box-shadow);
+    appearance: none;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23437AC6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
 }
 
-/* ==========================================================================
+.custom-select:hover {
+    box-shadow: var(--medium-box-shadow);
+}
+
+.custom-select:focus {
+    outline: none;
+    box-shadow: var(--medium-box-shadow);
+}
+
+/* ========================================================================== 
     Resultados de la Busqueda
    ========================================================================== */
 .resultados {
@@ -389,5 +409,69 @@ p {
     .resultados {
       grid-template-columns: repeat(1, 1fr);   
     }
-    
+}
+
+.select-with-icon {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.custom-select.icon-only {
+    width: 50px;
+    min-width: 50px;
+    height: 40px;
+    padding: 8px;
+    color: transparent;
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--internal-border-radius);
+    box-shadow: var(--light-box-shadow);
+    appearance: none;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23437AC6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 5px center;
+    text-indent: -9999px;
+    overflow: hidden;
+    padding-right: 50px;
+}
+
+.custom-select.icon-only option {
+    color: var(--color-texto);
+    text-indent: 0;
+}
+
+.custom-select.icon-only:hover {
+    box-shadow: var(--medium-box-shadow);
+}
+
+.custom-select.icon-only:focus {
+    outline: none;
+    box-shadow: var(--medium-box-shadow);
+}
+
+.selected-logo {
+    position: absolute;
+    left: 45%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 24px;
+    width: auto;
+    pointer-events: none;
+}
+
+option {
+    color: var(--color-texto);
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--internal-border-radius);
+    box-shadow: var(--light-box-shadow);
+    appearance: none;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23437AC6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
 }

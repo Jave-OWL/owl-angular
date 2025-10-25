@@ -26,8 +26,11 @@ export class ExplorarFondosComponent {
 
   // Nuevas propiedades para filtros y ordenamiento
   gestoresUnicos: string[] = [];
+  tiposFondoUnicos: string[] = [];
   gestorSeleccionado: string = '';
+  tipoFondoSeleccionado: string = '';
   ordenSeleccionado: string = '';
+  selectedGestorLogo: string = 'assets/images/FIC.webp';
 
   constructor(private ficService: FICService,
               private route: ActivatedRoute,
@@ -46,11 +49,11 @@ export class ExplorarFondosComponent {
       const img = new Image();
 
       // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
-      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.png';
+      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
 
       // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
       img.onerror = () => {
-        fondo.logo = 'assets/images/FIC.png'; // Ruta del logo predeterminado
+        fondo.logo = 'assets/images/FIC.webp'; // Ruta del logo predeterminado
       };
 
       // Inicia la carga de la imagen para activar el manejador de error si falla
@@ -58,22 +61,18 @@ export class ExplorarFondosComponent {
     });
   }
 
-  showDropdownGestor(){
-    console.log("ShowDropdownGestor");
-    var dropdown = document.getElementById("dropdownGestor");
-    dropdown?.classList.toggle("show");
-  }
-
-  showDropdownEA(){
-    console.log("ShowDropdownEA");
-    var dropdown = document.getElementById("dropdownEA");
-    dropdown?.classList.toggle("show");
-  }
-
-  showDropdownOrdenamiento(){
-    console.log("ShowDropdownOrdenamiento");
-    var dropdown = document.getElementById("dropdownOrdenamiento");
-    dropdown?.classList.toggle("show");
+  handleEAChange(value: string) {
+    switch(value) {
+      case 'promedio':
+        this.cargarPromedioEA();
+        break;
+      case 'minima':
+        this.cargarEA();
+        break;
+      case 'maxima':
+        this.cargarMaxEA();
+        break;
+    }
   }
 
   cargarEA(){
@@ -124,6 +123,7 @@ export class ExplorarFondosComponent {
         this.cargarLogos();  
         this.cargarEA();
         this.cargarGestoresUnicos();
+        this.cargarTiposFondoUnicos();
         console.log(data);
       },
       (error: any) => {
@@ -158,6 +158,19 @@ export class ExplorarFondosComponent {
     this.gestoresUnicos = Array.from(gestoresSet).sort();
   }
 
+  cargarTiposFondoUnicos() {
+    const tiposSet = new Set(this.fondos.map(fondo => fondo.tipo));
+    this.tiposFondoUnicos = Array.from(tiposSet).sort();
+  }
+
+  filtrarPorTipo(tipo: string) {
+    this.tipoFondoSeleccionado = tipo;
+    this.aplicarFiltros();
+    if (this.ordenSeleccionado) {
+      this.aplicarFiltro(this.ordenSeleccionado);
+    }
+  }
+
   aplicarFiltros() {
     this.fondosFiltrados = [...this.fondos];
 
@@ -175,10 +188,28 @@ export class ExplorarFondosComponent {
         fondo.gestor.toLowerCase() === this.gestorSeleccionado.toLowerCase()
       );
     }
+
+    // Aplicar filtro por tipo de fondo
+    if (this.tipoFondoSeleccionado) {
+      this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
+        fondo.tipo === this.tipoFondoSeleccionado
+      );
+    }
   }
 
   filtrarPorGestor(gestor: string) {
     this.gestorSeleccionado = gestor;
+    if (gestor) {
+      this.selectedGestorLogo = `assets/images/${gestor}Logo.webp`;
+      // Fallback al logo por defecto si no se encuentra la imagen
+      const img = new Image();
+      img.onerror = () => {
+        this.selectedGestorLogo = 'assets/images/FIC.webp';
+      };
+      img.src = this.selectedGestorLogo;
+    } else {
+      this.selectedGestorLogo = 'assets/images/FIC.webp';
+    }
     this.aplicarFiltros();
     if (this.ordenSeleccionado) {
       this.aplicarFiltro(this.ordenSeleccionado);
@@ -187,6 +218,7 @@ export class ExplorarFondosComponent {
 
   limpiarFiltroGestor() {
     this.gestorSeleccionado = '';
+    this.selectedGestorLogo = 'assets/images/FIC.webp';
     this.aplicarFiltros();
     if (this.ordenSeleccionado) {
       this.aplicarFiltro(this.ordenSeleccionado);

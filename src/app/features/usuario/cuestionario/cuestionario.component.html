@@ -1,6 +1,6 @@
 <div class="container">
     <div class="contenedor-imagen">
-        <img id="logo" [src]="showLoading ? 'assets/images/OwlCalculo.png' : 'assets/images/OwlSerio.png'" alt="Logo" />
+        <img id="logo" [src]="showLoading ? 'assets/images/OwlCalculo.webp' : 'assets/images/OwlSerio.webp'" alt="Logo" />
     </div>
     <section class="cuestionario" id="cuestionario-riesgo">
         <div id="contenedor-preguntas">
@@ -35,9 +35,24 @@
                         </label>
                     </div>
                 </div>
+
+                <!-- Pregunta de pacto -->
+                <div class="pregunta-item">
+                    <div class="pregunta-numero">14</div>
+                    <p class="pregunta-texto">
+                        {{ preguntaPacto.titulo }}
+                    </p>
+                    <div class="opciones">
+                        <label *ngFor="let opcion of preguntaPacto.opciones">
+                            <input type="radio" name="preguntaPacto" [(ngModel)]="respuestaPacto" [value]="opcion.valor" />
+                            <span>{{ opcion.texto }}</span>
+                        </label>
+                    </div>
+                </div>
+
                 <!-- Pregunta multiselección: duración de inversión -->
                 <div class="pregunta-item">
-                    <div class="pregunta-numero"><!-- Pregunta {{ preguntas.length + 1 }} / -->{{ preguntas.length + 1 }} ) </div>
+                    <div class="pregunta-numero">15</div>
                     <p class="pregunta-texto">
                         ¿Cuántos días quieres invertir tu dinero? (Selecciona una o más opciones)
                     </p>

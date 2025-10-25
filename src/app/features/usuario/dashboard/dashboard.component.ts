@@ -105,13 +105,19 @@ export class DashboardComponent {
   cargarLogos() {
     this.FondosUsuario.forEach(fondo => {
       const img = new Image();
-      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.png';
+      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
       
       img.onerror = () => {
-        fondo.logo = 'assets/images/FIC.png'; // Logo por defecto
+        fondo.logo = 'assets/images/FIC.webp'; // Logo por defecto
       };
       
       img.src = fondo.logo;
     });
+  }
+
+  getTipoId(tipo: string): string {
+    if (!tipo) return '';
+    const palabras = tipo.trim().split(/\s+/);
+    return palabras[palabras.length - 1].toLowerCase();
   }
 }

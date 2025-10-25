@@ -37,6 +37,8 @@ export class CuestionarioComponent implements OnInit {
   showResults: boolean = false;
   showLoading: boolean = false;
   resultadoPerfil: string = '';
+  tipoPacto: string = '';
+  respuestaPacto: string = '';
 
   startQuestionnaire() {
     this.showWelcome = false;
@@ -47,6 +49,8 @@ export class CuestionarioComponent implements OnInit {
     this.showWelcome = true;
     this.showResults = false;
     this.resultadoPerfil = '';
+    this.tipoPacto = '';
+    this.respuestaPacto = '';
     this.suma = 0;
     this.answers = new Array(this.preguntas.length).fill(0);
     this.selectedDurations = [];
@@ -68,6 +72,7 @@ export class CuestionarioComponent implements OnInit {
   selectedDurations: string[] = [];
 
   ngOnInit(): void {
+    // +2 por la selección de duración y la pregunta de pacto
     this.numPreguntas = this.preguntas.length + 2;
     this.answers = new Array(this.preguntas.length).fill(0);
   }
@@ -141,10 +146,10 @@ export class CuestionarioComponent implements OnInit {
       'Cuando escuchas la palabra "Riesgo", cual de las siguientes palabras te viene a la mente primero?'
     ],
     opciones: [
-      { texto: 'Perdida', valor: 4 },
-      { texto: 'Incertidumbre', valor: 3 },
-      { texto: 'Oportunidad', valor: 2 },
-      { texto: 'Emocion', valor: 1 },
+      { texto: 'Perdida', valor: 1 },
+      { texto: 'Incertidumbre', valor: 2 },
+      { texto: 'Oportunidad', valor: 3 },
+      { texto: 'Emocion', valor: 4 },
     ]
   },
   {
@@ -174,7 +179,7 @@ export class CuestionarioComponent implements OnInit {
       'Además de lo que ya posees, te han dado $1.000.000 de pesos. Ahora se te pide que elijas entre las siguientes opciones:'
     ],
     opciones: [
-      { texto: 'Una ganancia segura de $500.000 pesos', valor: 4 },
+      { texto: 'Una ganancia segura de $500.000 pesos', valor: 1 },
       { texto: 'Una posibilidad del 50% de ganar $1.000.000 de pesos y una posibilidad del 50% ganar nada', valor: 3 }
     ]
   },
@@ -183,7 +188,7 @@ export class CuestionarioComponent implements OnInit {
       'Además de lo que ya posees, te han dado $2.000.000 de pesos. Ahora se te pide que elijas entre las siguientes opciones:'
     ],
     opciones: [
-      { texto: 'Una perdida segura de $500.000 pesos', valor: 4 },
+      { texto: 'Una perdida segura de $500.000 pesos', valor: 1 },
       { texto: 'Una posibilidad del 50% de perder $1.000.000 de pesos y una posibilidad del 50% de perder nada', valor: 3 }
     ]
   },
@@ -221,6 +226,16 @@ export class CuestionarioComponent implements OnInit {
   }
 ];
 
+  // Pregunta de pacto
+  preguntaPacto = {
+    titulo: '¿Qué tan importante es para ti tener la posibilidad de retirar tu dinero en cualquier momento?',
+    opciones: [
+      { texto: 'Es muy importante para mí poder retirar mi dinero cuando lo necesite', valor: 'pacto' },
+      { texto: 'No me importa si tengo que esperar un tiempo para poder retirar mi dinero', valor: 'nopacto' },
+      { texto: 'Me es indiferente', valor: 'cualquiera' }
+    ]
+  };
+
   sumarRespuestas() {
     this.suma = 0;
     for (let i = 0; i < this.answers.length; i++) {
@@ -251,6 +266,9 @@ export class CuestionarioComponent implements OnInit {
     if (this.selectedDurations.length === 0) {
       return false;
     }
+    if (!this.respuestaPacto) {
+      return false;
+    }
     return true;
   }
 
@@ -270,10 +288,17 @@ export class CuestionarioComponent implements OnInit {
       alert('Por favor, selecciona al menos una opción de duración.');
       return;
     }
+    if (!this.respuestaPacto) {
+      alert('Por favor, indica tu preferencia sobre la disponibilidad de tu dinero.');
+      return;
+    }
 
+    this.tipoPacto = this.respuestaPacto;
+    
     this.sumarRespuestas();
     console.log('Respuestas enviadas (Likert):', this.answers);
     console.log('Duraciones seleccionadas:', this.selectedDurations);
+    console.log('Tipo de pacto:', this.tipoPacto);
     
     // Determinar el perfil basado en la suma
     if (this.suma <= 22) {

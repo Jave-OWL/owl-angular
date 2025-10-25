@@ -13,6 +13,7 @@ import { Usuario } from '../../core/models/usuario.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  mostrarPopupCerrarSesion = false;
   isCuestionario(): boolean {
     return this.router.url.startsWith('/user/cuestionario');
   }
@@ -26,7 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((val) => {
-      if (this.router.url === '/auth/inicio-de-sesion' || this.router.url === '/auth/registro') {
+          const cleanUrl = this.router.url.split('?')[0];
+          if (cleanUrl === '/auth/inicio-de-sesion' || cleanUrl === '/auth/registro') {
         const HeaderElement = document.getElementById('header');
         if (HeaderElement) {
           HeaderElement.style.display = 'none';
@@ -91,8 +93,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   cerrarSesion() {
-    this.authService.logout();
-    this.router.navigate(['/']);
+    this.mostrarPopupCerrarSesion = true;
+  }
+
+  confirmarCerrarSesion(confirmado: boolean) {
+    this.mostrarPopupCerrarSesion = false;
+    if (confirmado) {
+      this.authService.logout();
+      this.router.navigate(['/auth/inicio-de-sesion']);
+    }
   }
 }
 

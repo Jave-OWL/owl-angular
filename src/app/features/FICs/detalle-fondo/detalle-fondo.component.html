@@ -1,11 +1,29 @@
 <div class="overlay" style="z-index: 999">
         <button class="tour" (click)="startTour()">?</button>
-        <img *ngIf="mostrarBienvenida===true" id="OwlAyuda90" src="assets/images/OwlAyuda90.png" alt="">
-        <div *ngIf="mostrarBienvenida===true" class="caja-texto">
-                <p style="text-align: center;">Hola!</p>
-                <p>Recuerda que puedes ver la guia de la informacion del fic aqui abajo</p>
-                <button id="closeButton" (click)="closeWelcomeScreen()" (keydown.enter)="closeWelcomeScreen()">Ok</button>
+        <img *ngIf="mostrarBienvenida || mostrarMensajePostTour" id="OwlAyuda90" class="entrada" src="assets/images/OwlAyuda90.webp" alt="">
+        <div *ngIf="mostrarBienvenida" class="mensaje-owl" [ngClass]="{'entrada': mostrarBienvenida, 'salida': !mostrarBienvenida}">
+                <p class="titulo-mensaje">¡Hola!</p>
+                <p class="contenido-mensaje">Recuerda que puedes ver la guía de información del FIC haciendo clic en el botón ?</p>
+                <button class="boton-mensaje" id="boton-mensaje" (click)="closeWelcomeScreen()" (keydown.enter)="closeWelcomeScreen()">Ok</button>
         </div>
+        <div *ngIf="mostrarMensajePostTour" class="mensaje-owl" [ngClass]="{'entrada': mostrarMensajePostTour, 'salida': !mostrarMensajePostTour}" style="width: 200px;">
+                <p class="titulo-mensaje">¡Excelente!</p>
+                <p class="contenido-mensaje">Si vuelves a tener dudas, solo pulsa aquí y verás el tutorial de nuevo</p>
+                <button class="boton-mensaje" (click)="cerrarMensajePostTour()" (keydown.enter)="cerrarMensajePostTour()">Ok</button>
+        </div>
+</div>
+
+<div *ngIf="mostrarDialogoTutorial" class="fondo-modal">
+    <div class="ventana-info" style="max-width: 400px;">
+        <div class="contenedor-info" style="text-align: center;">
+            <h2>Bienvenido al Tutorial</h2>
+            <p>¿Te gustaría ver un recorrido guiado por las principales características del fondo?</p>
+            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
+                <button class="boton-ok" (click)="iniciarTutorial(true)">Sí, por favor</button>
+                <button class="boton-ok" style="background-color: #6c757d;" (click)="iniciarTutorial(false)">No, gracias</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <a class="fic-link" href="{{fondo?.url}}" target="_blank" rel="noopener noreferrer">

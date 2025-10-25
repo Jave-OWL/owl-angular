@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
   styleUrl: './inicio-sesion.component.css'
 })
 export class InicioSesionComponent implements OnInit, AfterViewInit {
-  currentImageSrc: string = 'assets/images/OwlLlave.png';
+  currentImageSrc: string = 'assets/images/OwlLlave.webp';
   returnUrl: string = '/';
 
   formData = {
@@ -90,10 +90,10 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
     let imagenDefault = this.currentImageSrc;
     if (estadoLogin === 'exito') {
       console.log('exito');
-      this.currentImageSrc = 'assets/images/OwlLlaveExito.png';
+      this.currentImageSrc = 'assets/images/OwlLlaveExito.webp';
     }
     if (estadoLogin === 'error') {
-      imagen = 'assets/images/OwlLlaveError.png';
+      imagen = 'assets/images/OwlLlaveError.webp';
       this.currentImageSrc = imagen;
       // Cambia la imagen a la imagen por defecto después de un delay
       const resetImage = () => {

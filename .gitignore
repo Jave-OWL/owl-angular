@@ -43,3 +43,7 @@ Thumbs.db
 
 # Environment variables
 .env
+
+# Scripts de optimización de imágenes
+/convert-to-webp.js
+/convert-to-webp.ps1

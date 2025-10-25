@@ -62,6 +62,10 @@ button {
     transition: 0.3s ease;
 }
 
+button i {
+    color: var(--color-main);
+}
+
 button:hover {
     background-color: var(--color-background);
     transition: 0.3s ease;

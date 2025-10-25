@@ -23,6 +23,7 @@
                     <div class="fics-grid">
                         <button *ngFor="let fondo of FondosUsuario" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
                             <div class="top">
+                                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo}}</p>
                                 <img id="logo" [src]="fondo.logo" [alt]="fondo.nombre_fic" />
                             </div>
                             <div class="bottom">

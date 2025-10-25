@@ -1,3 +1,74 @@
+/* Popup de confirmación de cierre de sesión */
+.fondo-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.ventana-info {
+  background-color: var(--color-contenido, #fff);
+  border-radius: var(--border-radius, 16px);
+  padding: 24px;
+  width: 90%;
+  max-width: 400px;
+  max-height: 80vh;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.contenedor-info {
+  overflow-y: auto;
+  max-height: calc(80vh - 48px);
+}
+
+.ventana-info h2 {
+  color: var(--color-main, #437ac6ff);
+  margin-bottom: 16px;
+}
+
+.ventana-info p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.boton-ok {
+  background-color: var(--color-main, #437ac6ff);
+  color: white;
+  border: none;
+  padding: 8px 24px;
+  border-radius: var(--border-radius, 16px);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  margin: 0 8px;
+}
+
+.boton-ok:hover {
+  background-color: var(--color-main-hover, #588bd2);
+}
 /* ==========================================================================
    Header Styles
    ========================================================================== */

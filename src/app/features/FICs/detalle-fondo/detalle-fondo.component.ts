@@ -42,6 +42,8 @@ export class DetalleFondoComponent {
   private chartRentabilidadInstance?: echarts.ECharts;
   mostrarBienvenida: boolean = false;
   mostrarPolitica: boolean = false; // Control para mostrar/ocultar la política de inversión
+  mostrarDialogoTutorial: boolean = false; // Control para mostrar el diálogo de tutorial
+  mostrarMensajePostTour: boolean = false; // Control para mostrar mensaje después del tour
 
   rentabilidadHistoricaFiltrada?: {
     [key: string]: {
@@ -103,26 +105,74 @@ export class DetalleFondoComponent {
     }
   }
   closeWelcomeScreen() {
-    const welcomeScreen = document.getElementById('welcome-screen');
-    const closeButton = document.getElementById('closeButton');
     const owl = document.getElementById('OwlAyuda90');
-    if (welcomeScreen && closeButton && owl) {
-      welcomeScreen.style.display = 'none';
-      owl.classList.toggle('hide');
+    const mensaje = document.querySelector('.mensaje-owl') as HTMLElement;
+
+    if (owl && mensaje) {
+      owl.classList.remove('entrada');
+      owl.classList.add('salida');
+      
+      mensaje.classList.remove('entrada');
+      mensaje.classList.add('salida');
+      
+      const handleAnimationEnd = () => {
+        this.mostrarBienvenida = false;
+        owl.classList.remove('salida');
+      };
+
+      owl.addEventListener('animationend', handleAnimationEnd, { once: true });
     }
   }
     verificarPrimeraVez() {
       console.log('Verificando primera vez...');
-      const yaVisito = localStorage.getItem('primeraVisita');
-      if (!yaVisito) {
-        // Primera vez que visita
-        this.mostrarBienvenida = true;
-        // Marcar que ya visitó (permanentemente)
-        localStorage.setItem('primeraVisita', 'true');
-      } else {
+      const numVisitas = parseInt(localStorage.getItem('numVisitasFIC') || '0');
+      
+      if (numVisitas === 0) {
+        // Primera vez - mostrar diálogo de tutorial
         this.mostrarBienvenida = false;
+        setTimeout(() => {
+          this.mostrarDialogoTutorial = true;
+        }, 1000);
+        localStorage.setItem('numVisitasFIC', '1');
+      } else if (numVisitas === 1) {
+        // Segunda vez - no mostrar nada
+        this.mostrarBienvenida = false;
+        localStorage.setItem('numVisitasFIC', '2');
+      } else if (numVisitas === 2) {
+        // Tercera vez - mostrar mensaje de bienvenida
+        this.mostrarBienvenida = true;
+        localStorage.setItem('numVisitasFIC', '3');
       }
-  }
+    }
+
+    iniciarTutorial(aceptado: boolean) {
+      this.mostrarDialogoTutorial = false;
+      if (aceptado) {
+        setTimeout(() => {
+          this.startTour();
+        }, 500);
+      }
+    }
+
+    cerrarMensajePostTour() {
+      const owl = document.getElementById('OwlAyuda90');
+      const mensaje = document.querySelector('.mensaje-owl') as HTMLElement;
+      
+      if (owl && mensaje) {
+        owl.classList.remove('entrada');
+        owl.classList.add('salida');
+        
+        mensaje.classList.remove('entrada');
+        mensaje.classList.add('salida');
+        
+        const handleAnimationEnd = () => {
+          this.mostrarMensajePostTour = false;
+          owl.classList.remove('salida');
+        };
+
+        owl.addEventListener('animationend', handleAnimationEnd, { once: true });
+      }
+    }
 
   getTipoId(tipo?: string): string {
     if (!tipo) return '';
@@ -154,12 +204,12 @@ export class DetalleFondoComponent {
     const img = new Image();
 
     // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
-    this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.png';
+    this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.webp';
 
     // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
     img.onerror = () => {
       if (this.fondo) {
-      this.fondo.logo = 'assets/images/FIC.png'; // Ruta del logo predeterminado
+      this.fondo.logo = 'assets/images/FIC.webp'; // Ruta del logo predeterminado
     }};
 
         // Inicia la carga de la imagen para activar el manejador de error si falla
@@ -266,7 +316,7 @@ export class DetalleFondoComponent {
       this.cargarRentabilidadHistoricas(this.rentabilidadesHistoricasFiltradas);
       this.cargarVolatilidadesHistoricas(this.volatilidadesHistoricasFiltradas);
       this.tipoParticipacion = 'Promedio';
-      this.rentabilidadGeneral = parseFloat((promedios.ultimo_mes * 100).toFixed(2));
+      this.rentabilidadGeneral = parseFloat((promedios.ultimo_mes * 100).toFixed(3));
     } else if(this.fondo) { 
       this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
       this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
@@ -336,7 +386,7 @@ export class DetalleFondoComponent {
       r => r.tipo_de_participacion === participacionMenor
     );
     if (rentabilidadItem) {
-      this.rentabilidadGeneral = parseFloat((rentabilidadItem.ultimo_mes * 100).toFixed(2));
+      this.rentabilidadGeneral = parseFloat((rentabilidadItem.ultimo_mes * 100).toFixed(3));
       this.tipoParticipacion = participacionMenor;
     }
     this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
@@ -365,17 +415,22 @@ export class DetalleFondoComponent {
   }
 
   cargarVolatilidadesHistoricas(volatilidadesHistoricas: any[]) {
+    const multiplicador =
+      this.fondo?.gestor === 'FIDUCIARIA DE OCCIDENTE S.A.' || this.fondo?.gestor === 'Itaú Comisionista de Bolsa S.A.'
+        ? 1
+        : 100;
+
     const volatilidadesHistoricasPorNombre = volatilidadesHistoricas.reduce((acc, item) => {
       const nombre = item.tipo_de_participacion;
       if (!acc[nombre]) {
         acc[nombre] = [];
       }
       acc[nombre].push({
-        ultimo_mes: parseFloat((item.ultimo_mes * 10).toFixed(2)),
-        ultimo_6_meses: parseFloat((item.ultimo_6_meses * 10).toFixed(2)),
-        ultimo_anio: parseFloat((item.ultimo_anio * 10).toFixed(2)),
-        ultimo_2_anios: parseFloat((item.ultimo_2_anios * 10).toFixed(2)),
-        ultimo_3_anios: parseFloat((item.ultimo_3_anios * 10).toFixed(2)),
+        ultimo_mes: parseFloat((item.ultimo_mes * multiplicador).toFixed(3)),
+        ultimo_6_meses: parseFloat((item.ultimo_6_meses * multiplicador).toFixed(3)),
+        ultimo_anio: parseFloat((item.ultimo_anio * multiplicador).toFixed(3)),
+        ultimo_2_anios: parseFloat((item.ultimo_2_anios * multiplicador).toFixed(3)),
+        ultimo_3_anios: parseFloat((item.ultimo_3_anios * multiplicador).toFixed(3)),
       });
       return acc;
     }, {});
@@ -452,12 +507,15 @@ export class DetalleFondoComponent {
 
   renderChart(container: HTMLElement, composicionData: ComposicionPortafolio[], title?: string) {
     this.ngZone.runOutsideAngular(() => {
-      const data = composicionData.length > 0 
-        ? composicionData.map(comp => ({
-            name: comp.categoria,
-            value: comp.participacion * 100 // Convertir a porcentaje
-          }))
-        : this.generateRandomData();
+      if (composicionData.length === 0) {
+        return;
+      }
+      const data = composicionData
+        .map(comp => ({
+          name: comp.categoria,
+          value: parseFloat((comp.participacion * 100).toFixed(2))
+        }))
+        .filter(item => item.value > 0);
 
       const chart = echarts.init(container);
       this.charts.push(chart);
@@ -470,7 +528,7 @@ export class DetalleFondoComponent {
           left: 'center',
           subtext: 'Participación (%)',
           textStyle: {
-            fontSize: 14,
+            fontSize: 18,
             color: '#666',
             fontFamily: 'Poppins, sans-serif'
           }
@@ -496,16 +554,14 @@ export class DetalleFondoComponent {
             show: true,
             formatter: '{b}: {c}%'
           },
+          labelLine: {
+            show: true,
+            length: 5,
+            length2: 5 
+          }
         }],
-        /*legend: {
-          show: true,
-          orient: 'horizontal',
-          top: 'top',
-          data: data.map(item => item.name)
-        },*/
         color: colors
-      }
-      ;
+      };
 
       chart.setOption(option);
 
@@ -515,18 +571,6 @@ export class DetalleFondoComponent {
       };
       window.addEventListener('resize', resizeHandler);
     });
-  }
-
-  generateRandomData() {
-    const data = [];
-    const labels = ['Elemento 1', 'Elemento 2', 'Elemento 3', 'Elemento 4', 'Elemento 5', 'Elemento 6'];
-    for (let i = 0; i < 6; i++) {
-      data.push({
-        name: labels[i],
-        value: Math.floor(Math.random() * (30 - 1 + 1)) + 1
-      });
-    }
-    return data;
   }
 
   //
@@ -870,6 +914,15 @@ export class DetalleFondoComponent {
   driverObj = driver({
   popoverClass: 'popover-owl',
   showProgress: true,
+  allowClose: true,
+  onDestroyed: () => {
+    if (!localStorage.getItem('primeraVezTour')) {
+      setTimeout(() => {
+        this.mostrarMensajePostTour = true;
+        localStorage.setItem('primeraVezTour', 'true');
+      }, 500);
+    }
+  },
   steps: [
     {
       element: '#focus',

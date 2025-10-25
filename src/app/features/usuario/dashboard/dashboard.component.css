@@ -15,6 +15,7 @@ h3 {
 
 #logo {
     height: 60px;
+    width: fit-content;
     margin-top: 2px;
     margin-bottom: 2px;
     border-radius: var(--internal-border-radius);
@@ -281,23 +282,13 @@ i {
 .top {
     background-color: hwb(222 96% 0%);
     padding-bottom: 10px;
-    padding-top: 10px;
+    padding-top: 0px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
-    display: flex;
-    justify-content: center;
 }
 
-.top p {
-    margin-bottom: 0px;
-    margin-right: 10px;
-    text-align: left;
-    align-self: center;
-    font-size: 19px;
-    color: var(--color-main);
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.top img {
+    justify-content: center;
+
 }
 
 .bottom {
@@ -311,24 +302,34 @@ i {
 }
 
 .riesgo {
+    border-radius: var(--border-radius) 0 var(--border-radius) 0;
     color: white;
     font-weight: 500;
+    font-size: 15px;
+    width: 110px;
+    height: fit-content;
+    margin-bottom: 5px;
 }
 
-#alto {
-    background-color: rgb(230, 55, 55);
-}
 
-#medio {
-    background-color: rgb(255, 216, 60);
-}
-
-#bajo {
-    background-color: rgb(50, 199, 50);
+#alternativa {
+    background-color: #f5a623;
 }
 
 #variable {
-    background-color: rgb(184, 0, 184);
+   background-color: #1452a8;
+}
+
+#mixto {
+    background-color: var(--color-main)
+}
+
+#fija {
+    background-color: #8fb6f5;
+}
+
+#variable {
+    background-color: hwb(215 52% 65%);
 }
 
 .consejo {

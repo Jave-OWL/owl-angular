@@ -5,7 +5,7 @@
             <h2>Explorar Fondos</h2>
             <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
         </div>
-            <img hidden id="OwlLupa" src="assets/images/OwlLupa.png" alt="Logo" />
+            <img hidden id="OwlLupa" src="assets/images/OwlLupa.webp" alt="Logo" />
     </div>
 <div class="contenedor-busqueda">
     <input class="input-busqueda" 
@@ -13,30 +13,31 @@
            placeholder="Busca un fondo..."
            (input)="buscarFondos($event)">
     <div class="buttons">
-        <button (click)="showDropdownGestor()"><i class="bi bi-filter"></i></button>
-            <div class="dropdownGestor" class="dropdown-info">
-                <div class="triangle"></div>    
-                <p (click)="limpiarFiltroGestor()">Todos los gestores</p>
-                <p *ngFor="let gestor of gestoresUnicos">
-                    <span (click)="filtrarPorGestor(gestor)">{{gestor}}</span>
-                </p>
-            </div>
-        <button><i class="bi bi-search"></i></button>
-        <button (click)="showDropdownEA()">EA</button>
-            <div id="dropdownEA" class="dropdown-info">
-                <div class="triangle"></div>    
-                <p (click)="cargarPromedioEA()">EA Promedio</p>
-                <p (click)="cargarEA()">EA Minima</p>
-                <p (click)="cargarMaxEA()">EA Maxima</p>
-            </div>
-        <button (click)="showDropdownOrdenamiento()"><i class="bi bi-arrow-down-up"></i></button>
-            <div id="dropdownOrdenamiento" class="dropdown-info">
-                <div class="triangle"></div>    
-                <p (click)="aplicarFiltro('nombre-asc')">Nombre A-Z</p>
-                <p (click)="aplicarFiltro('nombre-desc')">Nombre Z-A</p>
-                <p (click)="aplicarFiltro('ea-asc')">EA Ascendente</p>
-                <p (click)="aplicarFiltro('ea-desc')">EA Descendente</p>
-            </div>
+        <div class="select-with-icon" title="Filtrar por gestor">
+            <select class="custom-select icon-only" (change)="filtrarPorGestor($any($event.target).value)" aria-label="Filtrar por gestor">
+                <option value="" [attr.data-icon]="'assets/images/FIC.webp'">Gestor</option>
+                <option *ngFor="let gestor of gestoresUnicos" [value]="gestor" [attr.data-icon]="'assets/images/' + gestor + 'Logo.webp'">{{gestor}}</option>
+            </select>
+            <img [src]="selectedGestorLogo" class="selected-logo" [alt]="gestorSeleccionado || 'Gestor'">
+        </div>
+        <select class="custom-select" (change)="filtrarPorTipo($any($event.target).value)" aria-label="Filtrar por tipo de fondo">
+            <option value="">Tipo</option>
+            <option *ngFor="let tipo of tiposFondoUnicos" [value]="tipo" [class]="getTipoId(tipo)">{{tipo}}</option>
+        </select>
+        <button hidden><i class="bi bi-search"></i></button>
+        <select class="custom-select" (change)="handleEAChange($any($event.target).value)" aria-label="Tipo de EA">
+            <option value="">EA</option>
+            <option value="promedio">EA Promedio</option>
+            <option value="minima">EA Minima</option>
+            <option value="maxima">EA Maxima</option>
+        </select>
+        <select class="custom-select" (change)="aplicarFiltro($any($event.target).value)" aria-label="Ordenamiento">
+            <option value="">Ordenar</option>
+            <option value="nombre-asc">Nombre A-Z</option>
+            <option value="nombre-desc">Nombre Z-A</option>
+            <option value="ea-asc">EA Ascendente</option>
+            <option value="ea-desc">EA Descendente</option>
+        </select>
 </div>
 </div>
 
