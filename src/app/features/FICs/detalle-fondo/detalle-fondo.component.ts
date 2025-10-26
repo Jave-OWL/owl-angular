@@ -66,6 +66,7 @@ export class DetalleFondoComponent {
   };
 
   ngOnInit(): void {
+    window.scrollTo(0, 0);
     this.verificarPrimeraVez();
     this.ficService.findById(this.queryParam ? +this.queryParam : this.id).subscribe(
       (data) => {

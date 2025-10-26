@@ -7,9 +7,9 @@
   --color-main-hover: #395d90;
   --color-primary: #90acd3;
   --color-secondary: #bbc7e5;
-  --color-tertiary: #d0dbf5;
+  --color-tertiary: #e1e8f8;
   --color-accent: #ffbd59;
-  /*#edf4fe*/
+  /*#--color-tertiary: #d9e2f5;*/
   --color-background: hwb(222 95% 0%); /*93%*/
   /*
   --color-general-text: rgb(37, 57, 62);
@@ -26,7 +26,7 @@
   --border-radius: 12px;
   /*-----Sombra global*-----/
   /*offset-x | offset-y | blur-radius | spread-radius | color*/
-  --light-box-shadow: 1px 0px 5px 1px rgba(0, 0, 0, 0.05);
+  --light-box-shadow: 0px 0px 6px 2px rgba(51, 51, 51, 0.04);
   --medium-box-shadow: 1px 1px 12px 1px rgba(0, 0, 0, 0.15);
   --dark-box-shadow: 1px 1px 20px 1px rgba(0, 0, 0, 0.3);
   /*-----Tamaños globales-----*/

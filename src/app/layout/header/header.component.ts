@@ -23,7 +23,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router,
     private authService: AuthService
   ) {
-    // Suscribirse a los cambios de ruta para ocultar/mostrar el header
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((val) => {
@@ -41,7 +40,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
       }
     });
 
-    // Suscribirse a los cambios del usuario actual
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
     });

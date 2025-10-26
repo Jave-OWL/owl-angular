@@ -14,6 +14,10 @@ import { AuthService } from '../../../core/services/auth.service';
 export class InicioSesionComponent implements OnInit, AfterViewInit {
   currentImageSrc: string = 'assets/images/OwlLlave.webp';
   returnUrl: string = '/';
+  errorMessage: string = '';
+  showError: boolean = false;
+  emailError: boolean = false;
+  passwordError: boolean = false;
 
   formData = {
     correo: '',
@@ -49,6 +53,9 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
 
   iniciarSesion(correo: string, contrasenia: string) {
     if (!correo || !contrasenia) {
+      this.mostrarError('Por favor, completa todos los campos');
+      this.emailError = !correo;
+      this.passwordError = !contrasenia;
       this.cambiarImagen('error');
       return;
     }
@@ -56,6 +63,7 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
     this.authService.login(correo, contrasenia).subscribe({
       next: (response: any) => {
         console.log('Response from login:', response);
+        this.limpiarError();
         this.cambiarImagen('exito');
         
         if (this.formulario && this.exito) {
@@ -75,6 +83,30 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
       },
       error: (error) => {
         console.error('Error de inicio de sesión:', error);
+        let mensajeError = 'Credenciales incorrectas. Por favor, verifica tu correo y contraseña.';
+        
+        if (error.status === 403) {
+          mensajeError = 'Correo o contraseña incorrectos.';
+        } else if (error.status === 401) {
+          mensajeError = 'Correo o contraseña incorrectos.';
+        } else if (error.status === 404) {
+          mensajeError = 'Servicio no disponible. Intenta más tarde.';
+        } else if (error.status === 500) {
+          mensajeError = 'Error en el servidor. Intenta más tarde.';
+        } else if (error.status === 0) {
+          mensajeError = 'No se puede conectar con el servidor. Verifica tu conexión.';
+        } else if (error.error?.message && typeof error.error.message === 'string') {
+         
+          const serverMessage = error.error.message;
+          if (!serverMessage.includes('Http failure') && !serverMessage.includes('localhost')) {
+            mensajeError = serverMessage;
+          }
+        }
+        
+        this.emailError = true;
+        this.passwordError = true;
+        
+        this.mostrarError(mensajeError);
         this.cambiarImagen('error');
       }
     });
@@ -87,7 +119,7 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
 
   cambiarImagen(estadoLogin: string) {
     let imagen = '';
-    let imagenDefault = this.currentImageSrc;
+    let imagenDefault = 'assets/images/OwlLlave.webp';
     if (estadoLogin === 'exito') {
       console.log('exito');
       this.currentImageSrc = 'assets/images/OwlLlaveExito.webp';
@@ -98,9 +130,36 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
       // Cambia la imagen a la imagen por defecto después de un delay
       const resetImage = () => {
         this.currentImageSrc = imagenDefault;
+        this.limpiarError();
         document.removeEventListener('input', resetImage);
       };
       document.addEventListener('input', resetImage);
+    }
+  }
+
+  mostrarError(mensaje: string) {
+    this.errorMessage = mensaje;
+    this.showError = true;
+  }
+
+  limpiarError() {
+    this.errorMessage = '';
+    this.showError = false;
+    this.emailError = false;
+    this.passwordError = false;
+  }
+
+  onEmailInput() {
+    this.emailError = false;
+    if (!this.passwordError) {
+      this.limpiarError();
+    }
+  }
+
+  onPasswordInput() {
+    this.passwordError = false;
+    if (!this.emailError) {
+      this.limpiarError();
     }
   }
 }

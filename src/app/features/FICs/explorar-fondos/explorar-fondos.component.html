@@ -2,43 +2,141 @@
 <button class="tour" (click)="startTour()">?</button>
     <div class="titulo">
         <div class="texto">
-            <h2>Explorar Fondos</h2>
-            <p>Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
+            <h2>Explora Nuestro Catalogo de Fondos</h2>
+            <p class="subtitulo">Encuentra el fondo de inversión que mejor se adapte a tus necesidades.</p>
+            <p class="fondos-filtrados">Fondos disponibles: {{fondosFiltrados.length}}</p>
         </div>
             <img hidden id="OwlLupa" src="assets/images/OwlLupa.webp" alt="Logo" />
     </div>
 <div class="contenedor-busqueda">
-    <input class="input-busqueda" 
-           type="text" 
-           placeholder="Busca un fondo..."
-           (input)="buscarFondos($event)">
+    <div class="search-wrapper">
+        <i style="color: var(--color-secondary);" class="bi bi-search search-icon"></i>
+        <input class="input-busqueda" 
+               type="text" 
+               placeholder="Busca un fondo..."
+               (input)="buscarFondos($event)">
+    </div>
     <div class="buttons">
-        <div class="select-with-icon" title="Filtrar por gestor">
-            <select class="custom-select icon-only" (change)="filtrarPorGestor($any($event.target).value)" aria-label="Filtrar por gestor">
-                <option value="" [attr.data-icon]="'assets/images/FIC.webp'">Gestor</option>
-                <option *ngFor="let gestor of gestoresUnicos" [value]="gestor" [attr.data-icon]="'assets/images/' + gestor + 'Logo.webp'">{{gestor}}</option>
-            </select>
-            <img [src]="selectedGestorLogo" class="selected-logo" [alt]="gestorSeleccionado || 'Gestor'">
+        <!-- Dropdown Gestor con logo -->
+        <div class="custom-dropdown with-logo" 
+             [class.open]="dropdownGestorAbierto" 
+             tabindex="0" 
+             (blur)="cerrarDropdownGestor()"
+             title="Filtrar por gestor">
+            <button type="button" 
+                    class="cd-trigger" 
+                    (click)="toggleDropdownGestor()" 
+                    aria-haspopup="listbox" 
+                    [attr.aria-expanded]="dropdownGestorAbierto">
+                <img [src]="selectedGestorLogo" class="cd-trigger-logo" [alt]="gestorSeleccionado || 'Gestor'">
+                {{ gestorSeleccionado || 'Gestor' }}
+                <span class="cd-arrow" aria-hidden="true"></span>
+            </button>
+            <ul class="cd-list" role="listbox" *ngIf="dropdownGestorAbierto">
+                <li role="option" 
+                    [class.selected]="gestorSeleccionado === ''"
+                    (click)="seleccionarGestor('', 'assets/images/FIC.webp')"
+                    tabindex="0">
+                    <img src="assets/images/FIC.webp" alt="Todos">
+                    Todos
+                </li>
+                <li role="option" 
+                    *ngFor="let gestor of gestoresUnicos"
+                    class="with-logo"
+                    [class.selected]="gestor === gestorSeleccionado"
+                    (click)="seleccionarGestor(gestor, 'assets/images/' + gestor + 'Logo.webp')"
+                    tabindex="0">
+                    <img [src]="'assets/images/' + gestor + 'Logo.webp'" 
+                         [alt]="gestor"
+                         (error)="$any($event.target).src='assets/images/FIC.webp'">
+                    {{gestor}}
+                </li>
+            </ul>
         </div>
-        <select class="custom-select" (change)="filtrarPorTipo($any($event.target).value)" aria-label="Filtrar por tipo de fondo">
-            <option value="">Tipo</option>
-            <option *ngFor="let tipo of tiposFondoUnicos" [value]="tipo" [class]="getTipoId(tipo)">{{tipo}}</option>
-        </select>
+
+        <!-- Dropdown Tipo -->
+        <div class="custom-dropdown" 
+             [class.open]="dropdownTipoAbierto" 
+             tabindex="0" 
+             (blur)="cerrarDropdownTipo()"
+             title="Filtrar por tipo">
+            <button type="button" 
+                    class="cd-trigger" 
+                    (click)="toggleDropdownTipo()" 
+                    aria-haspopup="listbox" 
+                    [attr.aria-expanded]="dropdownTipoAbierto">
+                {{ tipoFondoSeleccionado || 'Tipo' }}
+                <span class="cd-arrow" aria-hidden="true"></span>
+            </button>
+            <ul class="cd-list" role="listbox" *ngIf="dropdownTipoAbierto">
+                <li role="option" 
+                    [class.selected]="tipoFondoSeleccionado === ''"
+                    (click)="seleccionarTipo('')"
+                    tabindex="0">
+                    Todos
+                </li>
+                <li role="option" 
+                    *ngFor="let tipo of tiposFondoUnicos"
+                    [class.selected]="tipo === tipoFondoSeleccionado"
+                    (click)="seleccionarTipo(tipo)"
+                    tabindex="0">
+                    {{tipo}}
+                </li>
+            </ul>
+        </div>
+
         <button hidden><i class="bi bi-search"></i></button>
-        <select class="custom-select" (change)="handleEAChange($any($event.target).value)" aria-label="Tipo de EA">
-            <option value="">EA</option>
-            <option value="promedio">EA Promedio</option>
-            <option value="minima">EA Minima</option>
-            <option value="maxima">EA Maxima</option>
-        </select>
-        <select class="custom-select" (change)="aplicarFiltro($any($event.target).value)" aria-label="Ordenamiento">
-            <option value="">Ordenar</option>
-            <option value="nombre-asc">Nombre A-Z</option>
-            <option value="nombre-desc">Nombre Z-A</option>
-            <option value="ea-asc">EA Ascendente</option>
-            <option value="ea-desc">EA Descendente</option>
-        </select>
-</div>
+
+        <!-- Dropdown EA -->
+        <div class="custom-dropdown" 
+             [class.open]="dropdownEAAbierto" 
+             tabindex="0" 
+             (blur)="cerrarDropdownEA()"
+             title="Tipo de EA">
+            <button type="button" 
+                    class="cd-trigger" 
+                    (click)="toggleDropdownEA()" 
+                    aria-haspopup="listbox" 
+                    [attr.aria-expanded]="dropdownEAAbierto">
+                {{ eaSeleccionado.etiqueta }}
+                <span class="cd-arrow" aria-hidden="true"></span>
+            </button>
+            <ul class="cd-list" role="listbox" *ngIf="dropdownEAAbierto">
+                <li role="option" 
+                    *ngFor="let opcion of opcionesEA"
+                    [class.selected]="opcion.valor === eaSeleccionado.valor"
+                    (click)="seleccionarEA(opcion)"
+                    tabindex="0">
+                    {{opcion.etiqueta}}
+                </li>
+            </ul>
+        </div>
+
+        <!-- Dropdown Ordenar -->
+        <div class="custom-dropdown" 
+             [class.open]="dropdownOrdenarAbierto" 
+             tabindex="0" 
+             (blur)="cerrarDropdownOrdenar()"
+             title="Ordenamiento">
+            <button type="button" 
+                    class="cd-trigger" 
+                    (click)="toggleDropdownOrdenar()" 
+                    aria-haspopup="listbox" 
+                    [attr.aria-expanded]="dropdownOrdenarAbierto">
+                {{ ordenarSeleccionado.etiqueta }}
+                <span class="cd-arrow" aria-hidden="true"></span>
+            </button>
+            <ul class="cd-list" role="listbox" *ngIf="dropdownOrdenarAbierto">
+                <li role="option" 
+                    *ngFor="let opcion of opcionesOrdenar"
+                    [class.selected]="opcion.valor === ordenarSeleccionado.valor"
+                    (click)="seleccionarOrdenar(opcion)"
+                    tabindex="0">
+                    {{opcion.etiqueta}}
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 
 <div class="resultados-recomendados">
@@ -70,7 +168,7 @@
 
 <div *ngIf="fondosFiltrados.length === 0 && error === false" class="no-results">
     <span *ngIf="errorBusqueda===false" class="loader"></span>
-    <p *ngIf="errorBusqueda===true && error===false" class="no-results">No se encontraron resultados que coincidan con tu busqueda.</p>
+    <p *ngIf="errorBusqueda===true && error===false" class="no-results">No se encontraron fondos que coincidan con tu busqueda.</p>
 </div>
 
 <div *ngIf="error === true" class="error">

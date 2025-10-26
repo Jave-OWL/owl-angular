@@ -3,8 +3,8 @@
    ========================================================================== */
 .tour {
     position: fixed;
-    bottom: 2%;
-    right: 2%;
+    bottom: 20px;
+    right: 1.5%;
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -13,7 +13,7 @@
     font-weight: 600;
     font-size: 20px;
     border: none;
-    box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.2);
+     box-shadow: var(--light-box-shadow);
     transition: 0.3s ease;
 }
 
@@ -165,15 +165,15 @@
 }
 
 .titulo {
- display: flex;
- justify-content: space-between;
- flex-direction: row;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
 }
 
 .titulo-texto {
- display: flex;
- flex-direction: row;   
- height: 40px;
+    display: flex;
+    flex-direction: row;   
+    height: 40px;
 }
 
 .titulo-texto img {
@@ -209,8 +209,8 @@
 
 .fic-link {
     position: fixed;
-    bottom: 10%;
-    right: 2%;
+    bottom: 80px;
+    right: 1.5%;
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -328,6 +328,7 @@
 }
 
 .card {
+    border: 1px solid var(--color-tertiary);
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     margin: var(--border-radius);
@@ -360,6 +361,7 @@
 #focus{
     color: aliceblue;
     background-color: var(--color-main);
+    border: var(--color-primary) 1px solid;
 }
 
 #focus p{
@@ -438,6 +440,7 @@
 }
 
 .composicion {
+    border: 1px solid var(--color-tertiary);
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     padding: 10px;
@@ -472,6 +475,7 @@
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
+    border: 1px solid var(--color-tertiary);
 }
 
 .duraciones-plazo {
@@ -479,6 +483,7 @@
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
+    border: 1px solid var(--color-tertiary);
 }
 
 #chartInversiones, #chartDuracionesPlazo {
@@ -588,6 +593,7 @@
 }
 
 #info-fondo {
+    border: 1px solid var(--color-tertiary);
     background-color: var(--color-contenido);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);

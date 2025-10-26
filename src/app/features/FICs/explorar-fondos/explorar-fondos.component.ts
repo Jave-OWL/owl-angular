@@ -32,6 +32,29 @@ export class ExplorarFondosComponent {
   ordenSeleccionado: string = '';
   selectedGestorLogo: string = 'assets/images/FIC.webp';
 
+  // Propiedades para dropdowns personalizados
+  dropdownGestorAbierto: boolean = false;
+  dropdownTipoAbierto: boolean = false;
+  dropdownEAAbierto: boolean = false;
+  dropdownOrdenarAbierto: boolean = false;
+
+  opcionesEA = [
+    { valor: 'minima', etiqueta: 'EA Mínima' },
+    { valor: 'maxima', etiqueta: 'EA Máxima' },
+    { valor: 'promedio', etiqueta: 'EA Promedio' }
+  ];
+
+  opcionesOrdenar = [
+    { valor: '', etiqueta: 'Sin ordenar' },
+    { valor: 'nombre-asc', etiqueta: 'Nombre A-Z' },
+    { valor: 'nombre-desc', etiqueta: 'Nombre Z-A' },
+    { valor: 'ea-asc', etiqueta: 'EA Ascendente' },
+    { valor: 'ea-desc', etiqueta: 'EA Descendente' }
+  ];
+
+  eaSeleccionado = this.opcionesEA[0];
+  ordenarSeleccionado = this.opcionesOrdenar[0];
+
   constructor(private ficService: FICService,
               private route: ActivatedRoute,
               private router: Router
@@ -278,6 +301,84 @@ export class ExplorarFondosComponent {
         this.errorBusqueda = true;
       }
     }, 800);
+  }
+
+  // Métodos para dropdowns personalizados
+  toggleDropdownGestor() {
+    this.dropdownGestorAbierto = !this.dropdownGestorAbierto;
+    if (this.dropdownGestorAbierto) {
+      this.dropdownTipoAbierto = false;
+      this.dropdownEAAbierto = false;
+      this.dropdownOrdenarAbierto = false;
+    }
+  }
+
+  toggleDropdownTipo() {
+    this.dropdownTipoAbierto = !this.dropdownTipoAbierto;
+    if (this.dropdownTipoAbierto) {
+      this.dropdownGestorAbierto = false;
+      this.dropdownEAAbierto = false;
+      this.dropdownOrdenarAbierto = false;
+    }
+  }
+
+  toggleDropdownEA() {
+    this.dropdownEAAbierto = !this.dropdownEAAbierto;
+    if (this.dropdownEAAbierto) {
+      this.dropdownGestorAbierto = false;
+      this.dropdownTipoAbierto = false;
+      this.dropdownOrdenarAbierto = false;
+    }
+  }
+
+  toggleDropdownOrdenar() {
+    this.dropdownOrdenarAbierto = !this.dropdownOrdenarAbierto;
+    if (this.dropdownOrdenarAbierto) {
+      this.dropdownGestorAbierto = false;
+      this.dropdownTipoAbierto = false;
+      this.dropdownEAAbierto = false;
+    }
+  }
+
+  cerrarDropdownGestor() {
+    setTimeout(() => this.dropdownGestorAbierto = false, 200);
+  }
+
+  cerrarDropdownTipo() {
+    setTimeout(() => this.dropdownTipoAbierto = false, 200);
+  }
+
+  cerrarDropdownEA() {
+    setTimeout(() => this.dropdownEAAbierto = false, 200);
+  }
+
+  cerrarDropdownOrdenar() {
+    setTimeout(() => this.dropdownOrdenarAbierto = false, 200);
+  }
+
+  seleccionarGestor(gestor: string, logo: string) {
+    this.gestorSeleccionado = gestor;
+    this.selectedGestorLogo = logo || 'assets/images/FIC.webp';
+    this.dropdownGestorAbierto = false;
+    this.filtrarPorGestor(gestor);
+  }
+
+  seleccionarTipo(tipo: string) {
+    this.tipoFondoSeleccionado = tipo;
+    this.dropdownTipoAbierto = false;
+    this.filtrarPorTipo(tipo);
+  }
+
+  seleccionarEA(opcion: any) {
+    this.eaSeleccionado = opcion;
+    this.dropdownEAAbierto = false;
+    this.handleEAChange(opcion.valor);
+  }
+
+  seleccionarOrdenar(opcion: any) {
+    this.ordenarSeleccionado = opcion;
+    this.dropdownOrdenarAbierto = false;
+    this.aplicarFiltro(opcion.valor);
   }
 
     /*=====Driver JS - Tour de ayuda=====*/

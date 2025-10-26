@@ -1,4 +1,4 @@
-/* Popup de confirmación de cierre de sesión */
+/* Cierre de sesión */
 .fondo-modal {
   position: fixed;
   top: 0;
@@ -13,9 +13,10 @@
 }
 
 .ventana-info {
+  border: 1px solid var(--color-tertiary);
   background-color: var(--color-contenido, #fff);
   border-radius: var(--border-radius, 16px);
-  padding: 24px;
+  padding: 20px 24px;
   width: 90%;
   max-width: 400px;
   max-height: 80vh;
@@ -47,9 +48,12 @@
 .ventana-info h2 {
   color: var(--color-main, #437ac6ff);
   margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 22px;
 }
 
 .ventana-info p {
+  font-weight: 300;
   margin-bottom: 20px;
   line-height: 1.6;
 }
@@ -58,12 +62,13 @@
   background-color: var(--color-main, #437ac6ff);
   color: white;
   border: none;
-  padding: 8px 24px;
+  padding: 10px 0px;
   border-radius: var(--border-radius, 16px);
   cursor: pointer;
   font-weight: 500;
   transition: background-color 0.3s ease;
   margin: 0 8px;
+  width: 100px;
 }
 
 .boton-ok:hover {
