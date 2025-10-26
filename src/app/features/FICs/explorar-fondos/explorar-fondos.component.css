@@ -142,15 +142,6 @@ p {
     transition: 0.3s ease;
 }
 
-.contenedor-busqueda button {
-    padding: 10px 15px;
-    color: var(--color-texto);
-    background-color: var(--color-contenido);
-    border: none;
-    border-radius: var(--internal-border-radius);
-    box-shadow: var(--light-box-shadow);
-}
-
 .buttons {
     width: 100%;
     display: flex;
@@ -161,6 +152,143 @@ p {
     margin-bottom: 30px;
 }
 
+/* ==========================================================================
+   Dropdown Personalizado
+   ========================================================================== */
+
+.custom-dropdown {
+    position: relative;
+    width: fit-content;
+    min-width: 160px;
+}
+
+.custom-dropdown.open .cd-list {
+    display: block;
+}
+
+.cd-trigger {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--color-contenido);
+    color: var(--color-texto);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: var(--light-box-shadow);
+    transition: all 0.3s ease;
+    font-size: 14px;
+    gap: 8px;
+}
+
+.cd-trigger:hover {
+    box-shadow: var(--medium-box-shadow);
+    border-color: var(--color-main);
+}
+
+.cd-trigger:focus {
+    outline: none;
+    box-shadow: var(--medium-box-shadow);
+}
+
+.cd-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--color-main);
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.cd-arrow::before {
+    content: "\F282";
+    font-family: "bootstrap-icons";
+}
+
+.custom-dropdown.open .cd-arrow {
+    transform: rotate(180deg);
+}
+
+.cd-list {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--color-contenido);
+    border: 1px solid var(--color-tertiary);
+    box-shadow: var(--medium-box-shadow);
+    border-radius: var(--border-radius);
+    z-index: 999;
+    max-height: 280px;
+    overflow-y: auto;
+    padding: 6px 0;
+    display: none;
+    list-style: none;
+    margin: 0;
+    animation: slideDown 0.3s ease;
+}
+
+.cd-list li {
+    padding: 10px 14px;
+    cursor: pointer;
+    color: var(--color-texto);
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.cd-list li:hover {
+    background: rgba(67, 122, 198, 0.08);
+}
+
+.cd-list li.selected {
+    background: rgba(67, 122, 198, 0.12);
+    font-weight: 500;
+}
+
+/* Dropdown con logo */
+.custom-dropdown.with-logo .cd-trigger {
+    padding-left: 45px;
+    position: relative;
+}
+
+.cd-trigger-logo {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 24px;
+    width: 24px;
+    object-fit: contain;
+}
+
+.cd-list li.with-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cd-list li img {
+    height: 20px;
+    width: 20px;
+    object-fit: contain;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 /* ========================================================================== 
     Resultados de la Busqueda
    ========================================================================== */
@@ -440,128 +568,3 @@ p {
     }
 }
 
-/* ==========================================================================
-   Dropdown Personalizado
-   ========================================================================== */
-
-.custom-dropdown {
-    position: relative;
-    width: fit-content;
-    min-width: 160px;
-}
-
-.custom-dropdown.open .cd-list {
-    display: block;
-}
-
-.cd-trigger {
-    width: 100%;
-    text-align: left;
-    padding: 10px 15px;
-    background: var(--color-contenido);
-    color: var(--color-texto);
-    border-radius: var(--internal-border-radius);
-    border: 1px solid var(--color-tertiary);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: var(--light-box-shadow);
-    transition: box-shadow 0.3s ease;
-    font-size: 16px;
-    gap: 8px;
-}
-
-.cd-trigger:hover {
-    box-shadow: var(--medium-box-shadow);
-}
-
-.cd-trigger:focus {
-    outline: none;
-    box-shadow: var(--medium-box-shadow);
-}
-
-.cd-arrow {
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23437AC6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    flex-shrink: 0;
-}
-
-.cd-list {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    background: var(--color-contenido);
-    border: 1px solid var(--color-tertiary);
-    box-shadow: var(--medium-box-shadow);
-    border-radius: var(--border-radius);
-    z-index: 999;
-    max-height: 280px;
-    overflow-y: auto;
-    padding: 6px 0;
-    display: none;
-    list-style: none;
-    margin: 0;
-    animation: slideDown 0.3s ease;
-}
-
-.cd-list li {
-    padding: 10px 14px;
-    cursor: pointer;
-    color: var(--color-texto);
-    font-size: 14px;
-    transition: background-color 0.2s ease;
-}
-
-.cd-list li:hover {
-    background: rgba(67, 122, 198, 0.08);
-}
-
-.cd-list li.selected {
-    background: rgba(67, 122, 198, 0.12);
-    font-weight: 500;
-}
-
-/* Dropdown con logo */
-.custom-dropdown.with-logo .cd-trigger {
-    padding-left: 45px;
-    position: relative;
-}
-
-.cd-trigger-logo {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 24px;
-    width: 24px;
-    object-fit: contain;
-}
-
-.cd-list li.with-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.cd-list li img {
-    height: 20px;
-    width: 20px;
-    object-fit: contain;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}

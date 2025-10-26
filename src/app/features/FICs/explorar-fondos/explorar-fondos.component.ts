@@ -391,38 +391,48 @@ export class ExplorarFondosComponent {
     showProgress: true,
     steps: [
       { 
-        element: '#OwlLupa',
+        element: '.search-wrapper',
         popover: {
-          title: 'Explorar Fondos',
-          description: 'Encuentra el fondo de inversión que mejor se adapte a tus necesidades.',
+          title: 'Barra de Búsqueda',
+          description: 'Encuentra cualquier fondo de inversión en nuestra base de datos',
+          side: 'bottom',
+          align: 'center'
         }
       },
       { 
-        element: '.input-busqueda',
-        popover: {
-          title: 'Búsqueda',
-          description: 'Busca fondos por nombre o gestor.'
-        }
-      },
-      { 
-        element: '.bi-filter',
+        element: '#filtro-gestor',
         popover: {
           title: 'Filtro por Gestor',
-          description: 'Filtra los fondos por el gestor que administra el fondo.'
-        }
-      },
-      { 
-        element: '.bi-search',
-        popover: {
-          title: 'Buscar',
-          description: 'Inicia la búsqueda con los filtros aplicados.'
+          description: 'Filtra los fondos por el gestor que administra el fondo.',
+          side: 'bottom',
+          align: 'center'
         }
       },
       {
-        element: '.bi-arrow-down-up',
+        element: '#filtro-tipo',
+        popover: {
+          title: 'Filtro por Tipo',
+          description: 'Filtra los fondos por el tipo de fondo.',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: '#filtro-ea',
+        popover: {
+          title: 'Filtro por EA',
+          description: 'Filtra los fondos por la rentabilidad EA.',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: '#filtro-ordenar',
         popover: {
           title: 'Ordenar',
-          description: 'Ordena los fondos por nombre o rentabilidad EA.'
+          description: 'Ordena los fondos por nombre o rentabilidad EA.',
+          side: 'bottom',
+          align: 'center'
         }
       },
       {
@@ -430,13 +440,17 @@ export class ExplorarFondosComponent {
         popover: {
           title: 'Información general',
           description: 'Información general sobre el fondo de inversión.',
+          side: 'right',
+          align: 'center'
         }
       },
       {
         element: '#ea',
         popover: {
           title: 'Rentabilidad',
-          description: 'Rentabilidad del fondo de inversión.',
+          description: 'Rentabilidad del fondo de inversión. Carga la EA mínima por defecto.',
+          side: 'top',
+          align: 'center'
         }
       }
     ]

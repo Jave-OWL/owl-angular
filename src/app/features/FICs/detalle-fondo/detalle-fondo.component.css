@@ -288,7 +288,6 @@
 .ventana-info h2 {
     color: var(--color-main);
     margin-bottom: 16px;
-    padding-right: 30px;
 }
 
 .ventana-info p {
@@ -428,10 +427,6 @@
     align-items: center;
 }
 
-#participacion {
-    text-decoration: underline 1.5px solid;
-}
-
 .composiciones {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -468,6 +463,12 @@
     grid-template-columns: 1fr 1fr;
     gap: 28px;
     margin-top: 20px;
+    height: 550px;
+}
+
+.charts-grid h3 {
+    text-align: center;
+    margin-top: 10px;
 }
 
 .principales-inversiones {
@@ -488,7 +489,7 @@
 
 #chartInversiones, #chartDuracionesPlazo {
     width: 100%;
-    height: 400px;
+    height: 85%;
 }
 
 .other-chart-container {
@@ -509,12 +510,28 @@
 
 .participaciones-dropdown {
     background-color: var(--color-contenido);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-tertiary);
     border-radius: var(--border-radius);
-    box-shadow: var(--light-box-shadow);
-    padding: 10px;
+    box-shadow: var(--medium-box-shadow);
+    padding: 6px 0;
     display: none;
-    z-index: 10;
+    z-index: 999;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 200px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .participaciones-dropdown ul {
@@ -524,30 +541,25 @@
 }
 
 .participaciones-dropdown li {
-    padding: 5px 10px;
+    padding: 10px 1px;
     cursor: pointer;
+    color: var(--color-texto);
+    font-size: 14px;
+    transition: background-color 0.2s ease;
 }
 
 .participaciones-dropdown li:hover {
-    background-color: var(--color-main-hover);
+    background-color: rgba(67, 122, 198, 0.08);
 }
 
 .participaciones-dropdown li.selected {
-    background-color: var(--color-main);
-    color: #fff;
-}
-
-.participaciones-dropdown li.selected:hover {
-    background-color: var(--color-main-hover);
+    background-color: rgba(67, 122, 198, 0.12);
+    font-weight: 500;
+    color: var(--color-main);
 }
 
 .participaciones-dropdown.show {
-    display:block;
-    position: absolute;
-    top: 70px;
-    right: -40px;
-    width: fit-content;
-    height: fit-content;
+    display: block;
 }
 
 .informacion-rendimiento {
@@ -558,27 +570,64 @@
     height: 550px;
 }
 
+.header-rendimiento {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.header-rendimiento h3 {
+    margin: 0;
+}
+
+.participacion-selector {
+    position: relative;
+}
+
 .participaciones {
-    background-color: var(--color-main);
-    border: none;
+    background-color: var(--color-contenido);
+    border: 1px solid var(--color-tertiary);
     padding: 8px 12px;
     border-radius: var(--border-radius);
     cursor: pointer;
     font-size: 14px;
-    position: absolute;
-    top: 20px;
-    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    box-shadow: var(--light-box-shadow);
+    min-width: 150px;
+    justify-content: space-between;
+}
+
+.participaciones:hover {
+    box-shadow: var(--medium-box-shadow);
+    border-color: var(--color-main);
 }
 
 .participaciones i {
-    color: var(--color-contenido);
-    font-size: 16px;
-    position: relative;
+    color: var(--color-main);
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.participacion-selector:has(.participaciones-dropdown.show) .participaciones i {
+    transform: rotate(180deg);
+}
+
+.participacion-actual {
+    color: var(--color-texto);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #rendimiento-card {
     position: relative;
     background-color: var(--color-contenido);
+    border: 1px solid var(--color-tertiary);
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;

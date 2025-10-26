@@ -18,7 +18,7 @@
     </div>
     <div class="buttons">
         <!-- Dropdown Gestor con logo -->
-        <div class="custom-dropdown with-logo" 
+        <div id="filtro-gestor" class="custom-dropdown with-logo" 
              [class.open]="dropdownGestorAbierto" 
              tabindex="0" 
              (blur)="cerrarDropdownGestor()"
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Dropdown Tipo -->
-        <div class="custom-dropdown" 
+        <div id="filtro-tipo" class="custom-dropdown" 
              [class.open]="dropdownTipoAbierto" 
              tabindex="0" 
              (blur)="cerrarDropdownTipo()"
@@ -88,7 +88,7 @@
         <button hidden><i class="bi bi-search"></i></button>
 
         <!-- Dropdown EA -->
-        <div class="custom-dropdown" 
+        <div id="filtro-ea" class="custom-dropdown" 
              [class.open]="dropdownEAAbierto" 
              tabindex="0" 
              (blur)="cerrarDropdownEA()"
@@ -113,7 +113,7 @@
         </div>
 
         <!-- Dropdown Ordenar -->
-        <div class="custom-dropdown" 
+        <div id="filtro-ordenar" class="custom-dropdown" 
              [class.open]="dropdownOrdenarAbierto" 
              tabindex="0" 
              (blur)="cerrarDropdownOrdenar()"
