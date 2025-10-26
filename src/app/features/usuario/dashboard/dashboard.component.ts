@@ -51,7 +51,7 @@ export class DashboardComponent {
 
   cargarFICs() {
     this.isLoading = true;
-    this.ficService.findAll().subscribe({
+    this.ficService.findByRecomendacion().subscribe({
       next: (fics) => {
         // Obtener 3 FICs aleatorios
         const fondosAleatorios = this.obtenerFICsAleatorios(fics, 3);

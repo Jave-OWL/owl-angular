@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { UsuarioService } from '../../../core/services/usuario.service';
 
 interface PreguntaParte {
   palabra?: string;
@@ -29,7 +30,9 @@ interface Pregunta {
 })
 export class CuestionarioComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+    private usuarioService: UsuarioService
+  ) { }
 
   showWelcome: boolean = true;
 
@@ -314,9 +317,20 @@ export class CuestionarioComponent implements OnInit {
       this.resultadoPerfil = 'Error al calcular los resultados. Por favor, inténtalo de nuevo en otro momento.';
     }
 
-    //Servicio a backend
-    //this.NNService.enviarRespuestas(this.answers, this.selectedDurations).subscribe();
-
+    this.usuarioService.enviarPrediccion(this.resultadoPerfil, this.tipoPacto, this.selectedDurations[0])
+      .subscribe({
+        next: (resp) => {
+          console.log('Predicción enviada/actualizada OK:', resp);
+          this.showLoading = false;
+          this.showResults = true;   // ahora sí muestra resultados cuando el server responde
+          window.scrollTo(0, 0);
+        },
+        error: (err) => {
+          console.error('Error enviando predicción:', err);
+          this.showLoading = false;
+          alert('Ocurrió un error enviando tus datos. Intenta de nuevo.');
+        }
+      });
     window.scrollTo(0, 0);
 
     // Mostrar pantalla de carga
