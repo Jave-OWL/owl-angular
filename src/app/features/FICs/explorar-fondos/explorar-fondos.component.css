@@ -114,9 +114,18 @@ p {
     left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--color-disabled);
+    color: var(--color-secondary);
     font-size: 18px;
     pointer-events: none;
+}
+
+.separator {
+    position: absolute;
+    left: 50px;
+    top: 0%;
+    height: 100%;
+    width: 0.67px;
+    background-color: var(--color-tertiary);
 }
 
 .search-wrapper:focus-within .search-icon {
@@ -125,12 +134,12 @@ p {
 
 .input-busqueda {
     width: 100%;
-    padding: 10px 40px 10px 45px;
+    padding: 10px 40px 10px 65px;
     font-size: 16px;
     color: var(--color-texto);
     background-color: var(--color-contenido);
     border: none;
-    border-radius: var(--internal-border-radius);
+    border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
     transition: 0.3s ease;
     border: 1px solid var(--color-tertiary);
@@ -320,6 +329,25 @@ p {
     border-radius: var(--border-radius);
     box-shadow: var(--light-box-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.5s ease forwards;
+    position: relative;
+}
+
+.fic:has(.ea-container:hover) {
+    z-index: 10000;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .result-item:hover {
@@ -358,6 +386,7 @@ p {
     padding-bottom: 10px;
     padding-top: 0px;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-bottom: 1px solid var(--color-tertiary);
 }
 
 .top img {
@@ -414,6 +443,11 @@ p {
     display: none;
 }
 
+.rentabilidades span {
+    font-weight: 600;
+    color: var(--color-main);
+}
+
 .dropdown-info {
     display: none;
 }
@@ -442,27 +476,36 @@ p {
     cursor: pointer;
 }
 
-.fic:hover .hover-info {
+.ea-container {
+    position: relative;
+    display: inline-block;
+}
+
+.ea-container:hover .hover-info {
     display: block;
     position: absolute;
     background-color: var(--color-contenido);
     padding: 10px;
     box-shadow: var(--medium-box-shadow);
     border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
     text-align: center;
     width: max-content;
-    max-width: 100%;
     height: max-content;
-    z-index: 99999;
-    top: 108%;
+    z-index: 999;
+    top: calc(100% + 12px);
     left: 50%;
     transform: translateX(-50%);
 }
 
-.fic:hover .rentabilidades {
+.ea-container:hover .rentabilidades {
     display: block;
     font-size: 14px;
     margin: 5px 0;
+}
+
+.hover-info {
+    display: none;
 }
 
 .triangle {
@@ -540,19 +583,15 @@ p {
 }
 
 #variable {
-   background-color: #1452a8;
+   background-color: #215092;
 }
 
-#mixto {
+#mixta {
     background-color: var(--color-main)
 }
 
 #fija {
-    background-color: #8fb6f5;
-}
-
-#variable {
-    background-color: hwb(215 52% 65%);
+    background-color: #8fccf5;
 }
 
 

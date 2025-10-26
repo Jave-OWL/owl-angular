@@ -9,13 +9,13 @@ import { driver } from "driver.js";
 import { Chart } from 'chart.js';
 import "driver.js/dist/driver.css";
 
-  interface Historico {
-    ultimo_mes: number;
-    ultimo_6_meses: number;
-    ultimo_anio: number;
-    ultimo_2_anios: number;
-    ultimo_3_anios: number;
-  }
+interface Historico {
+  ultimo_mes: number;
+  ultimo_6_meses: number;
+  ultimo_anio: number;
+  ultimo_2_anios: number;
+  ultimo_3_anios: number;
+}
 
 
 @Component({
@@ -71,11 +71,11 @@ export class DetalleFondoComponent {
     this.ficService.findById(this.queryParam ? +this.queryParam : this.id).subscribe(
       (data) => {
         this.fondo = data;
-        this.fondo.nombre_fic = this.fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');       
+        this.fondo.nombre_fic = this.fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');
         console.log('Datos del fondo:', this.fondo);
         this.cargarLogo();
         this.cargarComposiciones();
-        
+
         // Esperar a que la vista esté lista
         setTimeout(() => {
           if (this.viewReady) {
@@ -86,14 +86,14 @@ export class DetalleFondoComponent {
             this.renderDuracionesChart();
           }
         }, 0);
-        
+
         this.cargarInformacionGeneral();
         this.cargarPart();
       },
       (error) => {
         console.error('Error fetching data:', error);
       }
-    ); 
+    );
   }
 
   ngAfterViewInit(): void {
@@ -112,10 +112,10 @@ export class DetalleFondoComponent {
     if (owl && mensaje) {
       owl.classList.remove('entrada');
       owl.classList.add('salida');
-      
+
       mensaje.classList.remove('entrada');
       mensaje.classList.add('salida');
-      
+
       const handleAnimationEnd = () => {
         this.mostrarBienvenida = false;
         owl.classList.remove('salida');
@@ -124,56 +124,56 @@ export class DetalleFondoComponent {
       owl.addEventListener('animationend', handleAnimationEnd, { once: true });
     }
   }
-    verificarPrimeraVez() {
-      console.log('Verificando primera vez...');
-      const numVisitas = parseInt(localStorage.getItem('numVisitasFIC') || '0');
-      
-      if (numVisitas === 0) {
-        // Primera vez - mostrar diálogo de tutorial
-        this.mostrarBienvenida = false;
-        setTimeout(() => {
-          this.mostrarDialogoTutorial = true;
-        }, 1000);
-        localStorage.setItem('numVisitasFIC', '1');
-      } else if (numVisitas === 1) {
-        // Segunda vez - no mostrar nada
-        this.mostrarBienvenida = false;
-        localStorage.setItem('numVisitasFIC', '2');
-      } else if (numVisitas === 2) {
-        // Tercera vez - mostrar mensaje de bienvenida
-        this.mostrarBienvenida = true;
-        localStorage.setItem('numVisitasFIC', '3');
-      }
-    }
+  verificarPrimeraVez() {
+    console.log('Verificando primera vez...');
+    const numVisitas = parseInt(localStorage.getItem('numVisitasFIC') || '0');
 
-    iniciarTutorial(aceptado: boolean) {
-      this.mostrarDialogoTutorial = false;
-      if (aceptado) {
-        setTimeout(() => {
-          this.startTour();
-        }, 500);
-      }
+    if (numVisitas === 0) {
+      // Primera vez - mostrar diálogo de tutorial
+      this.mostrarBienvenida = false;
+      setTimeout(() => {
+        this.mostrarDialogoTutorial = true;
+      }, 1000);
+      localStorage.setItem('numVisitasFIC', '1');
+    } else if (numVisitas === 1) {
+      // Segunda vez - no mostrar nada
+      this.mostrarBienvenida = false;
+      localStorage.setItem('numVisitasFIC', '2');
+    } else if (numVisitas === 2) {
+      // Tercera vez - mostrar mensaje de bienvenida
+      this.mostrarBienvenida = true;
+      localStorage.setItem('numVisitasFIC', '3');
     }
+  }
 
-    cerrarMensajePostTour() {
-      const owl = document.getElementById('OwlAyuda90');
-      const mensaje = document.querySelector('.mensaje-owl') as HTMLElement;
-      
-      if (owl && mensaje) {
-        owl.classList.remove('entrada');
-        owl.classList.add('salida');
-        
-        mensaje.classList.remove('entrada');
-        mensaje.classList.add('salida');
-        
-        const handleAnimationEnd = () => {
-          this.mostrarMensajePostTour = false;
-          owl.classList.remove('salida');
-        };
-
-        owl.addEventListener('animationend', handleAnimationEnd, { once: true });
-      }
+  iniciarTutorial(aceptado: boolean) {
+    this.mostrarDialogoTutorial = false;
+    if (aceptado) {
+      setTimeout(() => {
+        this.startTour();
+      }, 500);
     }
+  }
+
+  cerrarMensajePostTour() {
+    const owl = document.getElementById('OwlAyuda90');
+    const mensaje = document.querySelector('.mensaje-owl') as HTMLElement;
+
+    if (owl && mensaje) {
+      owl.classList.remove('entrada');
+      owl.classList.add('salida');
+
+      mensaje.classList.remove('entrada');
+      mensaje.classList.add('salida');
+
+      const handleAnimationEnd = () => {
+        this.mostrarMensajePostTour = false;
+        owl.classList.remove('salida');
+      };
+
+      owl.addEventListener('animationend', handleAnimationEnd, { once: true });
+    }
+  }
 
   getTipoId(tipo?: string): string {
     if (!tipo) return '';
@@ -200,30 +200,31 @@ export class DetalleFondoComponent {
 
   cargarLogo() {
     // Itera sobre cada 'fondo' en el array 'fondos'
-    if(this.fondo){
-        // Crea un nuevo objeto Image para verificar la existencia del logo
-    const img = new Image();
+    if (this.fondo) {
+      // Crea un nuevo objeto Image para verificar la existencia del logo
+      const img = new Image();
 
-    // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
-    this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.webp';
+      // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
+      this.fondo.logo = 'assets/images/' + this.fondo?.gestor + 'Logo.webp';
 
-    // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
-    img.onerror = () => {
-      if (this.fondo) {
-      this.fondo.logo = 'assets/images/FIC.webp'; // Ruta del logo predeterminado
-    }};
+      // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
+      img.onerror = () => {
+        if (this.fondo) {
+          this.fondo.logo = 'assets/images/FIC.webp'; // Ruta del logo predeterminado
+        }
+      };
 
-        // Inicia la carga de la imagen para activar el manejador de error si falla
-    img.src = this.fondo.logo;
+      // Inicia la carga de la imagen para activar el manejador de error si falla
+      img.src = this.fondo.logo;
+    }
   }
-}
 
   mostrarCalculadora() {
 
   }
 
-  cargarPart(){
-    if(this.fondo){
+  cargarPart() {
+    if (this.fondo) {
       this.fondo.rentabilidad_historicas.forEach(item => {
         this.participaciones.push(item.tipo_de_participacion);
       });
@@ -236,7 +237,7 @@ export class DetalleFondoComponent {
     console.log(this.participaciones);
   }
 
-  mostrarPart(){
+  mostrarPart() {
     console.log(this.participaciones);
     const dropdown = document.querySelector('.participaciones-dropdown');
     dropdown?.classList.toggle('show');
@@ -245,18 +246,18 @@ export class DetalleFondoComponent {
   rentabilidadesHistoricasFiltradas: any[] = [];
   volatilidadesHistoricasFiltradas: any[] = [];
   participacionSeleccionada: string = '';
-  seleccionarPart(participacion: string){
+  seleccionarPart(participacion: string) {
     console.log(participacion);
     this.participacionSeleccionada = participacion;
-      if(participacion === 'Mostrar todos' && this.fondo){
-        this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas;
-        this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas;
-        // Cargar todas las rentabilidades y volatilidades en el gráfico
-        this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
-        this.cargarVolatilidadesHistoricas(this.fondo.volatilidad_historicas);
-        this.tipoParticipacion = 'Todos';
-        this.rentabilidadGeneral = 0;
-      } else if(participacion === 'Promedio' && this.fondo) {
+    if (participacion === 'Mostrar todos' && this.fondo) {
+      this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas;
+      this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas;
+      // Cargar todas las rentabilidades y volatilidades en el gráfico
+      this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
+      this.cargarVolatilidadesHistoricas(this.fondo.volatilidad_historicas);
+      this.tipoParticipacion = 'Todos';
+      this.rentabilidadGeneral = 0;
+    } else if (participacion === 'Promedio' && this.fondo) {
       // Calcular el promedio de todas las participaciones
       const promedios = {
         ultimo_mes: 0,
@@ -265,9 +266,9 @@ export class DetalleFondoComponent {
         ultimo_2_anios: 0,
         ultimo_3_anios: 0
       };
-      
+
       const total = this.fondo.rentabilidad_historicas.length;
-      
+
       this.fondo.rentabilidad_historicas.forEach(item => {
         promedios.ultimo_mes += item.ultimo_mes;
         promedios.ultimo_6_meses += item.ultimo_6_meses;
@@ -318,10 +319,10 @@ export class DetalleFondoComponent {
       this.cargarVolatilidadesHistoricas(this.volatilidadesHistoricasFiltradas);
       this.tipoParticipacion = 'Promedio';
       this.rentabilidadGeneral = parseFloat((promedios.ultimo_mes * 100).toFixed(3));
-    } else if(this.fondo) { 
+    } else if (this.fondo) {
       this.rentabilidadesHistoricasFiltradas = this.fondo.rentabilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
       this.volatilidadesHistoricasFiltradas = this.fondo.volatilidad_historicas.filter(item => item.tipo_de_participacion === participacion);
-      
+
       // Actualizar datos para la participación seleccionada
       this.cargarRentabilidadHistoricas(this.rentabilidadesHistoricasFiltradas);
       this.cargarVolatilidadesHistoricas(this.volatilidadesHistoricasFiltradas);
@@ -331,33 +332,33 @@ export class DetalleFondoComponent {
       this.rentabilidadesHistoricasFiltradas = [];
       this.volatilidadesHistoricasFiltradas = [];
     }
-    
-  this.destruirGraficaRentabilidad();
-  // Re-renderizar con los nuevos datos
-  this.renderRentabilidadChart();
-  this.renderInversionesChart();
+
+    this.destruirGraficaRentabilidad();
+    // Re-renderizar con los nuevos datos
+    this.renderRentabilidadChart();
+    this.renderInversionesChart();
   }
 
   destruirGraficaRentabilidad() {
-  // Verificar si existe una instancia de la gráfica
-  if (this.chartRentabilidadInstance) {
-    // Remover el listener de resize si existe
-    window.removeEventListener('resize', this.resizeRentabilidadHandler);
-    
-    // Destruir la instancia de echarts
-    this.chartRentabilidadInstance.dispose();
-    
-    // Limpiar la referencia
-    this.chartRentabilidadInstance = undefined;
-    
-    // Opcional: Limpiar el contenedor HTML
-    const container = this.chartRentabilidad?.nativeElement;
-    if (container) {
-      container.innerHTML = '';
+    // Verificar si existe una instancia de la gráfica
+    if (this.chartRentabilidadInstance) {
+      // Remover el listener de resize si existe
+      window.removeEventListener('resize', this.resizeRentabilidadHandler);
+
+      // Destruir la instancia de echarts
+      this.chartRentabilidadInstance.dispose();
+
+      // Limpiar la referencia
+      this.chartRentabilidadInstance = undefined;
+
+      // Opcional: Limpiar el contenedor HTML
+      const container = this.chartRentabilidad?.nativeElement;
+      if (container) {
+        container.innerHTML = '';
+      }
+
+      console.log('Gráfica de rentabilidad destruida correctamente');
     }
-    
-    console.log('Gráfica de rentabilidad destruida correctamente');
-  }
   }
 
   private resizeRentabilidadHandler = () => {
@@ -367,34 +368,34 @@ export class DetalleFondoComponent {
   };
 
   cargarInformacionGeneral() {
-  console.log('Cargando informacion general...');
-  if (this.fondo) {
-    //Selecciona la participación con menor ultimo_mes
-    let participacionMenor: string | null = null;
-    let valorMenor = Number.MAX_VALUE;
+    console.log('Cargando informacion general...');
+    if (this.fondo) {
+      //Selecciona la participación con menor ultimo_mes
+      let participacionMenor: string | null = null;
+      let valorMenor = Number.MAX_VALUE;
 
-    this.fondo.rentabilidad_historicas.forEach(item => {
-      if (item.ultimo_mes < valorMenor) {
-        valorMenor = item.ultimo_mes;
-        participacionMenor = item.tipo_de_participacion;
+      this.fondo.rentabilidad_historicas.forEach(item => {
+        if (item.ultimo_mes < valorMenor) {
+          valorMenor = item.ultimo_mes;
+          participacionMenor = item.tipo_de_participacion;
+        }
+      });
+
+      if (!participacionMenor) return;
+
+      //Asigna rentabilidadGeneral al ultimo_mes de esa participación
+      const rentabilidadItem = this.fondo.rentabilidad_historicas.find(
+        r => r.tipo_de_participacion === participacionMenor
+      );
+      if (rentabilidadItem) {
+        this.rentabilidadGeneral = parseFloat((rentabilidadItem.ultimo_mes * 100).toFixed(3));
+        this.tipoParticipacion = participacionMenor;
       }
-    });
-
-    if (!participacionMenor) return;
-
-    //Asigna rentabilidadGeneral al ultimo_mes de esa participación
-    const rentabilidadItem = this.fondo.rentabilidad_historicas.find(
-      r => r.tipo_de_participacion === participacionMenor
-    );
-    if (rentabilidadItem) {
-      this.rentabilidadGeneral = parseFloat((rentabilidadItem.ultimo_mes * 100).toFixed(3));
-      this.tipoParticipacion = participacionMenor;
+      this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
+      this.cargarVolatilidadesHistoricas(this.fondo.volatilidad_historicas);
+      this.renderRentabilidadChart();
     }
-    this.cargarRentabilidadHistoricas(this.fondo.rentabilidad_historicas);
-    this.cargarVolatilidadesHistoricas(this.fondo.volatilidad_historicas);
-    this.renderRentabilidadChart();
   }
-}
 
   cargarRentabilidadHistoricas(rentabilidadHistoricas: any[]) {
     const rentabilidadesHistoricasPorNombre = rentabilidadHistoricas.reduce((acc, item) => {
@@ -438,7 +439,7 @@ export class DetalleFondoComponent {
     this.volatilidadesHistoricas = volatilidadesHistoricasPorNombre;
     console.log('Volatilidades historicas cargadas por nombre:', this.volatilidadesHistoricas);
   }
-  
+
   cargarComposiciones() {
     if (this.fondo) {
       this.composicion_portafolios = this.fondo.composicion_portafolios;
@@ -451,7 +452,7 @@ export class DetalleFondoComponent {
         acc[tipo].push(item);
         return acc;
       }, {}) || {};
-      
+
       console.log('Composiciones cargadas por tipo:', this.composicionesPorTipo);
       this.renderPieCharts();
     }
@@ -467,7 +468,7 @@ export class DetalleFondoComponent {
   @ViewChildren('chartSectorEconomico') chartSectorEconomico!: ElementRef[];
 
   constructor(
-    private ficService: FICService, 
+    private ficService: FICService,
     private route: ActivatedRoute,
     private ngZone: NgZone
   ) {
@@ -521,8 +522,8 @@ export class DetalleFondoComponent {
       const chart = echarts.init(container);
       this.charts.push(chart);
 
-      const colors = ["#437ac6ff", "#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff", 
-                      "#ffbd59", "#f9c66fff", "#f7c06fff", "#f5b96fff", "#f3b26fff", "#f0a96fff"];
+      const colors = ["#437ac6ff", "#588bd2", "#699be1ff", "#79aaefff", "#86b1edff", "#a0c5f8ff",
+        "#ffbd59", "#f9c66fff", "#f7c06fff", "#f5b96fff", "#f3b26fff", "#f0a96fff"];
       const option: echarts.EChartsOption = {
         title: {
           text: title,
@@ -558,7 +559,7 @@ export class DetalleFondoComponent {
           labelLine: {
             show: true,
             length: 5,
-            length2: 5 
+            length2: 5
           }
         }],
         color: colors
@@ -577,183 +578,207 @@ export class DetalleFondoComponent {
   //
   @ViewChild('chartRentabilidad') chartRentabilidad!: ElementRef;
   renderRentabilidadChart() {
-      if (
-        !this.rentabilidadesHistoricas ||
-        !this.volatilidadesHistoricas ||
-        Object.keys(this.rentabilidadesHistoricas).length === 0
-      ) {
-        console.log('No hay datos suficientes para el gráfico de rentabilidad/volatilidad');
-        return;
-      }
+    if (
+      !this.rentabilidadesHistoricas ||
+      !this.volatilidadesHistoricas ||
+      Object.keys(this.rentabilidadesHistoricas).length === 0
+    ) {
+      console.log('No hay datos suficientes para el gráfico de rentabilidad/volatilidad');
+      return;
+    }
 
-      const container = this.chartRentabilidad?.nativeElement;
-      if (!container) {
-        console.warn('Contenedor chartRentabilidad no encontrado');
-        return;
-      }
+    const container = this.chartRentabilidad?.nativeElement;
+    if (!container) {
+      console.warn('Contenedor chartRentabilidad no encontrado');
+      return;
+    }
 
-      // Destruir instancia anterior si existe
-      if (this.chartRentabilidadInstance) {
-        this.chartRentabilidadInstance.dispose();
-      }
+    // Destruir instancia anterior si existe
+    if (this.chartRentabilidadInstance) {
+      this.chartRentabilidadInstance.dispose();
+    }
 
-      // Crear nueva instancia
-      this.chartRentabilidadInstance = echarts.init(container);
+    // Crear nueva instancia
+    this.chartRentabilidadInstance = echarts.init(container);
 
-      const periodos = [
-        'ultimo_3_anios',
-        'ultimo_2_anios',
-        'ultimo_anio',
-        'ultimo_6_meses',
-        'ultimo_mes'
-      ];
+    const periodos = [
+      'ultimo_3_anios',
+      'ultimo_2_anios',
+      'ultimo_anio',
+      'ultimo_6_meses',
+      'ultimo_mes'
+    ];
 
-      // Si se selecciona 'Mostrar todos', graficar todas las participaciones
-      if (this.participacionSeleccionada === 'Mostrar todos') {
-        const series: echarts.EChartsOption['series'] = [];
-        const legendData: string[] = [];
-        // Rentabilidad
-        Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
-          legendData.push(`Rentabilidad ${tipo}`);
-          series.push({
-            name: `Rentabilidad ${tipo}`,
-            type: 'bar',
-            data: periodos.map(clave => parseFloat((this.rentabilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
-            itemStyle: {
-              borderRadius: [6, 6, 0, 0],
-            },
-            label: {
-              show: true,
-              position: 'top',
-              formatter: '{c}%'
-            }
-          });
-        });
-        // Volatilidad
-        Object.keys(this.volatilidadesHistoricas).forEach(tipo => {
-          legendData.push(`Volatilidad ${tipo}`);
-          series.push({
-            name: `Volatilidad ${tipo}`,
-            type: 'line',
-            yAxisIndex: 1,
-            smooth: true,
-            symbol: 'circle',
-            symbolSize: 8,
-            lineStyle: { width: 3, type: 'solid' },
-            data: periodos.map(clave => parseFloat((this.volatilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
-            itemStyle: { color: '#ffbd59' },
-            label: {
-              show: true,
-              formatter: '{c}'
-            }
-          });
-        });
-        const option: echarts.EChartsOption = {
-          tooltip: { trigger: 'item' },
-          legend: { top: 'bottom', data: legendData },
-          xAxis: {
-            type: 'category',
-            data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
-            axisLabel: { interval: 0, fontSize: 12 }
-          },
-          yAxis: [
-            { type: 'value', name: 'Rentabilidad (%)', position: 'left', axisLabel: { formatter: '{value}%' } },
-            { type: 'value', name: 'Volatilidad', position: 'right', splitLine: { show: false } }
-          ],
-          series,
-          grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
-          color: ['#588bd2', '#ffbd59', '#437ac6ff', '#a0c5f8ff', '#ffbd59', '#f9c66fff', '#f5b96fff']
-        };
-        this.chartRentabilidadInstance.setOption(option);
-        window.removeEventListener('resize', this.resizeRentabilidadHandler);
-        window.addEventListener('resize', this.resizeRentabilidadHandler);
-        return;
-      }
-
-      // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
-      let participacionMostrar = this.participacionSeleccionada;
-      if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
-        let valorMenor = Number.MAX_VALUE;
-        Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
-          const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
-          if (r !== undefined && r < valorMenor) {
-            valorMenor = r;
-            participacionMostrar = tipo;
-          }
-        });
-      }
-
-      if (!participacionMostrar) return;
-
-      // --- 2. Rentabilidad de la participación ---
-      const rentabilidadData = periodos.map(clave => 
-        parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
-      );
-
-      const rentabilidadSeries: echarts.EChartsOption['series'] = [
-        {
-          name: `Rentabilidad ${participacionMostrar}`,
+    // Si se selecciona 'Mostrar todos', graficar todas las participaciones
+    if (this.participacionSeleccionada === 'Mostrar todos') {
+      const series: echarts.EChartsOption['series'] = [];
+      const legendData: string[] = [];
+      // Rentabilidad
+      Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
+        legendData.push(`Rentabilidad ${tipo}`);
+        series.push({
+          name: `Rentabilidad ${tipo}`,
           type: 'bar',
-          data: rentabilidadData,
+          data: periodos.map(clave => parseFloat((this.rentabilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
           itemStyle: {
             borderRadius: [6, 6, 0, 0],
-            color: '#588bd2'
           },
           label: {
             show: true,
             position: 'top',
             formatter: '{c}%'
           }
-        }
-      ];
-
-      // --- 3. Volatilidad correspondiente ---
-      const volatilidadData = periodos.map(clave =>
-        parseFloat((this.volatilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
-      );
-
-      const volatilidadSerie: echarts.SeriesOption = {
-        name: 'Volatilidad',
-        type: 'line',
-        yAxisIndex: 1,
-        smooth: true,
-        symbol: 'circle',
-        symbolSize: 8,
-        lineStyle: { width: 3, type: 'solid' },
-        data: volatilidadData,
-        itemStyle: { color: '#ffbd59' },
-        label: {
-          show: true,
-          formatter: '{c}'
-        }
-      };
-
+        });
+      });
+      // Volatilidad
+      Object.keys(this.volatilidadesHistoricas).forEach(tipo => {
+        legendData.push(`Volatilidad ${tipo}`);
+        series.push({
+          name: `Volatilidad ${tipo}`,
+          type: 'line',
+          yAxisIndex: 1,
+          smooth: true,
+          symbol: 'circle',
+          symbolSize: 8,
+          lineStyle: { width: 3, type: 'solid' },
+          data: periodos.map(clave => parseFloat((this.volatilidadesHistoricas![tipo][0][clave as keyof Historico]).toFixed(2))),
+          itemStyle: { color: '#ffbd59', },
+          label: {
+            show: true,
+            formatter: '{c}'
+          }
+        });
+      });
       const option: echarts.EChartsOption = {
         tooltip: { trigger: 'item' },
-        legend: { top: 'bottom', data: [`Rentabilidad ${participacionMostrar}`, 'Volatilidad'] },
+        legend: { top: 'bottom', data: legendData },
         xAxis: {
           type: 'category',
           data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
           axisLabel: { interval: 0, fontSize: 12 }
         },
         yAxis: [
-          { type: 'value', name: 'Rentabilidad (%)', position: 'left', axisLabel: { formatter: '{value}%' } },
-          { type: 'value', name: 'Volatilidad', position: 'right', splitLine: { show: false } }
+          { 
+            type: 'value', 
+            name: 'Rentabilidad (%)', 
+            position: 'left', 
+            axisLabel: { formatter: '{value}%' },
+            splitLine: { show: false }
+          },
+          { 
+            type: 'value', 
+            name: 'Volatilidad', 
+            position: 'right', 
+            splitLine: { show: false } 
+          }
         ],
-        series: [...rentabilidadSeries, volatilidadSerie],
+        series,
         grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
-        color: ['#588bd2', '#ffbd59']
+        color: ['#588bd2', '#ffbd59', '#437ac6ff', '#a0c5f8ff', '#ffbd59', '#f9c66fff', '#f5b96fff']
       };
-
       this.chartRentabilidadInstance.setOption(option);
       window.removeEventListener('resize', this.resizeRentabilidadHandler);
       window.addEventListener('resize', this.resizeRentabilidadHandler);
+      return;
     }
+
+    // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
+    let participacionMostrar = this.participacionSeleccionada;
+    if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
+      let valorMenor = Number.MAX_VALUE;
+      Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
+        const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
+        if (r !== undefined && r < valorMenor) {
+          valorMenor = r;
+          participacionMostrar = tipo;
+        }
+      });
+    }
+
+    if (!participacionMostrar) return;
+
+    // --- 2. Rentabilidad de la participación ---
+    const rentabilidadData = periodos.map(clave =>
+      parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+    );
+
+    const rentabilidadSeries: echarts.EChartsOption['series'] = [
+      {
+        name: `Rentabilidad ${participacionMostrar}`,
+        type: 'bar',
+        data: rentabilidadData,
+        itemStyle: {
+          borderRadius: [6, 6, 0, 0],
+          color: '#588bd2'
+        },
+        label: {
+          show: true,
+          position: 'top',
+          formatter: '{c}%'
+        }
+      }
+    ];
+
+    // --- 3. Volatilidad correspondiente ---
+    const volatilidadData = periodos.map(clave =>
+      parseFloat((this.volatilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
+    );
+
+    const volatilidadSerie: echarts.SeriesOption = {
+      name: 'Volatilidad',
+      type: 'line',
+      yAxisIndex: 1,
+      smooth: true,
+      symbol: 'circle',
+      symbolSize: 8,
+      lineStyle: { width: 3, type: 'solid' },
+      data: volatilidadData,
+      itemStyle: { color: '#ffbd59' },
+      label: {
+        show: true,
+        formatter: '{c}'
+      }
+    };
+
+    const option: echarts.EChartsOption = {
+      tooltip: { trigger: 'item' },
+      legend: { top: 'bottom', data: [`Rentabilidad ${participacionMostrar}`, 'Volatilidad'] },
+      xAxis: {
+        type: 'category',
+        data: ['3 años', '2 años', '1 año', '6 meses', 'Último mes'],
+        axisLabel: { interval: 0, fontSize: 12 },
+      },
+      yAxis: [
+        { 
+          type: 'value', 
+          name: 'Rentabilidad (%)', 
+          position: 'left', 
+          axisLabel: { formatter: '{value}%' }, 
+          axisLine: { show: false },
+          splitLine: { show: false }
+        },
+        { 
+          type: 'value', 
+          name: 'Volatilidad', 
+          position: 'right', 
+          splitLine: { show: false }, 
+          axisLine: { show: false } 
+        }
+      ],
+      series: [...rentabilidadSeries, volatilidadSerie],
+      grid: { left: '5%', right: '5%', bottom: '10%', top: '15%', containLabel: true },
+      color: ['#588bd2', '#ffbd59']
+    };
+
+    this.chartRentabilidadInstance.setOption(option);
+    window.removeEventListener('resize', this.resizeRentabilidadHandler);
+    window.addEventListener('resize', this.resizeRentabilidadHandler);
+  }
 
 
   @ViewChild('chartInversiones') chartInversiones!: ElementRef;
   @ViewChild('chartDuracionesPlazo') chartDuracionesPlazo!: ElementRef;
-  
+
   renderDuracionesChart() {
     if (!this.fondo?.plazo_duraciones || this.fondo.plazo_duraciones.length === 0) {
       console.log('No hay datos suficientes para el gráfico de duraciones por plazo');
@@ -814,7 +839,7 @@ export class DetalleFondoComponent {
   renderInversionesChart() {
     console.log('Datos completos del fondo:', this.fondo);
     console.log('Principales inversiones:', this.fondo?.principales_inversiones);
-    
+
     if (!this.fondo?.principales_inversiones || this.fondo.principales_inversiones.length === 0) {
       console.log('No hay datos suficientes para el gráfico de inversiones');
       return;
@@ -864,7 +889,7 @@ export class DetalleFondoComponent {
         nameLocation: 'middle',
         nameGap: 30,
         min: 0,
-        max: function(value) {
+        max: function (value) {
           return Math.ceil(value.max * 1.1);
         },
         axisLabel: {
@@ -890,10 +915,10 @@ export class DetalleFondoComponent {
         },
         barWidth: '50%'
       }],
-      grid: { 
-        left: '0%', 
-        right: '5%', 
-        bottom: '5%', 
+      grid: {
+        left: '0%',
+        right: '5%',
+        bottom: '5%',
         top: '5%',
         containLabel: true
       }
@@ -913,53 +938,66 @@ export class DetalleFondoComponent {
   }
 
   driverObj = driver({
-  popoverClass: 'popover-owl',
-  showProgress: true,
-  allowClose: true,
-  onDestroyed: () => {
-    if (!localStorage.getItem('primeraVezTour')) {
-      setTimeout(() => {
-        this.mostrarMensajePostTour = true;
-        localStorage.setItem('primeraVezTour', 'true');
-      }, 500);
-    }
-  },
-  steps: [
-    {
-      element: '#focus',
-      popover: {
-        title: 'Rendimiento',
-        description: 'Cuanto ganas con tu inversion, ligado al tipo de participacion que tengas en el fondo',
-        side: 'bottom',
-        align: 'center'
+    popoverClass: 'popover-owl',
+    showProgress: true,
+    allowClose: true,
+    onDestroyed: () => {
+      if (!localStorage.getItem('primeraVezTour')) {
+        setTimeout(() => {
+          this.mostrarMensajePostTour = true;
+          localStorage.setItem('primeraVezTour', 'true');
+        }, 500);
       }
     },
-    {
-      element: '#gestor',
-      popover: {
-        title: 'Gestor',
-        description: 'Gestor es quien administra el FIC',
-        side: 'bottom',
-        align: 'center'
+    steps: [
+      {
+        element: '#focus',
+        popover: {
+          title: 'Rendimiento',
+          description: 'Cuanto ganas con tu inversion, ligado al tipo de participacion que tengas en el fondo',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: '#gestor',
+        popover: {
+          title: 'Gestor',
+          description: 'Gestor es quien administra el FIC',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: '#custodio',
+        popover: {
+          title: 'Custodio',
+          description: 'Custodio es quien protege y registra sus activos',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: '#rendimiento-card',
+        popover: {
+          title: 'Rendimiento',
+          description: 'Comportamiento del fondo de inversión',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+
+      },
+      {
+        element: '#iconoPolitica',
+        popover: {
+          title: '¿Más dudas acerca del fondo?',
+          description: 'Lee la descripcion oficial del gestor acerca de la politica de inversión del mismo.',
+          side: 'bottom',
+          align: 'center'
+        }
       }
-    },
-    {
-      element: '#custodio',
-      popover: {
-        title: 'Custodio',
-        description: 'Custodio es quien protege y registra sus activos',
-        side: 'bottom',
-        align: 'center'
-      }
-    },
-    {
-      element: '#rendimiento-card',
-      popover: {
-        title: 'Rendimiento',
-        description: 'Comportamiento del fondo de inversión',
-        side: 'bottom',
-        align: 'center'
-      }
-    }
-  ]});
+    ]
+  });
 }

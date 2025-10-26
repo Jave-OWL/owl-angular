@@ -1,7 +1,11 @@
 /* ==========================================================================
    Welcome Screen y Driver JS
    ========================================================================== */
-.tour {
+h3 {
+    font-weight: 600;
+}
+
+   .tour {
     position: fixed;
     bottom: 20px;
     right: 1.5%;
@@ -389,6 +393,8 @@
 .riesgo {
     color: var(--color-contenido);
     border-radius: var(--border-radius);
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 0;
     font-weight: 500;
     font-size: 15px;
     width: 115px;
@@ -402,22 +408,22 @@
 
 #alternativa {
     background-color: #f5a623;
+    border: #e8a02e 1px solid;
 }
 
 #variable {
-   background-color: #1452a8;
+    background-color: #215092;
+    border: #1c3e6f 1px solid;
 }
 
-#mixto {
-    background-color: var(--color-main)
+#mixta {
+    background-color: var(--color-main);
+    border: var(--color-primary) 1px solid;
 }
 
 #fija {
-    background-color: #8fb6f5;
-}
-
-#variable {
-    background-color: hwb(215 52% 65%);
+    background-color: #8fccf5;
+    border: #8fbee1 1px solid;
 }
 
 .titulo-rendimiento{

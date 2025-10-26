@@ -10,7 +10,8 @@
     </div>
 <div class="contenedor-busqueda">
     <div class="search-wrapper">
-        <i style="color: var(--color-secondary);" class="bi bi-search search-icon"></i>
+        <i class="bi bi-search search-icon"></i>
+        <div class="separator"></div>
         <input class="input-busqueda" 
                type="text" 
                placeholder="Busca un fondo..."
@@ -144,24 +145,30 @@
 </div>
 
 <div *ngIf="fondosFiltrados.length > 0" class="resultados">
-    <button *ngFor="let fondo of fondosFiltrados" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
+    <button *ngFor="let fondo of fondosFiltrados; let i = index" 
+            class="fic" 
+            [style.animation-delay]="(i * 0.08) + 's'"
+            [routerLink]="['/fics/detalle']" 
+            [queryParams]="{ id: fondo.id }">
         <div class="info-fic">
             <div class="top">
-                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo}}</p>
+                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo.split(' ')[1]}}</p>
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
             </div>
             <div class="bottom">     
                 <h5>{{fondo.nombre_fic}}</h5>
                 <p>{{fondo.rentabilidad}}</p>
-                <p id="ea">{{fondo.ea}}%</p>
-            </div>
-                <div class="hover-info">
-                    <div class="triangle"></div>    
-                    <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
-                        <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
+                <div class="ea-container">
+                    <p id="ea">{{fondo.ea}}%</p>
+                    <div class="hover-info">
+                        <div class="triangle"></div>    
+                        <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
+                            <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
     </button>
 </div>
 

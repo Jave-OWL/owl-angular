@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isCuestionario(): boolean {
     return this.router.url.startsWith('/user/cuestionario');
   }
+
   currentUser: Usuario | null = null;
 
   constructor(
@@ -47,6 +48,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
+    console.log(this.currentUser);
   }
 
   dropdown() {
@@ -87,7 +89,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getNombreUsuario(): string {
-    return this.currentUser?.nombre || 'Usuario';
+    const nombre = this.currentUser?.nombre || 'Usuario';
+    return nombre.charAt(0).toUpperCase() + nombre.slice(1);
+  }
+
+  getInicialUsuario(): string {
+    return this.currentUser?.nombre?.charAt(0).toUpperCase() || 'U';
   }
 
   cerrarSesion() {

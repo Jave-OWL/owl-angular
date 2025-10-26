@@ -31,7 +31,7 @@
 
 
 .izq > * {
-    animation: fade-in-up 0.6s ease-in-out forwards;
+    animation: fade-in-up 0.4s ease-in-out forwards;
 }
 
 .der {
@@ -92,12 +92,12 @@ span {
 }
 
 #logo {
-    animation: slide-in 0.5s ease-in-out forwards;
+    animation: slide-in 0.3s ease-in-out forwards;
 }
 
 @keyframes slide-in {
     from {
-        opacity: 0.6;
+        opacity: 0;
         transform: translateX(18px);
     }
     to {
