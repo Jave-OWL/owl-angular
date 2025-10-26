@@ -21,4 +21,10 @@ export class FICService {
   findById(id: number): Observable<FIC> {
     return this.http.get<FIC>(`${this.url}/${id}`);
   }
+
+
+  findByRecomendacion(): Observable<FIC[]> {
+  return this.http.get<FIC[]>(`${this.url}/listRecomendados`);
+  }
+
 }

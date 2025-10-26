@@ -13,6 +13,6 @@ export class UsuarioService {
       rangoDias,
       pactoPermanencia
     };
-    return this.http.post('/prediccion', body);
+    return this.http.post('http://localhost:8081/prediccion', body);
   }
 }
