@@ -152,7 +152,7 @@
             [queryParams]="{ id: fondo.id }">
         <div class="info-fic">
             <div class="top">
-                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo.split(' ')[1]}}</p>
+                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{getTipoTexto(fondo.tipo)}}</p>
                 <img id="logo" [src]="fondo.logo" alt="Logo" />
             </div>
             <div class="bottom">     

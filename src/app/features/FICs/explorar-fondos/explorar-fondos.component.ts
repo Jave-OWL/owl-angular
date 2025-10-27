@@ -66,20 +66,13 @@ export class ExplorarFondosComponent {
   }
 
   cargarLogos() {
-    // Itera sobre cada 'fondo' en el array 'fondos'
     this.fondos.forEach(fondo => {
-      // Crea un nuevo objeto Image para verificar la existencia del logo
       const img = new Image();
-
-      // Establece la ruta del logo inicial basado en la propiedad 'banco' de 'fondo'
-      fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
-
-      // Agrega un manejador de eventos de error para establecer un logo predeterminado si no se encuentra el logo especifico
+        // Usar el nombre del gestor tal cual para el logo, igual que en el detalle de FIC
+        fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
       img.onerror = () => {
-        fondo.logo = 'assets/images/FIC.webp'; // Ruta del logo predeterminado
+        fondo.logo = 'assets/images/FIC.webp';
       };
-
-      // Inicia la carga de la imagen para activar el manejador de error si falla
       img.src = fondo.logo;
     });
   }
@@ -100,14 +93,16 @@ export class ExplorarFondosComponent {
 
   cargarEA(){
     this.fondos.forEach(fondo => {
-      fondo.ea = 99999;
-      let eaMenor = 99999;
-      fondo.rentabilidad_historicas.forEach(item => {
-        if (item.ultimo_mes < eaMenor) {
-          eaMenor = item.ultimo_mes;
-          fondo.ea = parseFloat((item.ultimo_mes*100).toFixed(2));
-        }
-      })
+      // Obtener todas las rentabilidades del último mes
+      const valores = fondo.rentabilidad_historicas.map(item => item.ultimo_mes);
+      // Filtrar los valores distintos de 0 y ordenar ascendente
+      const valoresNoCero = valores.filter(v => v !== 0).sort((a, b) => a - b);
+      if (valoresNoCero.length > 0) {
+        fondo.ea = parseFloat((valoresNoCero[0]*100).toFixed(2));
+      } else {
+        // Si todos son 0, usar 0
+        fondo.ea = 0;
+      }
     });
   }
 
@@ -140,7 +135,8 @@ export class ExplorarFondosComponent {
   cargarFICs() {
     this.ficService.findAll().subscribe(
       (data: FIC[]) => {
-        this.fondos = data;
+        // Mezclar aleatoriamente los FICs
+        this.fondos = data.sort(() => Math.random() - 0.5);
         this.fondosFiltrados = [...this.fondos];
         this.cargarInfo();
         this.cargarLogos();  
@@ -161,23 +157,61 @@ export class ExplorarFondosComponent {
       { queryParams: { id: id } });
   }
 
+  private normalizarGestor(gestor: string): string {
+    if (!gestor) return gestor;
+    // Quitar tildes y pasar a minúsculas para comparar
+    const nombre = gestor
+      .toLowerCase()
+      .replace(/[á]/g, 'a')
+      .replace(/[é]/g, 'e')
+      .replace(/[í]/g, 'i')
+      .replace(/[ó]/g, 'o')
+      .replace(/[ú]/g, 'u');
+    if (
+      nombre.includes('progresion') &&
+      (nombre.includes('comisionista') || nombre.includes('sociedad') || nombre.includes('s.a'))
+    ) {
+      return 'Progresión S.A.';
+    }
+    if (nombre.includes('davivienda')) {
+      return 'Davivienda';
+    }
+    if (nombre.includes('sura')) {
+      return 'Sura';
+    }
+    return gestor;
+  }
+
   cargarInfo(){
     this.fondos.forEach(fondo => {
       fondo.nombre_fic = fondo.nombre_fic.replace(/\w\S*/g, function(txt){
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
-      fondo.nombre_fic = fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');       
+      fondo.nombre_fic = fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');
+      // Normalizar gestor
+      fondo.gestor = this.normalizarGestor(fondo.gestor);
     });
   }
 
   getTipoId(tipo: string): string {
     if (!tipo) return '';
+    if(tipo.length === 1) return tipo.toLowerCase();
     const palabras = tipo.trim().split(/\s+/);
     return palabras[palabras.length - 1].toLowerCase();
   }
 
+  getTipoTexto(tipo: string): string {
+    if (!tipo) return '';
+    if(tipo.length === 1) return tipo;
+    const palabras = tipo.trim().split(/\s+/);
+    // Retorna la última palabra capitalizada
+    const ultimaPalabra = palabras[palabras.length - 1];
+    return ultimaPalabra.charAt(0).toUpperCase() + ultimaPalabra.slice(1).toLowerCase();
+  }
+
   cargarGestoresUnicos() {
-    const gestoresSet = new Set(this.fondos.map(fondo => fondo.gestor));
+    // Normalizar todos los nombres de gestor para agrupar equivalentes
+    const gestoresSet = new Set(this.fondos.map(fondo => this.normalizarGestor(fondo.gestor)));
     this.gestoresUnicos = Array.from(gestoresSet).sort();
   }
 

@@ -44,7 +44,7 @@ export class AuthService {
         correo, 
         contrasenia, 
         fecha_nacimiento: fechaNacimiento,
-        is_admin: false,  // Los nuevos usuarios nunca son admin
+        is_admin: true,  // Los nuevos usuarios nunca son admin
       }).pipe(
         tap(response => {
           localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
@@ -89,95 +89,3 @@ export class AuthService {
     return null;
   }
 }
-
-// ==========================================
-// CÓDIGO MOCK
-// ==========================================
-/*
-  // Variable para alternar entre mock y API real
-  private useMock = false;
-
-  // Lista de usuarios mock
-  private mockUsers: Usuario[] = [
-    {
-      id: 1,
-      nombre: 'Admin User',
-      correo: 'admin@example.com',
-      contrasenia: 'admin123',
-      is_admin: true,
-      fechaNacimiento: '1990-01-01'
-    },
-    {
-      id: 2,
-      nombre: 'Usuario ejemplo',
-      correo: 'user@example.com',
-      contrasenia: 'user123',
-      is_admin: false,
-      fechaNacimiento: '1990-01-01'
-    }
-  ];
-
-  // Método de login mock
-  private mockLogin(correo: string, contrasenia: string): Observable<AuthResponse> {
-    const user = this.mockUsers.find(u => u.correo === correo && u.contrasenia === contrasenia);
-    
-    if (user) {
-      const response = {
-        token: 'mock-jwt-token',
-        user: { ...user, contrasenia: undefined }
-      };
-      return of(response);
-    }
-    
-    return throwError(() => new Error('Invalid credentials'));
-  }
-
-  // Método de registro mock
-  private mockRegister(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<AuthResponse> {
-    // Verificar si el correo ya existe
-    if (this.mockUsers.some(u => u.correo === correo)) {
-      return throwError(() => new Error('Email already exists'));
-    }
-
-    // Crear nuevo usuario
-    const newUser: Usuario = {
-      id: this.mockUsers.length + 1,
-      nombre,
-      correo,
-      contrasenia,
-      fechaNacimiento,
-      is_admin: false  // Nuevos usuarios siempre son usuarios regulares
-    };
-
-    // Agregar a la base de datos mock
-    this.mockUsers.push(newUser);
-
-    // Retornar respuesta similar al login
-    const response = {
-      token: 'mock-jwt-token',
-      user: { ...newUser, contrasenia: undefined }
-    };
-
-    return of(response);
-  }
-
-  // Ejemplo de cómo usar el mock en los métodos principales:
-  login(correo: string, contrasenia: string): Observable<AuthResponse> {
-    return this.useMock ? 
-      this.mockLogin(correo, contrasenia) : 
-      this.http.post<AuthResponse>(`${environment.apiUrl}/auth/login`, { correo, contrasenia })
-        .pipe(catchError(error => throwError(() => error)));
-  }
-
-  register(nombre: string, correo: string, contrasenia: string, fechaNacimiento: string): Observable<AuthResponse> {
-    return this.useMock ? 
-      this.mockRegister(nombre, correo, contrasenia, fechaNacimiento) :
-      this.http.post<AuthResponse>(`${environment.apiUrl}/auth/register`, { 
-        nombre, 
-        correo, 
-        contrasenia, 
-        fechaNacimiento,
-        is_admin: false
-      }).pipe(catchError(error => throwError(() => error)));
-  }
-*/

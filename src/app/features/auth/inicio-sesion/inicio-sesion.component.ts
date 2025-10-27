@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterModule, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { UsuarioService } from '../../../core/services/usuario.service';
+import { Usuario } from '../../../core/models/usuario.model';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -30,7 +32,8 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private usuarioService: UsuarioService
   ) {}
 
   ngOnInit() {
@@ -62,10 +65,8 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
 
     this.authService.login(correo, contrasenia).subscribe({
       next: (response: any) => {
-        console.log('Response from login:', response);
         this.limpiarError();
         this.cambiarImagen('exito');
-        
         if (this.formulario && this.exito) {
           this.formulario.style.display = 'none';
           this.exito.style.display = 'flex';
@@ -75,7 +76,6 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
           if (this.returnUrl !== '/') {
             this.router.navigateByUrl(this.returnUrl);
           } else {
-            // Asumiendo que el usuario viene directamente en la respuesta
             const user = response.user ?? response;
             this.redirectToDashboard(user.is_admin ?? false);
           }
@@ -108,6 +108,22 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
         
         this.mostrarError(mensajeError);
         this.cambiarImagen('error');
+      }
+    });
+  }
+
+  nombreUsuario: string = '';
+  usuarioActual?: Usuario;
+
+  cargarUsuario(): void {
+    this.usuarioService.obtenerUsuarioActual().subscribe({
+      next: (usuario) => {
+        this.usuarioActual = usuario;
+        this.nombreUsuario = usuario.nombre;
+        console.log('Usuario cargado:', this.nombreUsuario);
+      },
+      error: (err) => {
+        console.error('Error al cargar usuario:', err);
       }
     });
   }
