@@ -4,49 +4,10 @@
 
     <section class="contenido-dashboard">
         <div class="fics">
-            <div>
-                <h3>Fondos de inversión recomendados</h3>
-            </div>
-            <div class="links">
-                <!-- Estado de carga -->
-                <div *ngIf="isLoading" class="loading-state">
-                    <div class="loader"></div>
-                </div>
-
-                <!-- Estado de error -->
-                <div *ngIf="error" class="error-state">
-                    <p>{{error}}</p>
-                </div>
-
-                <!-- Lista de FICs -->
-                <ng-container *ngIf="!isLoading && !error">
-                    <div class="fics-grid">
-                        <button *ngFor="let fondo of FondosUsuario" class="fic" [routerLink]="['/fics/detalle']" [queryParams]="{ id: fondo.id }">
-                            <div class="top">
-                                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{fondo.tipo}}</p>
-                                <img id="logo" [src]="fondo.logo" [alt]="fondo.nombre_fic" />
-                            </div>
-                            <div class="bottom">
-                                <h5>{{fondo.nombre_fic}}</h5>
-                                <p>{{fondo.ea}}% E.A.</p>
-                            </div>
-                            <div class="hover-info">
-                                <div class="triangle"></div>
-                                <div *ngFor="let rentabilidad of fondo.rentabilidad_historicas" class="rentabilidades">
-                                    <p>{{rentabilidad.tipo_de_participacion}} - <span>{{(rentabilidad.ultimo_mes * 100) | number:'1.2-2'}}%</span></p>
-                                </div>
-                            </div>
-                        </button>
-                        
-                        <button class="fic ver-mas-card" routerLink="/fics/explorar">
-                            <div class="ver-mas-content">
-                                <span>Ver más</span>
-                                <i class="bi bi-arrow-right-short"></i>
-                            </div>
-                        </button>
-                    </div>
-                </ng-container>
-            </div>
+            <app-carrusel-fondos 
+                [fondos]="FondosUsuario"
+                [titulo]="'Fondos de inversión recomendados'">
+            </app-carrusel-fondos>
         </div>
         <section class="consejo">
             <h3>Consejo del día</h3>

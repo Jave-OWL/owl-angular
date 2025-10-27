@@ -1,0 +1,218 @@
+.carrusel-fondos {
+  width: 100%;
+  position: relative;
+  padding: 20px 0;
+}
+
+.carrusel-container {
+  position: relative;
+  overflow: hidden;
+  padding: 0 50px;
+}
+
+.carrusel-track {
+  display: flex;
+  gap: 20px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.fondo-card {
+  min-width: 300px;
+  max-width: 300px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.fondo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.fondo-card .top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.fondo-card .riesgo {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.fondo-card .riesgo#conservador {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.fondo-card .riesgo#moderado {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.fondo-card .riesgo#agresivo {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.fondo-card #logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
+.fondo-card .bottom {
+  margin-top: 15px;
+}
+
+.fondo-card .bottom h5 {
+  font-size: 1rem;
+  margin: 0 0 10px 0;
+  color: #333;
+  min-height: 48px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fondo-card .bottom p {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #588bd2;
+  margin: 0;
+}
+
+.carrusel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 2px solid #588bd2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  color: #588bd2;
+  font-size: 1.5rem;
+}
+
+.carrusel-btn:hover {
+  background: #588bd2;
+  color: white;
+}
+
+.carrusel-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.carrusel-btn.prev {
+  left: 0;
+}
+
+.carrusel-btn.next {
+  right: 0;
+}
+
+.carrusel-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: #588bd2;
+}
+
+/* Estados de carga y error */
+.loading-state,
+.error-state {
+  text-align: center;
+  padding: 40px;
+}
+
+.loader {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #588bd2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-state p {
+  color: #721c24;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carrusel-container {
+    padding: 0 40px;
+  }
+
+  .fondo-card {
+    min-width: 250px;
+    max-width: 250px;
+  }
+
+  .carrusel-btn {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carrusel-container {
+    padding: 0 30px;
+  }
+
+  .fondo-card {
+    min-width: 200px;
+    max-width: 200px;
+    padding: 15px;
+  }
+
+  .fondo-card #logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .carrusel-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+  }
+}

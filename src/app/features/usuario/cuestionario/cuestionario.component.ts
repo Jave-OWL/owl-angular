@@ -202,7 +202,7 @@ export class CuestionarioComponent implements OnInit {
     opciones: [
       { texto: 'Una cuenta de ahorros', valor: 1 },
       { texto: 'Un fondo de inversion colectiva', valor: 2 },
-      { texto: 'Un portafolio con x y z', valor: 3 },
+      { texto: 'Un portafolio con 15 acciones', valor: 3 },
       { texto: 'En materias primas como oro, plata y petroleo', valor: 4 }
     ]
   },

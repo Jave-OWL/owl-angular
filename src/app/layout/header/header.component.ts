@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { filter } from 'rxjs/operators';
 import { Usuario } from '../../core/models/usuario.model';
+import { UsuarioService } from '../../core/services/usuario.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
+    private usuarioService: UsuarioService,
     private authService: AuthService
   ) {
     router.events.pipe(
@@ -47,8 +49,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.getCurrentUser();
-    console.log(this.currentUser);
+    // Cargar nombre del usuario desde localStorage
+    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    if (nombreGuardado && this.currentUser) {
+      this.currentUser.nombre = nombreGuardado;
+    }
   }
 
   dropdown() {
@@ -89,11 +94,23 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getNombreUsuario(): string {
+    // Primero intentar obtener desde localStorage
+    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    if (nombreGuardado) {
+      return nombreGuardado.charAt(0).toUpperCase() + nombreGuardado.slice(1);
+    }
+    // Si no hay en localStorage, usar currentUser
     const nombre = this.currentUser?.nombre || 'Usuario';
     return nombre.charAt(0).toUpperCase() + nombre.slice(1);
   }
 
   getInicialUsuario(): string {
+    // Primero intentar obtener desde localStorage
+    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    if (nombreGuardado) {
+      return nombreGuardado.charAt(0).toUpperCase();
+    }
+    // Si no hay en localStorage, usar currentUser
     return this.currentUser?.nombre?.charAt(0).toUpperCase() || 'U';
   }
 

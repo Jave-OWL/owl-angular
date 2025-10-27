@@ -3,11 +3,12 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FIC } from '../../../core/models/FIC.model';
 import { FICService } from '../../../core/services/fic.service';
+import { CarruselFondosComponent } from '../../../shared/components/carrusel-fondos/carrusel-fondos.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, CarruselFondosComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
@@ -53,9 +54,8 @@ export class DashboardComponent {
     this.isLoading = true;
     this.ficService.findByRecomendacion().subscribe({
       next: (fics) => {
-        // Obtener 3 FICs aleatorios
-        const fondosAleatorios = this.obtenerFICsAleatorios(fics, 3);
-        this.FondosUsuario = fondosAleatorios;
+        // Cargar todos los FICs
+        this.FondosUsuario = fics;
         this.cargarLogos();
         this.cargarNombres();
         this.cargarEA();

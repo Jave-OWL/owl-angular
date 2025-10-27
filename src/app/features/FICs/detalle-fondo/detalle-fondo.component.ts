@@ -370,11 +370,16 @@ export class DetalleFondoComponent {
   cargarInformacionGeneral() {
     console.log('Cargando informacion general...');
     if (this.fondo) {
-      //Selecciona la participación con menor ultimo_mes
+
+      // Selecciona la participación con menor ultimo_mes, ignorando ceros si hay valores negativos o positivos
       let participacionMenor: string | null = null;
       let valorMenor = Number.MAX_VALUE;
 
-      this.fondo.rentabilidad_historicas.forEach(item => {
+      // Filtrar los valores distintos de 0
+      const itemsFiltrados = this.fondo.rentabilidad_historicas.filter(item => item.ultimo_mes !== 0);
+      const itemsParaBuscar = itemsFiltrados.length > 0 ? itemsFiltrados : this.fondo.rentabilidad_historicas;
+
+      itemsParaBuscar.forEach(item => {
         if (item.ultimo_mes < valorMenor) {
           valorMenor = item.ultimo_mes;
           participacionMenor = item.tipo_de_participacion;
@@ -682,15 +687,24 @@ export class DetalleFondoComponent {
       return;
     }
 
-    // --- 1. Usar la participación seleccionada o encontrar la que tiene menor rentabilidad ---
     let participacionMostrar = this.participacionSeleccionada;
     if (!participacionMostrar || participacionMostrar === 'Mostrar todos') {
+      // Construir un array de { tipo, valor } para buscar el menor distinto de 0
+      const tipos = Object.keys(this.rentabilidadesHistoricas);
+      const items = tipos.map(tipo => ({
+        tipo,
+        valor: this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes
+      })).filter(item => item.valor !== undefined);
+
+      // Filtrar los valores distintos de 0
+      const itemsFiltrados = items.filter(item => item.valor !== 0);
+      const itemsParaBuscar = itemsFiltrados.length > 0 ? itemsFiltrados : items;
+
       let valorMenor = Number.MAX_VALUE;
-      Object.keys(this.rentabilidadesHistoricas).forEach(tipo => {
-        const r = this.rentabilidadesHistoricas?.[tipo][0]?.ultimo_mes;
-        if (r !== undefined && r < valorMenor) {
-          valorMenor = r;
-          participacionMostrar = tipo;
+      itemsParaBuscar.forEach(item => {
+        if (typeof item.valor === 'number' && item.valor < valorMenor) {
+          valorMenor = item.valor;
+          participacionMostrar = item.tipo;
         }
       });
     }
@@ -702,20 +716,25 @@ export class DetalleFondoComponent {
       parseFloat((this.rentabilidadesHistoricas![participacionMostrar][0][clave as keyof Historico]).toFixed(2))
     );
 
+
+    const rentabilidadBarData = rentabilidadData.map(value => ({
+      value,
+      itemStyle: {
+        color: '#588bd2',
+        borderRadius: value >= 0 ? [6, 6, 0, 0] : [0, 0, 6, 6]
+      },
+      label: {
+        show: true,
+        position: value >= 0 ? 'top' as const : 'bottom' as const,
+        formatter: '{c}%'
+      }
+    }));
+
     const rentabilidadSeries: echarts.EChartsOption['series'] = [
       {
         name: `Rentabilidad ${participacionMostrar}`,
         type: 'bar',
-        data: rentabilidadData,
-        itemStyle: {
-          borderRadius: [6, 6, 0, 0],
-          color: '#588bd2'
-        },
-        label: {
-          show: true,
-          position: 'top',
-          formatter: '{c}%'
-        }
+        data: rentabilidadBarData
       }
     ];
 
@@ -800,10 +819,12 @@ export class DetalleFondoComponent {
     const chart = echarts.init(container);
     this.charts.push(chart);
 
-    const data = this.fondo.plazo_duraciones.map(duracion => ({
-      name: duracion.plazo,
-      value: parseFloat((duracion.participacion * 100).toFixed(2))
-    }));
+    const data = this.fondo.plazo_duraciones
+      .filter(duracion => duracion.participacion > 0)
+      .map(duracion => ({
+        name: duracion.plazo,
+        value: parseFloat((duracion.participacion * 100).toFixed(2))
+      }));
 
     const option: echarts.EChartsOption = {
       tooltip: {

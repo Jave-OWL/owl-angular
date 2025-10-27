@@ -61,8 +61,7 @@
         <div class="card" id="focus">
             <h3>Rentabilidad</h3>
             <p>{{rentabilidadGeneral}}%</p>
-            <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i
-                    class="bi bi-arrow-up-right"></i></p>
+            <p hidden (click)="mostrarCalculadora()" id="verRendimiento">Calcular inversion <i class="bi bi-arrow-up-right"></i></p>
         </div>
         <div id="gestor" class="card">
             <h3>Gestor</h3>
@@ -81,7 +80,7 @@
     <div class="informacion-rendimiento">
         <div id=rendimiento-card class="card">
             <div class="header-rendimiento">
-                <h3>Comportamiento en el tiempo</h3>
+                <h3>Rentabilidad y Volatilidad en el tiempo</h3>
                 <div class="participacion-selector" [style.visibility]="participaciones.length <= 1 ? 'hidden' : 'visible'">
                     <button class="participaciones" (click)="mostrarPart()">
                         <span class="participacion-actual">{{tipoParticipacion}}</span>

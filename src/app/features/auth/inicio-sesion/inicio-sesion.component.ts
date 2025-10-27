@@ -72,6 +72,17 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
           this.exito.style.display = 'flex';
         }
         
+        this.usuarioService.obtenerUsuarioActual().subscribe({
+          next: (usuario) => {
+            this.nombreUsuario = usuario.nombre;
+            localStorage.setItem('nombreUsuario', usuario.nombre);
+            console.log('Nombre Usuario:', this.nombreUsuario);
+          },
+          error: (error) => {
+            console.error('Error al obtener el usuario actual:', error);
+          }
+        });
+
         setTimeout(() => {
           if (this.returnUrl !== '/') {
             this.router.navigateByUrl(this.returnUrl);

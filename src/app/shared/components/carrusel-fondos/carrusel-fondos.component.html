@@ -1,0 +1,62 @@
+<div class="carrusel-fondos">
+  <h3 *ngIf="titulo">{{ titulo }}</h3>
+
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loader"></div>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Carrusel -->
+  <div *ngIf="!isLoading && !error && fondos.length > 0" class="carrusel-container">
+    <button 
+      class="carrusel-btn prev" 
+      (click)="prevSlide()"
+      [disabled]="currentIndex === 0"
+      aria-label="Anterior">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+
+    <div class="carrusel-track" [style.transform]="translateX">
+      <div 
+        *ngFor="let fondo of fondos" 
+        class="fondo-card"
+        (click)="verDetalleFondo(fondo.id)">
+        
+        <div class="top">
+          <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{ fondo.tipo }}</p>
+          <img id="logo" [src]="fondo.logo" [alt]="fondo.nombre_fic" />
+        </div>
+        
+        <div class="bottom">
+          <h5>{{ fondo.nombre_fic }}</h5>
+          <p>{{ fondo.ea }}% E.A.</p>
+        </div>
+      </div>
+    </div>
+
+    <button 
+      class="carrusel-btn next" 
+      (click)="nextSlide()"
+      [disabled]="currentIndex === maxIndex"
+      aria-label="Siguiente">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
+  <div *ngIf="!isLoading && !error && fondos.length > 0 && totalPages > 1" class="carrusel-indicators">
+    <span 
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      class="indicator"
+      [class.active]="i === currentIndex"
+      (click)="goToSlide(i)">
+    </span>
+  </div>
+
+  <!-- Mensaje si no hay fondos -->
+  <div *ngIf="!isLoading && !error && fondos.length === 0" class="error-state">
+    <p>No tienes fondos recomendados</p>
+  </div>
+</div>
