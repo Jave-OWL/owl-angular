@@ -66,11 +66,11 @@ export class CuestionarioComponent implements OnInit {
   numPreguntas: number = 0;
   answers: number[] = [];
   durationOptions = [
-    { id: '1-180', label: '1 - 180 días' },
-    { id: '180-365', label: '180 días a 1 año' },
-    { id: '1-3', label: '1 a 3 años' },
-    { id: '3-5', label: '3 a 5 años' },
-    { id: '5+', label: 'más de 5 años' }
+    { id: '1 a 180 dias', label: '1 a 180 días' },
+    { id: '180 dias a 1 año', label: '180 días a 1 año' },
+    { id: '1 a 3 años', label: '1 a 3 años' },
+    { id: '3 a 5 años', label: '3 a 5 años' },
+    { id: 'más de 5 años', label: 'más de 5 años' }
   ];
   selectedDurations: string[] = [];
 
