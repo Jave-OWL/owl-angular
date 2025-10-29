@@ -12,7 +12,7 @@ export class FICService {
     private http: HttpClient
   ) { }
 
-  url = 'http://localhost:8081/fic';
+  url = 'http://localhost:8080/fic';
 
   findAll(): Observable<FIC[]> {
     return this.http.get<FIC[]>(`${this.url}/list`);
