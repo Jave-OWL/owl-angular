@@ -13,7 +13,7 @@ export class FICService {
     private http: HttpClient
   ) { }
 
-  url = `${environment.apiUrl}/fic`;  // ← CORREGIR
+  url = `${environment.apiUrl}/fic`; 
 
   findAll(): Observable<FIC[]> {
     return this.http.get<FIC[]>(`${this.url}/list`);

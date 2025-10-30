@@ -65,15 +65,16 @@
         </div>
         <div id="gestor" class="card">
             <h3>Gestor</h3>
-            <p>{{fondo?.gestor}}</p>
+            <p>{{ display(fondo?.gestor) }}</p>
         </div>
         <div id="custodio" class="card">
             <h3>Custodio</h3>
-            <p>{{fondo?.custodio}}</p>
+            <p>{{ display(fondo?.custodio) }}</p>
         </div>
         <div class="card">
             <h3>Fecha de corte</h3>
-            <p>{{fondo?.fecha_corte | date:'dd - MM - yyyy'}}</p>
+            <p *ngIf="fondo?.fecha_corte">{{fondo?.fecha_corte | date:'dd - MM - yyyy'}}</p>
+            <p *ngIf="!fondo?.fecha_corte">N/A</p>
         </div>
     </div>
 
@@ -105,38 +106,45 @@
                 <div class="item">
                     <i class="bi bi-calendar-week-fill"></i>
                     <p><span>Inicio de operaciones</span></p>
-                    <p>{{fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones | date:'dd - MM - yyyy'}}</p>
+                    <p *ngIf="hasValue(fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones)">{{fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones | date:'dd - MM - yyyy'}}</p>
+                    <p *ngIf="!hasValue(fondo?.caracteristicas?.[0]?.fecha_inicio_operaciones)">N/A</p>
                 </div>
                  <div class="item">
                     <i class="bi bi-currency-exchange"></i>
                     <p><span>Valor del fondo</span></p>
-                    <p>{{fondo?.caracteristicas?.[0]?.valor | number:'1.0-0' }} Millones</p>
+                    <p *ngIf="hasValue(fondo?.caracteristicas?.[0]?.valor)">{{fondo?.caracteristicas?.[0]?.valor | number:'1.0-0' }} Millones</p>
+                    <p *ngIf="!hasValue(fondo?.caracteristicas?.[0]?.valor)">N/A</p>
                 </div>
                  <div class="item">
                     <i class="bi bi-briefcase-fill"></i>
                     <p><span>Unidades vendidas</span></p>
-                    <p>{{fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion | number}}</p>
+                    <p *ngIf="hasValue(fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion)">{{fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion | number}}</p>
+                    <p *ngIf="!hasValue(fondo?.caracteristicas?.[0]?.no_unidades_en_circulacion)">N/A</p>
                 </div>
                 <div class="item">
                     <i class="bi bi-piggy-bank-fill"></i>
                     <p><span>Tipo de fondo</span></p>
-                    <p>{{ (fondo?.caracteristicas?.[0]?.tipo?.replace('Fondo de Inversión Colectiva', '')) | titlecase}}</p>
+                    <p *ngIf="hasValue(fondo?.caracteristicas?.[0]?.tipo)">{{ (fondo?.caracteristicas?.[0]?.tipo?.replace('Fondo de Inversión Colectiva', '')) | titlecase}}</p>
+                    <p *ngIf="!hasValue(fondo?.caracteristicas?.[0]?.tipo)">N/A</p>
                 </div>
                 <div class="item">
                     <i class="bi bi-percent"></i>
                     <p><span>Calificación</span></p>
-                    <p>{{fondo?.calificaciones?.[0]?.calificacion}}%</p>
+                    <p *ngIf="hasValue(fondo?.calificaciones?.[0]?.calificacion)">{{fondo?.calificaciones?.[0]?.calificacion}}%</p>
+                    <p *ngIf="!hasValue(fondo?.calificaciones?.[0]?.calificacion)">N/A</p>
                 </div>
                 <div class="item">
                     <i class="bi bi-people-fill"></i>
                     <p><span>Entidad Calificadora</span></p>
-                    <p>{{fondo?.calificaciones?.[0]?.entidad_calificadora}}</p>
+                    <p *ngIf="hasValue(fondo?.calificaciones?.[0]?.entidad_calificadora)">{{fondo?.calificaciones?.[0]?.entidad_calificadora}}</p>
+                    <p *ngIf="!hasValue(fondo?.calificaciones?.[0]?.entidad_calificadora)">N/A</p>
                 </div>
             </div>
             <div class="item">
                     <i style="color: var(--color-main);" class="bi bi-clock-fill"></i>
                     <p><span>Última calificación</span></p>
-                    <p>{{fondo?.calificaciones?.[0]?.fecha_ultima_calificacion | date:'dd - MM - yyyy'}}</p>
+                    <p *ngIf="hasValue(fondo?.calificaciones?.[0]?.fecha_ultima_calificacion)">{{fondo?.calificaciones?.[0]?.fecha_ultima_calificacion | date:'dd - MM - yyyy'}}</p>
+                    <p *ngIf="!hasValue(fondo?.calificaciones?.[0]?.fecha_ultima_calificacion)">N/A</p>
                 </div>
         </div>
     </div>

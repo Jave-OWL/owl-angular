@@ -1021,4 +1021,13 @@ export class DetalleFondoComponent {
       }
     ]
   });
+
+  hasValue(value: any): boolean {
+    if (value === null || value === undefined) return false;
+    if (typeof value === 'string') return value.trim() !== '';
+    return true;
+  }
+  display(value: any): any {
+    return this.hasValue(value) ? value : 'N/A';
+  }
 }

@@ -1,3 +1,37 @@
+<!-- Ventana modal de éxito -->
+<div *ngIf="mostrarExito" class="fondo-modal" (click)="cerrarModal()">
+  <div class="ventana-info" (click)="$event.stopPropagation()">
+    <div class="contenedor-info">
+      <button class="boton-cerrar" (click)="cerrarModal()">
+        <i style="color: var(--color-main);" class="bi bi-x"></i>
+      </button>
+      <div class="icono-exito">
+        <i class="bi bi-check-circle-fill"></i>
+      </div>
+      <h2>¡Perfil Actualizado!</h2>
+      <p>{{ mensajeModal }}</p>
+      <button class="boton-ok" (click)="cerrarModal()">Aceptar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana modal de error -->
+<div *ngIf="mostrarError" class="fondo-modal" (click)="cerrarModal()">
+  <div class="ventana-info" (click)="$event.stopPropagation()">
+    <div class="contenedor-info">
+      <button class="boton-cerrar" (click)="cerrarModal()">
+        <i style="color: var(--color-main);" class="bi bi-x"></i>
+      </button>
+      <div class="icono-error">
+        <i class="bi bi-exclamation-circle-fill"></i>
+      </div>
+      <h2>Error</h2>
+      <p>{{ mensajeModal }}</p>
+      <button class="boton-ok" (click)="cerrarModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
 <div class="perfil-container">
   <!-- Loading State -->
   <div *ngIf="isLoading" class="loading-state">
@@ -73,7 +107,7 @@
               *ngIf="!isEditing" 
               (click)="toggleEditar()" 
               class="boton-editar">
-              <i class="bi bi-pencil"></i> Editar Perfil
+               Editar Perfil <i class="bi bi-pencil-square"></i>
             </button>
             
             <div *ngIf="isEditing" class="edit-buttons">
@@ -99,12 +133,27 @@
           </span>
         </div>
         <button (click)="volverAlTest()" class="boton-test">
-            Volver a tomar test<i class="bi bi-arrow-clockwise"></i>
+            Volver a tomar test<i class="bi bi-arrow-repeat"></i>
+        </button>
+      </div>
+
+      <div class="fics-header">
+        <div class="perfil-riesgo">
+          <h3>Consejo del día</h3>
+          <p>{{ consejo }}</p>
+        </div>
+        <button (click)="AprenderMas()" class="boton-aprender-mas">
+            Aprender m&aacute;s<i class="bi bi-arrow-right-short"></i>
         </button>
       </div>
 
       <div class="fics-lista">
-        <h3>Tus Fondos Recomendados</h3>
+        <div class="lista-header" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+          <h3>Tus Fondos Recomendados</h3>
+          <button (click)="VerMas()" class="boton-aprender-mas">
+            Ver otros fondos<i class="bi bi-arrow-right-short"></i>
+        </button>
+        </div>        
 
         <div *ngIf="isLoadingFics" class="loading-fics">
           <div class="loader-small"></div>

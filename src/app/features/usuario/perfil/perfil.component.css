@@ -21,7 +21,7 @@
 }
 
 .loader {
-    color: #588bd2;
+    color: var(--color-main);
     font-size: 7px;
     position: relative;
     text-indent: -9999em;
@@ -48,18 +48,8 @@
 }
 
 @keyframes bblFadInOut {
-
-    0%,
-    80%,
-    100% {
-        opacity: 0.5;
-        box-shadow: 0 0 0 -2px #588bd2;
-    }
-
-    40% {
-        opacity: 1;
-        box-shadow: 0 0 0 10px #588bd2;
-    }
+  0%, 80%, 100% { box-shadow: 0 2.5em 0 -1.3em }
+  40% { box-shadow: 0 2.5em 0 0 }
 }
 
 .error-state p {
@@ -232,7 +222,16 @@
 }
 
 .boton-editar i {
-    color: var(--color-tertiary);
+    color: white;
+}
+
+.boton-editar i,
+.boton-guardar i,
+.boton-cancelar i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .edit-buttons {
@@ -317,8 +316,8 @@
 }
 
 .badge-conservador {
-    background-color: #d4edda;
-    color: #155724;
+    background-color: #e3f4fd;
+    color: #1a5a8a;
 }
 
 .badge-moderado {
@@ -326,13 +325,13 @@
     color: #856404;
 }
 
-.badge-agresivo {
+.badge-arriesgado {
     background-color: #f8d7da;
     color: #721c24;
 }
 
-/* Botón de Test de Riesgo */
-.boton-test {
+.boton-test,
+.boton-aprender-mas {
     width: 30%;
     padding: 12px 24px;
     border: 2px solid var(--color-main);
@@ -343,23 +342,69 @@
     transition: all 0.3s ease;
     background: white;
     color: var(--color-main);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    line-height: 1;
 }
 
-.boton-test:hover {
+.boton-test:hover,
+.boton-aprender-mas:hover {
     background: var(--color-main);
     color: white;
     transform: translateY(-2px);
 }
 
-.boton-test i {
-    margin-left: 8px;
-    transition: transform 0.3s ease;
+.boton-test i,
+.boton-aprender-mas i {
+    margin-left: 0;
+    transition: color 0.3s ease;
     color: var(--color-main);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.boton-test i {
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .boton-test:hover i {
     color: white;
-    transition: transform 0.3s ease;
+    animation: rotate360 0.4s ease-in-out;
+}
+
+.boton-aprender-mas i {
+    font-size: 16px;
+}
+
+.boton-aprender-mas:hover i {
+    color: white;
+    animation: jumpRight 0.4s ease-in-out;
+}
+
+@keyframes jumpRight {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes rotate360 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .fics-lista h3 {
@@ -524,6 +569,125 @@
     padding: 40px;
     color: #999;
 }
+
+/* ==========================================================================
+   Modales
+   ========================================================================== */
+
+.fondo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.ventana-info {
+    background-color: var(--color-contenido);
+    border-radius: var(--border-radius);
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.contenedor-info {
+    overflow-y: auto;
+    max-height: calc(80vh - 48px);
+    text-align: center;
+}
+
+.ventana-info h2 {
+    color: var(--color-main);
+    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.ventana-info p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 16px;
+}
+
+.boton-cerrar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    border: none;
+    background: none;
+    font-size: 24px;
+    color: var(--color-main);
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.3s ease;
+}
+
+.boton-cerrar:hover {
+    color: var(--color-main-hover);
+}
+
+.boton-ok {
+    background-color: var(--color-main);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.boton-ok:hover {
+    background-color: var(--color-main-hover);
+}
+
+.icono-exito {
+    font-size: 64px;
+    color: #28a745;
+    margin-bottom: 20px;
+}
+
+.icono-error {
+    font-size: 64px;
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+
+.icono-info {
+    font-size: 64px;
+    color: var(--color-main);
+    margin-bottom: 20px;
+}
+
+/* ==========================================================================
+   Responsiveness
+   ========================================================================== */
 
 /* Responsiveness */
 @media (max-width: 1024px) {

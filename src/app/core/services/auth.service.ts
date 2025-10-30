@@ -7,7 +7,9 @@ import { environment } from '../../../environments/environment';
 
 interface AuthResponse {
   token: string;
-  user: Usuario;
+  user?: Usuario;
+  email?: string;
+  admin?: boolean;
 }
 
 @Injectable({
@@ -29,8 +31,21 @@ export class AuthService {
       .pipe(
         tap(response => {
           localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
-          localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-          this.currentUserSubject.next(response.user);
+          
+          let userToStore: any;
+          if (response.user) {
+            userToStore = response.user;
+          } else if (response.email) {
+            userToStore = {
+              correo: response.email,
+              is_admin: response.admin || false
+            };
+          }
+          
+          if (userToStore) {
+            localStorage.setItem(this.USER_KEY, JSON.stringify(userToStore));
+            this.currentUserSubject.next(userToStore);
+          }
         }),
         catchError(error => throwError(() => error))
       );
@@ -48,8 +63,22 @@ export class AuthService {
       }).pipe(
         tap(response => {
           localStorage.setItem(this.AUTH_TOKEN_KEY, response.token);
-          localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
-          this.currentUserSubject.next(response.user);
+          
+          let userToStore: any;
+          if (response.user) {
+            userToStore = response.user;
+          } else if (response.email) {
+            userToStore = {
+              correo: response.email,
+              is_admin: response.admin || false,
+              nombre: nombre
+            };
+          }
+          
+          if (userToStore) {
+            localStorage.setItem(this.USER_KEY, JSON.stringify(userToStore));
+            this.currentUserSubject.next(userToStore);
+          }
         })
       );
   }

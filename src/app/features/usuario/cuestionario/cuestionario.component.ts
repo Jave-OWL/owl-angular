@@ -303,7 +303,6 @@ export class CuestionarioComponent implements OnInit {
     console.log('Duraciones seleccionadas:', this.selectedDurations);
     console.log('Tipo de pacto:', this.tipoPacto);
     
-    // Determinar el perfil basado en la suma
     if (this.suma <= 22) {
       this.resultadoPerfil = 'Conservador';
     }
@@ -322,7 +321,7 @@ export class CuestionarioComponent implements OnInit {
         next: (resp) => {
           console.log('Predicción enviada/actualizada OK:', resp);
           this.showLoading = false;
-          this.showResults = true;   // ahora sí muestra resultados cuando el server responde
+          this.showResults = true;  
           window.scrollTo(0, 0);
         },
         error: (err) => {
@@ -333,7 +332,6 @@ export class CuestionarioComponent implements OnInit {
       });
     window.scrollTo(0, 0);
 
-    // Mostrar pantalla de carga
     this.showLoading = true;
 
     setTimeout(() => {

@@ -65,6 +65,7 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
 
     this.authService.login(correo, contrasenia).subscribe({
       next: (response: any) => {
+        
         this.limpiarError();
         this.cambiarImagen('exito');
         if (this.formulario && this.exito) {
@@ -72,23 +73,26 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
           this.exito.style.display = 'flex';
         }
         
+        const isAdmin = response.admin || response.user?.is_admin || false;
+
+        // Obtener el nombre del usuario para guardarlo en localStorage
         this.usuarioService.obtenerUsuarioActual().subscribe({
           next: (usuario) => {
+            this.usuarioActual = usuario;
             this.nombreUsuario = usuario.nombre;
             localStorage.setItem('nombreUsuario', usuario.nombre);
-            console.log('Nombre Usuario:', this.nombreUsuario);
           },
           error: (error) => {
             console.error('Error al obtener el usuario actual:', error);
           }
         });
 
+        // Redirigir después de 2.5 segundos
         setTimeout(() => {
           if (this.returnUrl !== '/') {
             this.router.navigateByUrl(this.returnUrl);
           } else {
-            const user = response.user ?? response;
-            this.redirectToDashboard(user.is_admin ?? false);
+            this.redirectToDashboard(isAdmin);
           }
         }, 2500);
       },
@@ -131,7 +135,6 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
       next: (usuario) => {
         this.usuarioActual = usuario;
         this.nombreUsuario = usuario.nombre;
-        console.log('Usuario cargado:', this.nombreUsuario);
       },
       error: (err) => {
         console.error('Error al cargar usuario:', err);

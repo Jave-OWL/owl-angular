@@ -38,7 +38,7 @@ export const routes: Routes = [
         path: 'admin',
         loadChildren: () => import('./features/admin/admin-routing.module').then(m => m.AdminRoutingModule),
         canActivate: [authGuard],
-        data: { role: 'administrador' }
+        data: { requiresAdmin: true }
     },
     // Not found 404
     {
