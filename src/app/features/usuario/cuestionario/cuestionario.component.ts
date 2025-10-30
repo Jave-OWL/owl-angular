@@ -124,8 +124,8 @@ export class CuestionarioComponent implements OnInit {
       'Si de un día para otro, recibes 70 millones de pesos para invertir, ¿Que harías con ese dinero?'
     ],
     opciones: [
-      { texto: 'Lo depositaria en una cuenta de banco, bla bla o bla bla', valor: 1 },
-      { texto: 'Invertiría en acciones seguraa o bla', valor: 2 },
+      { texto: 'Lo depositaria en una cuenta de banco con rentabilidad estable', valor: 1 },
+      { texto: 'Invertiría en acciones seguras o en bonos un poco mas volatiles', valor: 2 },
       { texto: 'Invertiria en la bolsa de valores o en criptomonedas', valor: 3 }
     ]
   },
