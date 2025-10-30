@@ -4,5 +4,6 @@ export interface Usuario {
     correo: string;
     contrasenia: string;
     is_admin: boolean;
-    fechaNacimiento: string;
+    fecha_nacimiento: string;
+    nivel_riesgo: string;
 }

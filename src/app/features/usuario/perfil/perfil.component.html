@@ -1,1 +1,146 @@
-<p>perfil works!</p>
+<div class="perfil-container">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loader"></div>
+    <p>Cargando perfil...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-state">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!isLoading && !error && usuario" class="perfil-content">
+    <!-- Sección Izquierda: Información Personal -->
+    <div class="perfil-info">
+      <div class="perfil-card">
+        <div class="avatar-section">
+          <div class="avatar">
+            {{ getIniciales() }}
+          </div>
+          <h2>{{ usuario.nombre }}</h2>
+        </div>
+
+        <div class="info-section">
+          <h3>Información Personal</h3>
+
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <div class="input-wrapper">
+              <i class="bi bi-person input-icon"></i>
+              <input 
+                type="text" 
+                id="nombre" 
+                [(ngModel)]="usuarioEditado.nombre"
+                [disabled]="!isEditing"
+                class="form-control"
+                placeholder="Ingresa tu nombre"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="correo">Correo Electrónico</label>
+            <div class="input-wrapper">
+              <i class="bi bi-envelope input-icon"></i>
+              <input 
+                type="email" 
+                id="correo" 
+                [(ngModel)]="usuarioEditado.correo"
+                [disabled]="!isEditing"
+                class="form-control"
+                placeholder="correo@ejemplo.com"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            <div class="input-wrapper">
+              <i class="bi bi-calendar-event input-icon"></i>
+              <input 
+                type="date" 
+                id="fechaNacimiento" 
+                [(ngModel)]="usuarioEditado.fecha_nacimiento"
+                [disabled]="!isEditing"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button 
+              *ngIf="!isEditing" 
+              (click)="toggleEditar()" 
+              class="boton-editar">
+              <i class="bi bi-pencil"></i> Editar Perfil
+            </button>
+            
+            <div *ngIf="isEditing" class="edit-buttons">
+              <button (click)="guardarCambios()" class="boton-guardar">
+                <i class="bi bi-check-lg"></i> Guardar
+              </button>
+              <button (click)="toggleEditar()" class="boton-cancelar">
+                <i class="bi bi-x-lg"></i> Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección Derecha: FICs Recomendados -->
+    <div class="fics-recomendados">
+      <div class="fics-header">
+        <div class="perfil-riesgo">
+          <h3>Tu Perfil de Riesgo</h3>
+          <span class="badge-riesgo" [class]="'badge-' + usuario.nivel_riesgo.toLowerCase()">
+            {{ usuario.nivel_riesgo }}
+          </span>
+        </div>
+        <button (click)="volverAlTest()" class="boton-test">
+            Volver a tomar test<i class="bi bi-arrow-clockwise"></i>
+        </button>
+      </div>
+
+      <div class="fics-lista">
+        <h3>Tus Fondos Recomendados</h3>
+
+        <div *ngIf="isLoadingFics" class="loading-fics">
+          <div class="loader-small"></div>
+        </div>
+
+        <div *ngIf="!isLoadingFics" class="fics-items">
+          <div 
+            *ngFor="let fic of ficosRecomendados" 
+            class="fic-item"
+            (click)="verDetalleFondo(fic.id)">
+            
+            <div class="fic-logo">
+              <img [src]="fic.logo" [alt]="fic.nombre_fic" />
+            </div>
+
+            <div class="fic-info">
+              <h4>{{ fic.nombre_fic }}</h4>
+              <div class="fic-details">
+                <span class="fic-tipo" [id]="getTipoId(fic.tipo)">
+                  {{ fic.tipo }}
+                </span>
+                <span class="fic-ea">{{ fic.ea }}% E.A.</span>
+              </div>
+            </div>
+
+            <div class="fic-arrow">
+              <i class="bi bi-chevron-right"></i>
+            </div>
+          </div>
+
+          <!-- Mensaje si no hay FICs -->
+          <div *ngIf="ficosRecomendados.length === 0" class="no-fics">
+            <p>No hay fondos recomendados disponibles</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

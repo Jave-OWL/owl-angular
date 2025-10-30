@@ -5,7 +5,7 @@ import { SplashScreenComponent } from '../../shared/components/splash-screen/spl
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterModule, CommonModule, SplashScreenComponent],
+  imports: [RouterModule, CommonModule],//, SplashScreenComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
