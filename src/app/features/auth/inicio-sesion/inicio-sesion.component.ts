@@ -143,7 +143,7 @@ export class InicioSesionComponent implements OnInit, AfterViewInit {
   }
 
   private redirectToDashboard(isAdmin: boolean) {
-    const route = isAdmin ? '/admin/dashboard' : '/user/dashboard';
+    const route = isAdmin ? '/admin/dashboard' : '/user/perfil';
     this.router.navigateByUrl(route);
   }
 

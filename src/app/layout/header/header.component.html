@@ -15,10 +15,11 @@
     <!-- Mostrar solo el logo si está en /user/cuestionario -->
     <ng-container *ngIf="!isCuestionario()">
       <div class="nav" *ngIf="usuarioAuth()">
-          <button routerLink="/" routerLinkActive="router-link-active"
+          <button routerLink="/user/perfil" routerLinkActive="router-link-active"
               [routerLinkActiveOptions]="{exact: true}">Inicio</button>
           <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
-          <button routerLink="/user/dashboard" routerLinkActive="router-link-active">Dashboard</button>
+          <button routerLink="/fics/comparar" routerLinkActive="router-link-active">Comparar Fondos</button>
+          <button routerLink="/user/dashboard" routerLinkActive="router-link-active" hidden >Dashboard</button>
           <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
       </div>
       <div *ngIf="!usuarioAuth()" class="auth">

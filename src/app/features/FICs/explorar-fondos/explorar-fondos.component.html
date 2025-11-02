@@ -145,31 +145,10 @@
 </div>
 
 <div *ngIf="fondosFiltrados.length > 0" class="resultados">
-    <button *ngFor="let fondo of fondosFiltrados; let i = index" 
-            class="fic" 
-            [style.animation-delay]="(i * 0.08) + 's'"
-            [routerLink]="['/fics/detalle']" 
-            [queryParams]="{ id: fondo.id }">
-        <div class="info-fic">
-            <div class="top">
-                <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{getTipoTexto(fondo.tipo)}}</p>
-                <img id="logo" [src]="fondo.logo" alt="Logo" />
-            </div>
-            <div class="bottom">     
-                <h5>{{fondo.nombre_fic}}</h5>
-                <p>{{fondo.rentabilidad}}</p>
-                <div class="ea-container">
-                    <p id="ea">{{fondo.ea}}%</p>
-                    <div class="hover-info">
-                        <div class="triangle"></div>    
-                        <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
-                            <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </button>
+    <app-fondo-card *ngFor="let fondo of fondosFiltrados; let i = index" 
+                    [fondo]="fondo"
+                    [index]="i">
+    </app-fondo-card>
 </div>
 
 

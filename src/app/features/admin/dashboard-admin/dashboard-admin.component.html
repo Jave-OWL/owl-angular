@@ -1,1 +1,53 @@
-<p>dashboard-admin works!</p>
+<div class="dashboard-container">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Panel de Administración</h1>
+    <p class="subtitle">Gestiona los recursos de la plataforma</p>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="loader"></div>
+    <p>Cargando métricas...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-state">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Métricas Grid -->
+  <div *ngIf="!isLoading && !error" class="metricas-grid">
+    <!-- Métrica: Usuarios -->
+    <div class="metrica-card">
+      <div class="metrica-icon usuarios-icon">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="metrica-info">
+        <h3>Usuarios Registrados</h3>
+        <p class="metrica-numero">{{ totalUsuarios }}</p>
+        <p class="metrica-descripcion">Total de usuarios en la plataforma</p>
+      </div>
+      <button class="metrica-boton" (click)="navegarAUsuarios()">
+        <span>Gestionar Usuarios</span>
+        <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+
+    <!-- Métrica: FICs -->
+    <div class="metrica-card">
+      <div class="metrica-icon fics-icon">
+        <i class="bi bi-bar-chart-fill"></i>
+      </div>
+      <div class="metrica-info">
+        <h3>Fondos de Inversión</h3>
+        <p class="metrica-numero">{{ totalFICs }}</p>
+        <p class="metrica-descripcion">Total de FICs disponibles</p>
+      </div>
+      <button class="metrica-boton" (click)="navegarAFICs()">
+        <span>Gestionar FICs</span>
+        <i class="bi bi-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+</div>

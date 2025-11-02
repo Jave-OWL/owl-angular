@@ -426,6 +426,10 @@ h3 {
     border: #8fbee1 1px solid;
 }
 
+#desconocido {
+    background-color: #6c757d;
+}
+
 .titulo-rendimiento{
     display: flex;
     flex-direction: row;

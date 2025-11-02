@@ -1,0 +1,263 @@
+<section class="comparar-container">
+
+    <!-- Modal Tabla Ampliada -->
+    <div *ngIf="mostrarTablaAmpliada" class="fondo-modal" (click)="cerrarTablaAmpliada()">
+        <div class="ventana-tabla" (click)="$event.stopPropagation()">
+            <div class="header-modal">
+                <h2>Comparación Detallada</h2>
+                <button class="boton-cerrar" (click)="cerrarTablaAmpliada()">
+                    <i style="color: var(--color-main);" class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            <div class="contenedor-tabla">
+                <div class="tabla-wrapper">
+                    <table class="tabla-comparacion">
+                        <thead>
+                            <tr>
+                                <th class="campo-label">Fondo</th>
+                                <th *ngFor="let fondo of fondosSeleccionados" class="fondo-header">
+                                    <div class="fondo-header-content">
+                                        <img [src]="fondo.logo" alt="Logo" class="logo-tabla">
+                                        <span class="nombre-corto">{{ fondo.nombre_fic }}</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let campo of camposComparacion">
+                                <td class="campo-label">{{ campo.label }}</td>
+                                <td *ngFor="let fondo of fondosSeleccionados" 
+                                    [class.mejor-valor]="esMejorValor(fondo, campo)">
+                                    <span *ngIf="esMejorValor(fondo, campo)" class="icono-mejor">
+                                        <i class="bi bi-star-fill"></i>
+                                    </span>
+                                    {{ getValorCampo(fondo, campo) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="titulo">
+        <h2>Comparar Fondos de Inversión</h2>
+        <p class="subtitulo">Selecciona hasta 4 fondos para comparar sus características</p>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+        <div class="loader"></div>
+        <p>Cargando fondos...</p>
+    </div>
+
+    <div *ngIf="error && !isLoading" class="error-state">
+        <p>Error al cargar los fondos. Por favor, intenta nuevamente.</p>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="contenido" *ngIf="!isLoading && !error">
+        <div class="resultados-comparacion">
+            <div class="tabla-comparacion-container">
+                <h3 hidden >Comparación de Fondos Seleccionados</h3>
+                <div class="contador-seleccion">
+                    <div class="contador-info">
+                        <i class="bi bi-check-square"></i>
+                        <span>{{ fondosSeleccionados.length }} / {{ maxSeleccion }} fondos seleccionados</span>
+                    </div>
+                    <div class="botones-acciones">
+                        <button *ngIf="fondosSeleccionados.length > 1" 
+                                class="boton-ampliar" 
+                                (click)="toggleTablaAmpliada()">
+                            <i style="color: white;" class="bi bi-arrows-fullscreen"></i> Ampliar tabla
+                        </button>
+                        <button *ngIf="fondosSeleccionados.length > 0" 
+                                class="boton-limpiar" 
+                                (click)="limpiarSeleccion()">
+                            <i style="color: white;" class="bi bi-x-circle"></i> Limpiar selección
+                        </button>
+                    </div>
+                </div>
+                <div class="tabla-wrapper" *ngIf="fondosSeleccionados.length > 0">
+                    <table class="tabla-comparacion">
+                        <thead>
+                            <tr>
+                                <th class="campo-label">Fondo</th>
+                                <th *ngFor="let fondo of fondosSeleccionados" class="fondo-header">
+                                    <div class="fondo-header-content">
+                                        <img [src]="fondo.logo" alt="Logo" class="logo-tabla">
+                                        <span class="nombre-corto">{{ fondo.nombre_fic }}</span>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let campo of camposComparacion">
+                                <td class="campo-label">{{ campo.label }}</td>
+                                <td *ngFor="let fondo of fondosSeleccionados" 
+                                    [class.mejor-valor]="esMejorValor(fondo, campo)">
+                                    <span *ngIf="esMejorValor(fondo, campo)" class="icono-mejor">
+                                        <i class="bi bi-star-fill"></i>
+                                    </span>
+                                    {{ getValorCampo(fondo, campo) }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Sección de Selección de Fondos -->
+        <div class="seleccion-fondos">
+            <h3>{{ fondosSeleccionados.length > 0 ? 'Agregar más fondos' : 'Selecciona fondos para comparar' }}</h3>
+            
+            <!-- Barra de búsqueda -->
+            <div class="search-wrapper">
+                <i class="bi bi-search search-icon"></i>
+                <div class="separator"></div>
+                <input class="input-busqueda" 
+                       type="text" 
+                       placeholder="Busca un fondo por nombre o gestor..."
+                       (input)="buscarFondos($event)">
+            </div>
+
+            <!-- Filtros -->
+            <div class="buttons">
+                <!-- Dropdown Gestor con logo -->
+                <div id="filtro-gestor" class="custom-dropdown with-logo" 
+                     [class.open]="dropdownGestorAbierto" 
+                     tabindex="0" 
+                     (blur)="cerrarDropdownGestor()"
+                     title="Filtrar por gestor">
+                    <button type="button" 
+                            class="cd-trigger" 
+                            (click)="toggleDropdownGestor()" 
+                            aria-haspopup="listbox" 
+                            [attr.aria-expanded]="dropdownGestorAbierto">
+                        <img [src]="selectedGestorLogo" class="cd-trigger-logo" [alt]="gestorSeleccionado || 'Gestor'">
+                        {{ gestorSeleccionado || 'Gestor' }}
+                        <span class="cd-arrow" aria-hidden="true"></span>
+                    </button>
+                    <ul class="cd-list" role="listbox" *ngIf="dropdownGestorAbierto">
+                        <li role="option" 
+                            [class.selected]="gestorSeleccionado === ''"
+                            (click)="seleccionarGestor('', 'assets/images/FIC.webp')"
+                            tabindex="0">
+                            <img src="assets/images/FIC.webp" alt="Todos">
+                            Todos
+                        </li>
+                        <li role="option" 
+                            *ngFor="let gestor of gestoresUnicos"
+                            class="with-logo"
+                            [class.selected]="gestor === gestorSeleccionado"
+                            (click)="seleccionarGestor(gestor, 'assets/images/' + gestor + 'Logo.webp')"
+                            tabindex="0">
+                            <img [src]="'assets/images/' + gestor + 'Logo.webp'" 
+                                 [alt]="gestor"
+                                 (error)="$any($event.target).src='assets/images/FIC.webp'">
+                            {{gestor}}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown Tipo -->
+                <div id="filtro-tipo" class="custom-dropdown" 
+                     [class.open]="dropdownTipoAbierto" 
+                     tabindex="0" 
+                     (blur)="cerrarDropdownTipo()"
+                     title="Filtrar por tipo">
+                    <button type="button" 
+                            class="cd-trigger" 
+                            (click)="toggleDropdownTipo()" 
+                            aria-haspopup="listbox" 
+                            [attr.aria-expanded]="dropdownTipoAbierto">
+                        {{ tipoFondoSeleccionado || 'Tipo' }}
+                        <span class="cd-arrow" aria-hidden="true"></span>
+                    </button>
+                    <ul class="cd-list" role="listbox" *ngIf="dropdownTipoAbierto">
+                        <li role="option" 
+                            [class.selected]="tipoFondoSeleccionado === ''"
+                            (click)="seleccionarTipo('')"
+                            tabindex="0">
+                            Todos
+                        </li>
+                        <li role="option" 
+                            *ngFor="let tipo of tiposFondoUnicos"
+                            [class.selected]="tipo === tipoFondoSeleccionado"
+                            (click)="seleccionarTipo(tipo)"
+                            tabindex="0">
+                            {{tipo}}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown EA -->
+                <div id="filtro-ea" class="custom-dropdown" 
+                     [class.open]="dropdownEAAbierto" 
+                     tabindex="0" 
+                     (blur)="cerrarDropdownEA()"
+                     title="Tipo de EA">
+                    <button type="button" 
+                            class="cd-trigger" 
+                            (click)="toggleDropdownEA()" 
+                            aria-haspopup="listbox" 
+                            [attr.aria-expanded]="dropdownEAAbierto">
+                        {{ eaSeleccionado.etiqueta }}
+                        <span class="cd-arrow" aria-hidden="true"></span>
+                    </button>
+                    <ul class="cd-list" role="listbox" *ngIf="dropdownEAAbierto">
+                        <li role="option" 
+                            *ngFor="let opcion of opcionesEA"
+                            [class.selected]="opcion.valor === eaSeleccionado.valor"
+                            (click)="seleccionarEA(opcion)"
+                            tabindex="0">
+                            {{opcion.etiqueta}}
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown Ordenar -->
+                <div id="filtro-ordenar" class="custom-dropdown" 
+                     [class.open]="dropdownOrdenarAbierto" 
+                     tabindex="0" 
+                     (blur)="cerrarDropdownOrdenar()"
+                     title="Ordenamiento">
+                    <button type="button" 
+                            class="cd-trigger" 
+                            (click)="toggleDropdownOrdenar()" 
+                            aria-haspopup="listbox" 
+                            [attr.aria-expanded]="dropdownOrdenarAbierto">
+                        {{ ordenarSeleccionado.etiqueta }}
+                        <span class="cd-arrow" aria-hidden="true"></span>
+                    </button>
+                    <ul class="cd-list" role="listbox" *ngIf="dropdownOrdenarAbierto">
+                        <li role="option" 
+                            *ngFor="let opcion of opcionesOrdenar"
+                            [class.selected]="opcion.valor === ordenarSeleccionado.valor"
+                            (click)="seleccionarOrdenar(opcion)"
+                            tabindex="0">
+                            {{opcion.etiqueta}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Grid de fondos -->
+            <div class="resultados">
+                <app-fondo-card 
+                    *ngFor="let fondo of fondosFiltrados; let i = index"
+                    [fondo]="fondo" 
+                    [index]="i"
+                    [modoSeleccion]="true"
+                    [seleccionado]="estaSeleccionado(fondo)"
+                    (seleccionToggle)="toggleSeleccion($event)">
+                </app-fondo-card>
+            </div>
+
+            <!-- No results -->
+            <div *ngIf="fondosFiltrados.length === 0" class="no-results">
+                <p>No se encontraron fondos que coincidan con tu búsqueda.</p>
+            </div>
+        </div>
+    </div>
+</section>

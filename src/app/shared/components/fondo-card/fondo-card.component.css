@@ -1,0 +1,218 @@
+/* ==========================================================================
+   Estilos de la tarjeta de fondo (FIC)
+   ========================================================================== */
+
+.fic {
+    width: 100%;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    background-color: var(--color-contenido);
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.5s ease forwards;
+    position: relative;
+}
+
+.fic:has(.ea-container:hover) {
+    z-index: 10000;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fic:hover {
+    transform: translateY(-2.5px);
+    box-shadow: var(--medium-box-shadow);
+}
+
+/* Estilos para modo selección */
+.fic.modo-seleccion {
+    cursor: pointer;
+}
+
+.fic.seleccionado {
+    border: 3px solid #28a745;
+    background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+.fic.seleccionado:hover {
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.4);
+}
+
+/* Badge "Seleccionado" */
+.badge-seleccionado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #28a745;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.4);
+}
+
+.badge-seleccionado i {
+    font-size: 14px;
+}
+
+/* ==========================================================================
+   Contenido de la tarjeta
+   ========================================================================== */
+
+.info-fic {
+    border: 1px solid var(--color-tertiary);
+    border-radius: var(--border-radius);
+}
+
+.top {
+    background-color: hwb(222 96% 0%);
+    padding-bottom: 10px;
+    padding-top: 0px;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border-bottom: 1px solid var(--color-tertiary);
+}
+
+.top img {
+    justify-content: center;
+}
+
+.riesgo {
+    border-radius: var(--border-radius) 0 var(--border-radius) 0;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    width: 110px;
+    margin-bottom: 5px;
+}
+
+#logo {
+    height: 60px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: var(--internal-border-radius);
+}
+
+.bottom {
+    margin-top: 10px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.bottom p {
+    color: hwb(223 62% 25%);
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 0;
+}
+
+.bottom h5 {
+    font-size: 16px;
+    width: 80%;
+    text-align: center;
+    margin: 0;
+}
+
+/* ==========================================================================
+   EA Container con hover info
+   ========================================================================== */
+
+.ea-container {
+    position: relative;
+    display: inline-block;
+}
+
+.ea-container:hover .hover-info {
+    display: block;
+    position: absolute;
+    background-color: var(--color-contenido);
+    padding: 10px;
+    box-shadow: var(--medium-box-shadow);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
+    text-align: center;
+    width: max-content;
+    height: max-content;
+    z-index: 999;
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ea-container:hover .rentabilidades {
+    display: block;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.hover-info {
+    display: none;
+}
+
+.rentabilidades {
+    display: none;
+}
+
+.rentabilidades span {
+    font-weight: 600;
+    color: var(--color-main);
+}
+
+.triangle {
+    width: 10px;
+    aspect-ratio: 1/cos(30deg);
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    background-color: var(--color-headerfooter);
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* ==========================================================================
+   Indicadores de Riesgo
+   ========================================================================== */
+
+#alternativa {
+    background-color: #f5a623;
+}
+
+#variable {
+   background-color: #215092;
+}
+
+#mixta {
+    background-color: var(--color-main)
+}
+
+#fija {
+    background-color: #8fccf5;
+}
+
+#desconocido {
+    background-color: #6c757d;
+}

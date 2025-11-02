@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FIC } from '../../../core/models/FIC.model';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FICService } from '../../../core/services/fic.service';
 import { driver } from "driver.js";
+import { FondoCardComponent } from '../../../shared/components/fondo-card/fondo-card.component';
 
 
 @Component({
   selector: 'app-explorar-fondos',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FondoCardComponent],
   templateUrl: './explorar-fondos.component.html',
   styleUrl: './explorar-fondos.component.css'
 })
@@ -191,22 +192,6 @@ export class ExplorarFondosComponent {
       // Normalizar gestor
       fondo.gestor = this.normalizarGestor(fondo.gestor);
     });
-  }
-
-  getTipoId(tipo: string): string {
-    if (!tipo) return '';
-    if(tipo.length === 1) return tipo.toLowerCase();
-    const palabras = tipo.trim().split(/\s+/);
-    return palabras[palabras.length - 1].toLowerCase();
-  }
-
-  getTipoTexto(tipo: string): string {
-    if (!tipo) return '';
-    if(tipo.length === 1) return tipo;
-    const palabras = tipo.trim().split(/\s+/);
-    // Retorna la última palabra capitalizada
-    const ultimaPalabra = palabras[palabras.length - 1];
-    return ultimaPalabra.charAt(0).toUpperCase() + ultimaPalabra.slice(1).toLowerCase();
   }
 
   cargarGestoresUnicos() {

@@ -21,6 +21,10 @@ export class UsuarioService {
     return this.http.post(`${this.apiUrl}/prediccion`, body);
   }
 
+  findAll(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(`${this.apiUrl}/usuario/list`);
+  }
+
   obtenerUsuarioActual(): Observable<Usuario> {
     return this.http.get<Usuario>(`${this.apiUrl}/usuario/me`);
   }

@@ -1,0 +1,32 @@
+<button class="fic" 
+        [class.modo-seleccion]="modoSeleccion"
+        [class.seleccionado]="modoSeleccion && seleccionado"
+        [style.animation-delay]="(index * 0.08) + 's'"
+        [routerLink]="modoSeleccion ? null : ['/fics/detalle']" 
+        [queryParams]="modoSeleccion ? null : { id: fondo.id }"
+        (click)="onCardClick($event)">
+    
+    <div *ngIf="modoSeleccion && seleccionado" class="badge-seleccionado">
+        <i style="color: white;" class="bi bi-check-circle-fill"></i> Seleccionado
+    </div>
+
+    <div class="info-fic">
+        <div class="top">
+            <p class="riesgo" [id]="getTipoId(fondo.tipo)">{{getTipoTexto(fondo.tipo)}}</p>
+            <img id="logo" [src]="fondo.logo" alt="Logo" />
+        </div>
+        <div class="bottom">     
+            <h5>{{fondo.nombre_fic}}</h5>
+            <p>{{fondo.rentabilidad}}</p>
+            <div class="ea-container">
+                <p id="ea">{{fondo.ea}}%</p>
+                <div class="hover-info">
+                    <div class="triangle"></div>    
+                    <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
+                        <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</button>
