@@ -26,15 +26,16 @@
 
                 <div class="grupo-campo">
                     <label for="gestor">Gestor <span hidden class="requerido">*</span></label>
-                    <input 
-                        type="text" 
+                    <select
                         id="gestor"
                         class="input-campo"
                         [(ngModel)]="ficEditar.gestor"
                         name="gestor"
-                        placeholder="Ingresa el nombre del gestor"
                         required
                     >
+                        <option value="">Seleccionar gestor</option>
+                        <option *ngFor="let g of gestoresUnicos" [value]="g">{{ g }}</option>
+                    </select>
                 </div>
 
                 <div class="grupo-campo">
@@ -49,7 +50,8 @@
                         <option value="">Seleccionar tipo</option>
                         <option value="Renta Fija">Renta Fija</option>
                         <option value="Renta Variable">Renta Variable</option>
-                        <option value="Mixto">Mixto</option>
+                        <option value="Mixta">Mixta</option>
+                        <option value="Alternativa">Alternativa</option>
                     </select>
                 </div>
 

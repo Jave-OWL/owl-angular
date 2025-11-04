@@ -28,6 +28,8 @@ export class FicsComponent implements OnInit {
     gestor: '',
     tipo: ''
   };
+  // Lista de gestores disponibles (para el dropdown)
+  gestoresUnicos: string[] = [];
 
   constructor(
     private ficService: FICService,
@@ -46,8 +48,9 @@ export class FicsComponent implements OnInit {
       next: (data) => {
         this.fics = data;
         this.ficsFiltrados = data;
-        this.cargarLogos();
-        this.cargarEA();
+  this.cargarLogos();
+  this.cargarEA();
+  this.cargarGestoresUnicos();
         this.isLoading = false;
       },
       error: (err) => {
@@ -56,6 +59,11 @@ export class FicsComponent implements OnInit {
         console.error('Error:', err);
       }
     });
+  }
+
+  cargarGestoresUnicos() {
+    const gestoresSet = new Set(this.fics.map(f => f.gestor).filter(g => !!g));
+    this.gestoresUnicos = Array.from(gestoresSet).sort();
   }
 
   cargarLogos() {
@@ -148,6 +156,7 @@ export class FicsComponent implements OnInit {
         });
       }
     }
+    window.location.reload();
   }
 
   cerrarModalEditar(): void {
