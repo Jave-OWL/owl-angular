@@ -12,16 +12,19 @@
 </div>
 <header id="header" class="header">
     <img id="logo" routerLink="/" src="assets/images/OwlLogo.webp" alt="Logo" />
-    <!-- Mostrar solo el logo si está en /user/cuestionario -->
     <ng-container *ngIf="!isCuestionario()">
-      <div class="nav" *ngIf="usuarioAuth()">
+      <div class="nav" *ngIf="usuarioAuth() && !isAdmin()">
           <button routerLink="/user/perfil" routerLinkActive="router-link-active"
               [routerLinkActiveOptions]="{exact: true}">Inicio</button>
           <button routerLink="/fics/explorar" routerLinkActive="router-link-active">Explorar Fondos</button>
           <button routerLink="/fics/comparar" routerLinkActive="router-link-active">Comparar Fondos</button>
-          <button routerLink="/user/dashboard" routerLinkActive="router-link-active" hidden >Dashboard</button>
-          <button *ngIf="!isAdmin()" routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
+          <button routerLink="/aprende" routerLinkActive="router-link-active">Aprende</button>
       </div>
+      <div class="nav" *ngIf="usuarioAuth() && isAdmin()">
+          <button routerLink="/admin/dashboard" routerLinkActive="router-link-active"
+              [routerLinkActiveOptions]="{exact: true}">Inicio</button>
+      </div>
+
       <div *ngIf="!usuarioAuth()" class="auth">
           <button class="login" routerLink="/auth/inicio-de-sesion">Iniciar Sesi&oacute;n</button>
           <button class="registro" routerLink="/auth/registro">Registro</button>
@@ -33,10 +36,16 @@
                   <span class="inicial">{{ getInicialUsuario() }}</span>
               </button>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                  <div class="triangle"></div>    
-                  <a class="dropdown-item" routerLink="/user/perfil">Perfil<i class="bi bi-person"></i></a>
-                  <a class="dropdown-item" routerLink="/user/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>
-                  <div class="dropdown-divider"></div>
+                  <div class="triangle"></div>
+                  <ng-container *ngIf="!isAdmin()">
+                      <a class="dropdown-item" routerLink="/user/perfil">Perfil<i class="bi bi-person"></i></a>
+                      <!--<a class="dropdown-item" routerLink="/user/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>-->
+                      <div class="dropdown-divider"></div>
+                  </ng-container>
+                  <ng-container *ngIf="isAdmin()">
+                      <a class="dropdown-item" routerLink="/admin/dashboard">Dashboard<i class="bi bi-clipboard-data"></i></a>
+                      <div class="dropdown-divider"></div>
+                  </ng-container>
                   <a class="dropdown-item" (click)="cerrarSesion()">Salir<i class="bi bi-box-arrow-right"></i></a>
               </div>
           </div>

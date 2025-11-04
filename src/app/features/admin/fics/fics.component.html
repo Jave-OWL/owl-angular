@@ -1,1 +1,114 @@
-<p>fics works!</p>
+<section class="fics-container">
+    
+    <div *ngIf="mostrarModalEliminar" class="fondo-modal" (click)="cerrarModal()">
+        <div class="ventana-info" (click)="$event.stopPropagation()">
+            <div class="contenedor-info">
+                <h2>¿Eliminar FIC?</h2>
+                <p>¿Estás seguro de que deseas eliminar el FIC <strong>{{ ficAEliminar?.nombre_fic }}</strong>?</p>
+                <p class="advertencia">Esta acción no se puede deshacer.</p>
+                <div class="botones-modal">
+                    <button class="boton-cancelar" (click)="cerrarModal()">Cancelar</button>
+                    <button class="boton-eliminar" (click)="eliminarFIC()"><span><i class="bi bi-trash"></i>Eliminar</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-section">
+        <div class="titulo-seccion">
+            <button class="boton-volver" (click)="volverDashboard()">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+                <h2>Gestión de FICs</h2>
+                <p class="subtitulo">Administra los fondos de inversión colectiva</p>
+            </div>
+        </div>
+        <button class="boton-crear" (click)="crearFIC()">
+            <i class="bi bi-plus-circle"></i> Nuevo FIC
+        </button>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+        <div class="loader"></div>
+        <p>Cargando FICs...</p>
+    </div>
+
+    <div *ngIf="error && !isLoading" class="error-state">
+        <p>Error al cargar los FICs. Por favor, intenta nuevamente.</p>
+    </div>
+
+    <div *ngIf="!isLoading && !error" class="contenido">
+        <!-- Barra de búsqueda -->
+        <div class="search-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <div class="separator"></div>
+            <input class="input-busqueda" 
+                   type="text" 
+                   placeholder="Buscar por nombre, gestor o tipo..."
+                   (input)="buscarFICs($event)">
+        </div>
+
+        <!-- Contador -->
+        <div class="contador-fics">
+            <i class="bi bi-briefcase-fill"></i>
+            <span>{{ ficsFiltrados.length }} FIC(s) encontrado(s)</span>
+        </div>
+
+        <!-- Tabla de FICs -->
+        <div class="tabla-wrapper">
+            <table class="tabla-fics">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Logo</th>
+                        <th>Nombre FIC</th>
+                        <th>Gestor</th>
+                        <th>Tipo</th>
+                        <th>EA</th>
+                        <th>Rentabilidad</th>
+                        <th>Fecha Corte</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let fic of ficsFiltrados">
+                        <td>{{ fic.id }}</td>
+                        <td>
+                            <img [src]="fic.logo" [alt]="fic.nombre_fic" class="logo-fic">
+                        </td>
+                        <td>{{ fic.nombre_fic }}</td>
+                        <td>{{ fic.gestor }}</td>
+                        <td>
+                            <span class="badge badge-tipo">{{ fic.tipo }}</span>
+                        </td>
+                        <td>{{ fic.ea }}%</td>
+                        <td>
+                            <span class="badge" [class.badge-positiva]="fic.rentabilidad > 0" [class.badge-negativa]="fic.rentabilidad < 0">
+                                {{ fic.rentabilidad > 0 ? '+' : '' }}{{ fic.rentabilidad }}%
+                            </span>
+                        </td>
+                        <td>{{ fic.fecha_corte }}</td>
+                        <td class="acciones">
+                            <button class="boton-accion boton-ver" (click)="verFIC(fic.id)" title="Ver detalles">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="boton-accion boton-editar" (click)="editarFIC(fic.id)" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="boton-accion boton-eliminar-lista" (click)="confirmarEliminar(fic)" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- No results -->
+        <div *ngIf="ficsFiltrados.length === 0" class="no-results">
+            <i class="bi bi-inbox"></i>
+            <p>No se encontraron FICs que coincidan con tu búsqueda.</p>
+        </div>
+    </div>
+</section>

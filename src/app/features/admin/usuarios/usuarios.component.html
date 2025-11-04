@@ -1,1 +1,106 @@
-<p>usuarios works!</p>
+<section class="usuarios-container">
+    
+    <div *ngIf="mostrarModalEliminar" class="fondo-modal" (click)="cerrarModal()">
+        <div class="ventana-info" (click)="$event.stopPropagation()">
+            <div class="contenedor-info">
+                <h2>¿Eliminar usuario?</h2>
+                <p>¿Estás seguro de que deseas eliminar al usuario <strong>{{ usuarioAEliminar?.nombre }}</strong>?</p>
+                <p class="advertencia">Esta acción no se puede deshacer.</p>
+                <div class="botones-modal">
+                    <button class="boton-cancelar" (click)="cerrarModal()">Cancelar</button>
+                    <button class="boton-eliminar" (click)="eliminarUsuario()"><span><i class="bi bi-trash"></i>Eliminar</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-section">
+        <div class="titulo-seccion">
+            <button class="boton-volver" (click)="volverDashboard()">
+                <i class="bi bi-arrow-left"></i>
+            </button>
+            <div>
+                <h2>Gestión de Usuarios</h2>
+                <p class="subtitulo">Administra los usuarios del sistema</p>
+            </div>
+        </div>
+        <button class="boton-crear" (click)="crearUsuario()">
+            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+        </button>
+    </div>
+
+    <div *ngIf="isLoading" class="loading-state">
+        <div class="loader"></div>
+        <p>Cargando usuarios...</p>
+    </div>
+
+    <div *ngIf="error && !isLoading" class="error-state">
+        <p>Error al cargar los usuarios. Por favor, intenta nuevamente.</p>
+    </div>
+
+    <div *ngIf="!isLoading && !error" class="contenido">
+        <!-- Barra de búsqueda -->
+        <div class="search-wrapper">
+            <i class="bi bi-search search-icon"></i>
+            <div class="separator"></div>
+            <input class="input-busqueda" 
+                   type="text" 
+                   placeholder="Buscar por nombre o correo..."
+                   (input)="buscarUsuarios($event)">
+        </div>
+
+        <!-- Contador -->
+        <div class="contador-usuarios">
+            <i class="bi bi-people-fill"></i>
+            <span>{{ usuariosFiltrados.length }} usuario(s) encontrado(s)</span>
+        </div>
+
+        <!-- Tabla de usuarios -->
+        <div class="tabla-wrapper">
+            <table class="tabla-usuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Fecha Nacimiento</th>
+                        <th>Nivel Riesgo</th>
+                        <th>Rol</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let usuario of usuariosFiltrados">
+                        <td>{{ usuario.id }}</td>
+                        <td>{{ usuario.nombre }}</td>
+                        <td>{{ usuario.correo }}</td>
+                        <td>{{ usuario.fecha_nacimiento || 'N/A' }}</td>
+                        <td>{{ usuario.nivel_riesgo || 'N/A' }}</td>
+                        <td>
+                            <span class="badge" [class.badge-admin]="usuario.is_admin" [class.badge-user]="!usuario.is_admin">
+                                {{ usuario.is_admin ? 'Admin' : 'Usuario' }}
+                            </span>
+                        </td>
+                        <td class="acciones">
+                            <button class="boton-accion boton-ver" (click)="verUsuario(usuario.id)" title="Ver detalles">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="boton-accion boton-editar" (click)="editarUsuario(usuario.id)" title="Editar">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="boton-accion boton-eliminar-lista" (click)="confirmarEliminar(usuario)" title="Eliminar">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- No results -->
+        <div *ngIf="usuariosFiltrados.length === 0" class="no-results">
+            <i class="bi bi-inbox"></i>
+            <p>No se encontraron usuarios que coincidan con tu búsqueda.</p>
+        </div>
+    </div>
+</section>

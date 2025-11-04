@@ -8,7 +8,8 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class UsuarioService {
-  private apiUrl = environment.apiUrl;
+  url = `${environment.apiUrl}/usuario`;
+  apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -22,17 +23,21 @@ export class UsuarioService {
   }
 
   findAll(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${this.apiUrl}/usuario/list`);
+    return this.http.get<Usuario[]>(`${this.url}/list`);
   }
 
   obtenerUsuarioActual(): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.apiUrl}/usuario/me`);
+    return this.http.get<Usuario>(`${this.url}/me`);
+  }
+
+  eliminarUsuario(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${id}`);
   }
 
   actualizarUsuario(datosActualizados: Partial<Usuario>): Observable<Usuario> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.http.put<Usuario>(`${this.apiUrl}/usuario/me`, datosActualizados, { headers });
+    return this.http.put<Usuario>(`${this.url}/me`, datosActualizados, { headers });
   }
 }

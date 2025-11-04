@@ -1,0 +1,462 @@
+/* ==========================================================================
+   Container Principal
+   ========================================================================== */
+.fics-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+/* ==========================================================================
+   Modal Eliminar
+   ========================================================================== */
+.fondo-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.ventana-info {
+    border: 1px solid var(--color-tertiary);
+    background-color: var(--color-contenido, #fff);
+    border-radius: var(--border-radius, 16px);
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.contenedor-info h2 {
+    color: var(--color-main);
+    margin-bottom: 16px;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.contenedor-info p {
+    font-weight: 400;
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.advertencia {
+    color: #dc3545;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.botones-modal {
+    display: flex;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.boton-cancelar,
+.boton-eliminar {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.boton-cancelar {
+    background-color: #6c757d;
+    color: white;
+}
+
+.boton-cancelar:hover {
+    background-color: #5a6268;
+}
+
+.boton-eliminar {
+    background-color: #dc3545;
+}
+
+.boton-eliminar span {
+    color: white;
+}
+
+.boton-eliminar i {
+    margin-right: 8px;
+    color: white;
+}
+
+.boton-eliminar:hover i, .boton-eliminar:hover span {
+    color: red;
+}
+
+/* ==========================================================================
+   Header Section
+   ========================================================================== */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.boton-volver {
+    background: var(--color-main);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.boton-volver:hover {
+    background: #588bd2;
+    transform: scale(1.1);
+}
+
+.titulo-seccion h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: #333;
+}
+
+.subtitulo {
+    font-size: 16px;
+    color: #6c757d;
+    margin: 5px 0 0 0;
+}
+
+.boton-crear {
+    background: var(--color-main);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.boton-crear:hover {
+    background: #588bd2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+/* ==========================================================================
+   Loading & Error States
+   ========================================================================== */
+.loading-state,
+.error-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--color-main);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-state p {
+    color: #721c24;
+    font-size: 18px;
+    background-color: #f8d7da;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    border: 1px solid #f5c6cb;
+}
+
+/* ==========================================================================
+   Contenido
+   ========================================================================== */
+.contenido {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Barra de búsqueda */
+.search-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-secondary);
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.separator {
+    position: absolute;
+    left: 50px;
+    top: 0%;
+    height: 100%;
+    width: 0.67px;
+    background-color: var(--color-tertiary);
+}
+
+.input-busqueda {
+    width: 100%;
+    padding: 14px 40px 14px 65px;
+    font-size: 16px;
+    color: var(--color-texto);
+    background-color: var(--color-contenido);
+    border: 1px solid var(--color-tertiary);
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    transition: 0.3s ease;
+}
+
+.input-busqueda:focus {
+    outline: none;
+    box-shadow: var(--medium-box-shadow);
+    border-color: var(--color-main);
+}
+
+/* Contador */
+.contador-fics {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--color-main);
+}
+
+.contador-fics i {
+    font-size: 24px;
+}
+
+/* ==========================================================================
+   Tabla
+   ========================================================================== */
+.tabla-wrapper {
+    overflow-x: auto;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
+}
+
+.tabla-fics {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+.tabla-fics thead {
+    background: linear-gradient(135deg, #588bd2 0%, #437ac6 100%);
+    color: white;
+}
+
+.tabla-fics th {
+    padding: 16px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: white;
+}
+
+.tabla-fics tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid var(--color-tertiary);
+}
+
+.tabla-fics tbody tr:hover {
+    background-color: rgba(88, 139, 210, 0.05);
+}
+
+.tabla-fics td {
+    padding: 16px;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Logo del FIC */
+.logo-fic {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-tipo {
+    background-color: #e3f2fd;
+    color: #1976d2;
+}
+
+.badge-positiva {
+    background-color: #28a745;
+    color: white;
+}
+
+.badge-negativa {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Acciones */
+.acciones {
+    display: flex;
+    gap: 8px;
+}
+
+.boton-accion {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton-ver {
+    color: #17a2b8;
+}
+
+.boton-ver:hover {
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+.boton-editar {
+    color: #ffc107;
+}
+
+.boton-editar:hover {
+    background-color: rgba(255, 193, 7, 0.1);
+}
+
+.boton-eliminar {
+    color: #dc3545;
+}
+
+.boton-eliminar:hover {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* No results */
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #6c757d;
+}
+
+.no-results i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-results p {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+@media (max-width: 768px) {
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .titulo-seccion h2 {
+        font-size: 24px;
+    }
+
+    .boton-crear {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .tabla-wrapper {
+        font-size: 14px;
+    }
+
+    .tabla-fics th,
+    .tabla-fics td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .acciones {
+        flex-direction: column;
+        gap: 4px;
+    }
+}

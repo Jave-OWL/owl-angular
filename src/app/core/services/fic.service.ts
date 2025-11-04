@@ -26,4 +26,16 @@ export class FICService {
   findByRecomendacion(): Observable<FIC[]> {
     return this.http.get<FIC[]>(`${this.url}/listRecomendados`);
   }
+
+  crearFIC(fic: FIC): Observable<FIC> {
+    return this.http.post<FIC>(`${this.url}/create`, fic);
+  }
+
+  eliminarFIC(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  modificarFIC(id: number, fic: FIC): Observable<FIC> {
+    return this.http.put<FIC>(`${this.url}/${id}`, fic);
+  }
 }
