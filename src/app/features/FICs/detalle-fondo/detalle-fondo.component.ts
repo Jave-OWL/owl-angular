@@ -1008,7 +1008,31 @@ export class DetalleFondoComponent {
         }
       },
       {
-
+        element: '.principales-inversiones',
+        popover: {
+          title: 'Inversiones',
+          description: 'Principales inversiones del fondo de inversión',
+          side: 'bottom',
+          align: 'center'
+        }
+      },
+      {
+        element: ".duraciones-plazo",
+        popover: {
+          title: "Duraciones por Plazo",
+          description: "Distribución del portafolio del fondo de inversión según los plazos de todas sus inversiones",
+          side: "bottom",
+          align: "center",
+        }
+      },
+      {
+        element: '.composiciones',
+        popover: {
+          title: 'Composiciones',
+          description: 'Distribución del portafolio del fondo de inversión',
+          side: 'top',
+          align: 'center'
+        }
       },
       {
         element: '#iconoPolitica',

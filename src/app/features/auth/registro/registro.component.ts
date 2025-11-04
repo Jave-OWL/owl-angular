@@ -44,6 +44,7 @@ export class RegistroComponent implements OnInit {
 
         this.authService.register(nombre, correo, contrasena, fechaNacimiento).subscribe({
           next: () => {
+            localStorage.setItem('nombreUsuario', nombre);
             this.router.navigate(['/user/cuestionario']);
           },
           error: (error) => {

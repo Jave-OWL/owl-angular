@@ -439,8 +439,8 @@ export class ExplorarFondosComponent {
       {
         element: '#filtro-ea',
         popover: {
-          title: 'Filtro por EA',
-          description: 'Filtra los fondos por la rentabilidad EA.',
+          title: 'Filtro por rentabilidad',
+          description: 'Filtra los fondos por la rentabilidad.',
           side: 'bottom',
           align: 'center'
         }
@@ -449,7 +449,7 @@ export class ExplorarFondosComponent {
         element: '#filtro-ordenar',
         popover: {
           title: 'Ordenar',
-          description: 'Ordena los fondos por nombre o rentabilidad EA.',
+          description: 'Ordena los fondos por nombre o rentabilidad.',
           side: 'bottom',
           align: 'center'
         }
@@ -467,7 +467,7 @@ export class ExplorarFondosComponent {
         element: '#ea',
         popover: {
           title: 'Rentabilidad',
-          description: 'Rentabilidad del fondo de inversión. Carga la EA mínima por defecto.',
+          description: 'Rentabilidad del fondo de inversión. Carga la mínima por defecto, pasando el mouse por encima o entrando al fondo puedes ver las demas',
           side: 'top',
           align: 'center'
         }
