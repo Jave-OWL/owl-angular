@@ -1,5 +1,74 @@
 <section class="usuarios-container">
     
+    <!-- Modal de visualización -->
+    <div *ngIf="mostrarModalVer" class="fondo-modal" (click)="cerrarModalVer()">
+        <div class="ventana-formulario" (click)="$event.stopPropagation()">
+            <div class="header-modal">
+                <h2>Información del Usuario</h2>
+                <button class="boton-cerrar-modal" (click)="cerrarModalVer()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="detalle-usuario">
+                <div class="grupo-detalle">
+                    <label>ID</label>
+                    <p class="valor-detalle">{{ usuarioVer?.id }}</p>
+                </div>
+
+                <div class="grupo-detalle">
+                    <label>Nombre Completo</label>
+                    <p class="valor-detalle">{{ usuarioVer?.nombre }}</p>
+                </div>
+
+                <div class="grupo-detalle">
+                    <label>Correo Electrónico</label>
+                    <p class="valor-detalle">{{ usuarioVer?.correo }}</p>
+                </div>
+
+                <div class="grupo-detalle">
+                    <label>Fecha de Nacimiento</label>
+                    <p class="valor-detalle">{{ usuarioVer?.fecha_nacimiento || 'No especificada' }}</p>
+                </div>
+
+                <div class="grupo-detalle">
+                    <label>Nivel de Riesgo</label>
+                    <p class="valor-detalle">
+                        <span *ngIf="usuarioVer?.nivel_riesgo" 
+                              class="badge-riesgo"
+                              [class.badge-conservador]="usuarioVer?.nivel_riesgo === 'Conservador'"
+                              [class.badge-moderado]="usuarioVer?.nivel_riesgo === 'Moderado'"
+                              [class.badge-arriesgado]="usuarioVer?.nivel_riesgo === 'Arriesgado'"
+                              [class.badge-sin-definir]="usuarioVer?.nivel_riesgo === 'Sin definir'">
+                            {{ usuarioVer?.nivel_riesgo }}
+                        </span>
+                        <span *ngIf="!usuarioVer?.nivel_riesgo">No definido</span>
+                    </p>
+                </div>
+
+                <div class="grupo-detalle">
+                    <label>Rol</label>
+                    <p class="valor-detalle">
+                        <span class="badge" [class.badge-admin]="usuarioVer?.is_admin" [class.badge-user]="!usuarioVer?.is_admin">
+                            {{ usuarioVer?.is_admin ? 'Administrador' : 'Usuario' }}
+                        </span>
+                    </p>
+                </div>
+
+                <div class="botones-detalle">
+                    <button type="button" class="boton-editar-detalle" (click)="cerrarModalVer(); editarUsuario(usuarioVer!.id)">
+                        <i style="color: white;" class="bi bi-pencil"></i>
+                        Editar Usuario
+                    </button>
+                    <button type="button" class="boton-cancelar-form" (click)="cerrarModalVer()">
+                        <i style="color: white;" class="bi bi-x-circle"></i>
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div *ngIf="mostrarModalEliminar" class="fondo-modal" (click)="cerrarModal()">
         <div class="ventana-info" (click)="$event.stopPropagation()">
             <div class="contenedor-info">
@@ -177,7 +246,8 @@
                                   class="badge-riesgo"
                                   [class.badge-conservador]="usuario.nivel_riesgo === 'Conservador'"
                                   [class.badge-moderado]="usuario.nivel_riesgo === 'Moderado'"
-                                  [class.badge-arriesgado]="usuario.nivel_riesgo === 'Arriesgado'">
+                                  [class.badge-arriesgado]="usuario.nivel_riesgo === 'Arriesgado'"
+                                  [class.badge-sin-definir]="usuario.nivel_riesgo === 'Sin definir'">
                                 {{ usuario.nivel_riesgo }}
                             </span>
                             <span *ngIf="!usuario.nivel_riesgo">N/A</span>

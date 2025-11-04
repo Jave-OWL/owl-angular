@@ -32,6 +32,10 @@ export class UsuariosComponent implements OnInit {
     nivel_riesgo: ''
   };
 
+  // Modal de visualización
+  mostrarModalVer = false;
+  usuarioVer: Usuario | null = null;
+
   constructor(
     private usuarioService: UsuarioService,
     private router: Router
@@ -84,7 +88,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   verUsuario(id: number): void {
-    this.router.navigate(['/admin/usuarios', id]);
+    const usuario = this.usuarios.find(u => u.id === id);
+    if (usuario) {
+      this.usuarioVer = usuario;
+      this.mostrarModalVer = true;
+    }
+  }
+
+  cerrarModalVer(): void {
+    this.mostrarModalVer = false;
+    this.usuarioVer = null;
   }
 
   editarUsuario(id: number): void {
@@ -98,12 +111,24 @@ export class UsuariosComponent implements OnInit {
 
   guardarUsuario(): void {
     if (this.modoEdicion) {
-      const index = this.usuarios.findIndex(u => u.id === this.usuarioFormulario.id);
-      if (index !== -1) {
-        this.usuarios[index] = { ...this.usuarioFormulario } as Usuario;
-        this.usuariosFiltrados = [...this.usuarios];
+      if (this.usuarioFormulario.id) {
+        console.log('Actualizando usuario:', this.usuarioFormulario);
+        this.usuarioService.actualizarUsuarioPorId(this.usuarioFormulario.id, this.usuarioFormulario).subscribe({
+          next: (usuarioActualizado) => {
+            console.log('Usuario actualizado exitosamente:', usuarioActualizado);
+            const index = this.usuarios.findIndex(u => u.id === this.usuarioFormulario.id);
+            if (index !== -1) {
+              this.usuarios[index] = usuarioActualizado;
+              this.usuariosFiltrados = [...this.usuarios];
+            }
+            this.cerrarModalFormulario();
+          },
+          error: (err) => {
+            console.error('Error al actualizar usuario:', err);
+            alert('Error al actualizar el usuario. Por favor, intenta nuevamente.');
+          }
+        });
       }
-      this.cerrarModalFormulario();
     } else {
       const nuevoUsuario: Partial<Usuario> = {
         ...this.usuarioFormulario

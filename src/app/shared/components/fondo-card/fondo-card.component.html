@@ -17,16 +17,20 @@
         </div>
         <div class="bottom">     
             <h5>{{fondo.nombre_fic}}</h5>
-            <p>{{fondo.rentabilidad}}</p>
             <div class="ea-container">
-                <p id="ea">{{fondo.ea}}%</p>
                 <div class="hover-info">
-                    <div class="triangle"></div>    
                     <div *ngFor="let rentabilidad_historicas of fondo.rentabilidad_historicas" class="rentabilidades">
                         <p>{{rentabilidad_historicas.tipo_de_participacion}} - <span>{{(rentabilidad_historicas.ultimo_mes*100) | number:'1.2-2'}}%</span></p>
                     </div>
+                    <div class="triangle"></div>    
                 </div>
             </div>
+            <div class="ea-display">
+                    <p id="ea">{{fondo.ea}}%</p>
+                    <i *ngIf="fondo.ea > 0" class="bi bi-triangle-fill icono-rentabilidad positivo"></i>
+                    <i *ngIf="fondo.ea < 0" class="bi bi-triangle-fill icono-rentabilidad negativo"></i>
+                    <i *ngIf="fondo.ea === 0" class="bi bi-dash icono-rentabilidad neutro"></i>
+                </div>
         </div>
     </div>
 </button>

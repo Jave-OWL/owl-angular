@@ -35,7 +35,7 @@ export class FICService {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
 
-  modificarFIC(id: number, fic: FIC): Observable<FIC> {
-    return this.http.put<FIC>(`${this.url}/${id}`, fic);
+  modificarFIC(fic: FIC): Observable<FIC> {
+    return this.http.put<FIC>(`${this.url}/update`, fic);
   }
 }

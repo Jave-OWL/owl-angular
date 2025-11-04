@@ -138,6 +138,56 @@
 }
 
 /* ==========================================================================
+   Indicador de Rentabilidad
+   ========================================================================== */
+
+.rentabilidad-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
+}
+
+.rentabilidad-container p {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+}
+
+.ea-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.ea-display p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.icono-rentabilidad {
+    font-size: 8px;
+}
+
+.icono-rentabilidad.positivo {
+    color: #28a745;
+    transform: rotate(0deg);
+}
+
+.icono-rentabilidad.negativo {
+    color: #dc3545;
+    transform: rotate(180deg);
+}
+
+.icono-rentabilidad.neutro {
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* ==========================================================================
    EA Container con hover info
    ========================================================================== */
 

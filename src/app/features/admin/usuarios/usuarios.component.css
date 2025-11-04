@@ -577,6 +577,11 @@
     color: #721c24;
 }
 
+.badge-sin-definir {
+    background-color: #e2e3e5;
+    color: #6c757d;
+}
+
 /* Acciones */
 .acciones {
     display: flex;
@@ -697,4 +702,72 @@
     .boton-guardar {
         width: 100%;
     }
+}
+
+/* ==========================================================================
+   Modal de Visualización
+   ========================================================================== */
+.detalle-usuario {
+    padding: 30px;
+    overflow-y: auto;
+    max-height: 75vh;
+    
+}
+
+.grupo-detalle {
+    margin-bottom: 25px;
+}
+
+.grupo-detalle label {
+    display: block;
+    font-weight: 600;
+    color: var(--color-main);
+    margin-bottom: 8px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.valor-detalle {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--color-tertiary);
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+}
+
+.botones-detalle {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-tertiary);
+}
+
+.boton-editar-detalle {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    background: var(--color-main);
+    color: white;
+}
+
+.boton-editar-detalle:hover {
+    background: #588bd2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
 }

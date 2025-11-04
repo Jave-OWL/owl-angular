@@ -489,3 +489,161 @@
         gap: 4px;
     }
 }
+
+/* ==========================================================================
+   Modal Formulario (Editar)
+   ========================================================================== */
+.ventana-formulario {
+    border: 1px solid var(--color-tertiary);
+    background-color: var(--color-contenido, #fff);
+    border-radius: var(--border-radius, 16px);
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    animation: aparecer 0.3s ease;
+}
+
+.header-modal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    border-bottom: 1px solid var(--color-tertiary);
+    background: linear-gradient(135deg, #588bd2 0%, #437ac6 100%);
+    border-radius: var(--border-radius, 16px) var(--border-radius, 16px) 0 0;
+}
+
+.header-modal h2 {
+    color: white;
+    margin: 0;
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.boton-cerrar-modal {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.boton-cerrar-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+.formulario-fic {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    overflow-y: auto;
+    max-height: 75vh;
+    padding: 30px;
+}
+
+.formulario-fic::-webkit-scrollbar {
+    width: 8px;
+}
+
+.formulario-fic::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: var(--border-radius);
+}
+
+.formulario-fic::-webkit-scrollbar-thumb {
+    background: var(--color-main);
+    border-radius: var(--border-radius);
+}
+
+.formulario-fic::-webkit-scrollbar-thumb:hover {
+    background: #588bd2;
+}
+
+.grupo-campo {
+    margin-bottom: 20px;
+}
+
+.grupo-campo label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.requerido {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+.input-campo {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--color-tertiary);
+    border-radius: var(--border-radius);
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+.input-campo:focus {
+    outline: none;
+    border-color: var(--color-main);
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+}
+
+.botones-formulario {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-tertiary);
+}
+
+.boton-cancelar-form,
+.boton-guardar {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.boton-cancelar-form {
+    background-color: #6c757d;
+    color: white;
+}
+
+.boton-cancelar-form:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.boton-guardar {
+    background: var(--color-main);
+    color: white;
+}
+
+.boton-guardar:hover {
+    background: #588bd2;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}

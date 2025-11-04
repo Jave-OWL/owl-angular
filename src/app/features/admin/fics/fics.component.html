@@ -1,5 +1,72 @@
 <section class="fics-container">
     
+    <!-- Modal de edición -->
+    <div *ngIf="mostrarModalEditar" class="fondo-modal" (click)="cerrarModalEditar()">
+        <div class="ventana-formulario" (click)="$event.stopPropagation()">
+            <div class="header-modal">
+                <h2>Editar FIC</h2>
+                <button class="boton-cerrar-modal" (click)="cerrarModalEditar()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <form class="formulario-fic" (ngSubmit)="guardarEdicionFIC()">
+                <div class="grupo-campo">
+                    <label for="nombre_fic">Nombre del FIC <span hidden class="requerido">*</span></label>
+                    <input 
+                        type="text" 
+                        id="nombre_fic"
+                        class="input-campo"
+                        [(ngModel)]="ficEditar.nombre_fic"
+                        name="nombre_fic"
+                        placeholder="Ingresa el nombre del FIC"
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="gestor">Gestor <span hidden class="requerido">*</span></label>
+                    <input 
+                        type="text" 
+                        id="gestor"
+                        class="input-campo"
+                        [(ngModel)]="ficEditar.gestor"
+                        name="gestor"
+                        placeholder="Ingresa el nombre del gestor"
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="tipo">Tipo <span hidden class="requerido">*</span></label>
+                    <select 
+                        id="tipo"
+                        class="input-campo"
+                        [(ngModel)]="ficEditar.tipo"
+                        name="tipo"
+                        required
+                    >
+                        <option value="">Seleccionar tipo</option>
+                        <option value="Renta Fija">Renta Fija</option>
+                        <option value="Renta Variable">Renta Variable</option>
+                        <option value="Mixto">Mixto</option>
+                    </select>
+                </div>
+
+                <div class="botones-formulario">
+                    <button type="button" class="boton-cancelar-form" (click)="cerrarModalEditar()">
+                        <i style="color: white;" class="bi bi-x-circle"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="boton-guardar">
+                        <i style="color: white;" class="bi bi-check-circle"></i>
+                        Actualizar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div *ngIf="mostrarModalEliminar" class="fondo-modal" (click)="cerrarModal()">
         <div class="ventana-info" (click)="$event.stopPropagation()">
             <div class="contenedor-info">
@@ -59,7 +126,6 @@
                         <th>Nombre FIC</th>
                         <th>Gestor</th>
                         <th>Tipo</th>
-                        <th>EA</th>
                         <th>Rentabilidad</th>
                         <th>Fecha Corte</th>
                         <th>Acciones</th>
@@ -76,10 +142,9 @@
                         <td>
                             <span class="badge badge-tipo">{{ fic.tipo }}</span>
                         </td>
-                        <td>{{ fic.ea }}%</td>
                         <td>
-                            <span class="badge" [class.badge-positiva]="fic.rentabilidad > 0" [class.badge-negativa]="fic.rentabilidad < 0">
-                                {{ fic.rentabilidad > 0 ? '+' : '' }}{{ fic.rentabilidad }}%
+                            <span class="badge" [class.badge-positiva]="fic.ea > 0" [class.badge-negativa]="fic.ea < 0">
+                                {{ fic.ea > 0 ? '+' : '' }}{{ fic.ea }}%
                             </span>
                         </td>
                         <td>{{ fic.fecha_corte }}</td>
