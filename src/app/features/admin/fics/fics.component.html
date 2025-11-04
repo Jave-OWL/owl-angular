@@ -17,16 +17,13 @@
     <div class="header-section">
         <div class="titulo-seccion">
             <button class="boton-volver" (click)="volverDashboard()">
-                <i class="bi bi-arrow-left"></i>
+                <i style="color: white;" class="bi bi-arrow-left"></i>
             </button>
             <div>
                 <h2>Gestión de FICs</h2>
                 <p class="subtitulo">Administra los fondos de inversión colectiva</p>
             </div>
         </div>
-        <button class="boton-crear" (click)="crearFIC()">
-            <i class="bi bi-plus-circle"></i> Nuevo FIC
-        </button>
     </div>
 
     <div *ngIf="isLoading" class="loading-state">
@@ -39,7 +36,11 @@
     </div>
 
     <div *ngIf="!isLoading && !error" class="contenido">
-        <!-- Barra de búsqueda -->
+        <div class="contador-fics">
+            <i class="bi bi-briefcase-fill"></i>
+            <span>{{ ficsFiltrados.length }} FIC encontrados</span>
+        </div>
+
         <div class="search-wrapper">
             <i class="bi bi-search search-icon"></i>
             <div class="separator"></div>
@@ -49,13 +50,6 @@
                    (input)="buscarFICs($event)">
         </div>
 
-        <!-- Contador -->
-        <div class="contador-fics">
-            <i class="bi bi-briefcase-fill"></i>
-            <span>{{ ficsFiltrados.length }} FIC(s) encontrado(s)</span>
-        </div>
-
-        <!-- Tabla de FICs -->
         <div class="tabla-wrapper">
             <table class="tabla-fics">
                 <thead>

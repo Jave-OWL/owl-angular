@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../../core/models/usuario.model';
 import { UsuarioService } from '../../../core/services/usuario.service';
 
 @Component({
   selector: 'app-usuarios',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.css'
 })
@@ -18,6 +19,18 @@ export class UsuariosComponent implements OnInit {
   textoBusqueda: string = '';
   mostrarModalEliminar: boolean = false;
   usuarioAEliminar: Usuario | null = null;
+
+  // Modal de crear/editar
+  mostrarModalFormulario = false;
+  modoEdicion = false;
+  usuarioFormulario: Partial<Usuario> = {
+    nombre: '',
+    correo: '',
+    contrasenia: '',
+    is_admin: false,
+    fecha_nacimiento: '',
+    nivel_riesgo: ''
+  };
 
   constructor(
     private usuarioService: UsuarioService,
@@ -58,7 +71,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   crearUsuario(): void {
-    this.router.navigate(['/admin/usuarios/crear']);
+    this.modoEdicion = false;
+    this.usuarioFormulario = {
+      nombre: '',
+      correo: '',
+      contrasenia: '',
+      is_admin: false,
+      fecha_nacimiento: '',
+      nivel_riesgo: ''
+    };
+    this.mostrarModalFormulario = true;
   }
 
   verUsuario(id: number): void {
@@ -66,7 +88,51 @@ export class UsuariosComponent implements OnInit {
   }
 
   editarUsuario(id: number): void {
-    this.router.navigate(['/admin/usuarios/editar', id]);
+    this.modoEdicion = true;
+    const usuario = this.usuarios.find(u => u.id === id);
+    if (usuario) {
+      this.usuarioFormulario = { ...usuario };
+      this.mostrarModalFormulario = true;
+    }
+  }
+
+  guardarUsuario(): void {
+    if (this.modoEdicion) {
+      const index = this.usuarios.findIndex(u => u.id === this.usuarioFormulario.id);
+      if (index !== -1) {
+        this.usuarios[index] = { ...this.usuarioFormulario } as Usuario;
+        this.usuariosFiltrados = [...this.usuarios];
+      }
+      this.cerrarModalFormulario();
+    } else {
+      const nuevoUsuario: Partial<Usuario> = {
+        ...this.usuarioFormulario
+      };
+      
+      this.usuarioService.crearUsuario(nuevoUsuario).subscribe({
+        next: (usuarioCreado) => {
+          this.usuarios.push(usuarioCreado);
+          this.usuariosFiltrados = [...this.usuarios];
+          this.cerrarModalFormulario();
+        },
+        error: (err) => {
+          console.error('Error al crear usuario:', err);
+          alert('Error al crear el usuario. Por favor, intenta nuevamente.');
+        }
+      });
+    }
+  }
+
+  cerrarModalFormulario(): void {
+    this.mostrarModalFormulario = false;
+    this.usuarioFormulario = {
+      nombre: '',
+      correo: '',
+      contrasenia: '',
+      is_admin: false,
+      fecha_nacimiento: '',
+      nivel_riesgo: ''
+    };
   }
 
   confirmarEliminar(usuario: Usuario): void {
@@ -76,14 +142,9 @@ export class UsuariosComponent implements OnInit {
 
   eliminarUsuario(): void {
     if (this.usuarioAEliminar) {
-      // TODO: Implementar método delete en el servicio
-      // Por ahora solo removemos del array localmente
       this.usuarios = this.usuarios.filter(u => u.id !== this.usuarioAEliminar!.id);
-      this.usuariosFiltrados = this.usuariosFiltrados.filter(u => u.id !== this.usuarioAEliminar!.id);
-      this.cerrarModal();
-      
-      /* Cuando el servicio tenga el método delete, descomentar esto:
-      this.usuarioService.delete(this.usuarioAEliminar.id).subscribe({
+      this.usuariosFiltrados = this.usuariosFiltrados.filter(u => u.id !== this.usuarioAEliminar!.id);      
+      this.usuarioService.eliminarUsuario(this.usuarioAEliminar.id).subscribe({
         next: () => {
           this.usuarios = this.usuarios.filter(u => u.id !== this.usuarioAEliminar!.id);
           this.usuariosFiltrados = this.usuariosFiltrados.filter(u => u.id !== this.usuarioAEliminar!.id);
@@ -95,7 +156,6 @@ export class UsuariosComponent implements OnInit {
           this.cerrarModal();
         }
       });
-      */
     }
   }
 

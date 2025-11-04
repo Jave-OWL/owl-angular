@@ -358,6 +358,50 @@ p {
     color: var(--color-general-text-light);
 }
 
+.no-results-content {
+    text-align: center;
+    padding: 0px 0px;
+    color: #6c757d;
+}
+
+.no-results-content i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+    display: block;
+}
+
+.no-results-content p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.error {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.error-content {
+    text-align: center;
+    padding: 60px 20px;
+    color: #721c24;
+    background-color: #f8d7da;
+    border-radius: var(--border-radius);
+    border: 1px solid #f5c6cb;
+    margin: 0 20px;
+}
+
+.error-content i {
+    font-size: 64px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.error-content p {
+    font-size: 18px;
+    margin: 0;
+}
+
 @media (max-width: 768px) {
     .resultados {
       grid-template-columns: repeat(2, 1fr);   

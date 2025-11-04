@@ -14,10 +14,110 @@
         </div>
     </div>
 
+    <div *ngIf="mostrarModalFormulario" class="fondo-modal" (click)="cerrarModalFormulario()">
+        <div class="ventana-formulario" (click)="$event.stopPropagation()">
+            <div class="header-modal">
+                <h2>{{ modoEdicion ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+                <button class="boton-cerrar-modal" (click)="cerrarModalFormulario()">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <form class="formulario-usuario" (ngSubmit)="guardarUsuario()">
+                <div class="grupo-campo">
+                    <label for="nombre">Nombre Completo <span class="requerido">*</span></label>
+                    <input 
+                        type="text" 
+                        id="nombre"
+                        class="input-campo"
+                        [(ngModel)]="usuarioFormulario.nombre"
+                        name="nombre"
+                        placeholder="Ingresa el nombre completo"
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="correo">Correo Electrónico <span class="requerido">*</span></label>
+                    <input 
+                        type="email" 
+                        id="correo"
+                        class="input-campo"
+                        [(ngModel)]="usuarioFormulario.correo"
+                        name="correo"
+                        placeholder="correo@ejemplo.com"
+                        required
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="contrasenia">Contraseña <span class="requerido">*</span></label>
+                    <input 
+                        type="password" 
+                        id="contrasenia"
+                        class="input-campo"
+                        [(ngModel)]="usuarioFormulario.contrasenia"
+                        name="contrasenia"
+                        [placeholder]="modoEdicion ? 'Dejar en blanco para mantener la actual' : 'Ingresa una contraseña segura'"
+                        [required]="!modoEdicion"
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                    <input 
+                        type="date" 
+                        id="fecha_nacimiento"
+                        class="input-campo"
+                        [(ngModel)]="usuarioFormulario.fecha_nacimiento"
+                        name="fecha_nacimiento"
+                    >
+                </div>
+
+                <div class="grupo-campo">
+                    <label for="nivel_riesgo">Nivel de Riesgo</label>
+                    <select 
+                        id="nivel_riesgo"
+                        class="input-campo"
+                        [(ngModel)]="usuarioFormulario.nivel_riesgo"
+                        name="nivel_riesgo"
+                    >
+                        <option value="">Seleccionar nivel</option>
+                        <option value="Conservador">Conservador</option>
+                        <option value="Moderado">Moderado</option>
+                        <option value="Arriesgado">Arriesgado</option>
+                    </select>
+                </div>
+
+                <div class="grupo-campo-checkbox">
+                    <input 
+                        type="checkbox" 
+                        id="is_admin"
+                        class="checkbox-campo"
+                        [(ngModel)]="usuarioFormulario.is_admin"
+                        name="is_admin"
+                    >
+                    <label for="is_admin">Usuario Administrador</label>
+                </div>
+
+                <div class="botones-formulario">
+                    <button type="button" class="boton-cancelar-form" (click)="cerrarModalFormulario()">
+                        <i style="color: white;" class="bi bi-x-circle"></i>
+                        Cancelar
+                    </button>
+                    <button type="submit" class="boton-guardar">
+                        <i style="color: white;" class="bi bi-check-circle"></i>
+                        {{ modoEdicion ? 'Actualizar' : 'Crear' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="header-section">
         <div class="titulo-seccion">
             <button class="boton-volver" (click)="volverDashboard()">
-                <i class="bi bi-arrow-left"></i>
+                <i style="color: white;" class="bi bi-arrow-left"></i>
             </button>
             <div>
                 <h2>Gestión de Usuarios</h2>
@@ -25,7 +125,7 @@
             </div>
         </div>
         <button class="boton-crear" (click)="crearUsuario()">
-            <i class="bi bi-plus-circle"></i> Nuevo Usuario
+            <i style="color: white;" class="bi bi-plus-circle"></i> Nuevo Usuario
         </button>
     </div>
 
@@ -39,7 +139,11 @@
     </div>
 
     <div *ngIf="!isLoading && !error" class="contenido">
-        <!-- Barra de búsqueda -->
+        <div class="contador-usuarios">
+            <i class="bi bi-people-fill"></i>
+            <span>{{ usuariosFiltrados.length }} usuario(s) encontrado(s)</span>
+        </div>
+
         <div class="search-wrapper">
             <i class="bi bi-search search-icon"></i>
             <div class="separator"></div>
@@ -48,14 +152,7 @@
                    placeholder="Buscar por nombre o correo..."
                    (input)="buscarUsuarios($event)">
         </div>
-
-        <!-- Contador -->
-        <div class="contador-usuarios">
-            <i class="bi bi-people-fill"></i>
-            <span>{{ usuariosFiltrados.length }} usuario(s) encontrado(s)</span>
-        </div>
-
-        <!-- Tabla de usuarios -->
+        
         <div class="tabla-wrapper">
             <table class="tabla-usuarios">
                 <thead>
@@ -75,7 +172,16 @@
                         <td>{{ usuario.nombre }}</td>
                         <td>{{ usuario.correo }}</td>
                         <td>{{ usuario.fecha_nacimiento || 'N/A' }}</td>
-                        <td>{{ usuario.nivel_riesgo || 'N/A' }}</td>
+                        <td>
+                            <span *ngIf="usuario.nivel_riesgo" 
+                                  class="badge-riesgo"
+                                  [class.badge-conservador]="usuario.nivel_riesgo === 'Conservador'"
+                                  [class.badge-moderado]="usuario.nivel_riesgo === 'Moderado'"
+                                  [class.badge-arriesgado]="usuario.nivel_riesgo === 'Arriesgado'">
+                                {{ usuario.nivel_riesgo }}
+                            </span>
+                            <span *ngIf="!usuario.nivel_riesgo">N/A</span>
+                        </td>
                         <td>
                             <span class="badge" [class.badge-admin]="usuario.is_admin" [class.badge-user]="!usuario.is_admin">
                                 {{ usuario.is_admin ? 'Admin' : 'Usuario' }}
@@ -97,7 +203,6 @@
             </table>
         </div>
 
-        <!-- No results -->
         <div *ngIf="usuariosFiltrados.length === 0" class="no-results">
             <i class="bi bi-inbox"></i>
             <p>No se encontraron usuarios que coincidan con tu búsqueda.</p>

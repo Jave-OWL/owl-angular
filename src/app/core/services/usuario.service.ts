@@ -40,4 +40,11 @@ export class UsuarioService {
     });
     return this.http.put<Usuario>(`${this.url}/me`, datosActualizados, { headers });
   }
+
+  crearUsuario(nuevoUsuario: Partial<Usuario>): Observable<Usuario> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    return this.http.post<Usuario>(`${this.url}/create`, nuevoUsuario, { headers });
+  }
 }

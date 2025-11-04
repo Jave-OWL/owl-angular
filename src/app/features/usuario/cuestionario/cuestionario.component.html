@@ -4,7 +4,6 @@
     </div>
     <section class="cuestionario" id="cuestionario-riesgo">
         <div id="contenedor-preguntas">
-            <!-- Bienvenida: se muestra antes de las preguntas -->
             <div class="bienvenida" *ngIf="showWelcome">
                 <h1>¡Bienvenido a OWL!</h1>
                 <p>Antes de comenzar, queremos conocer un poco sobre tu tolerancia al riesgo. Responde con sinceridad para obtener un perfil adecuado.</p>
@@ -17,9 +16,8 @@
                     Basado en el test "Grable & Lytton Risk Assessment" &copy;
                     <span></span>
                 </p>
-                <!-- Preguntas tipo Likert -->
                 <div class="pregunta-item" *ngFor="let pregunta of preguntas; let i = index">
-                    <div class="pregunta-numero"><!-- Pregunta {{ i + 1 }} / {{ preguntas.length + 2 }} --> {{ i + 1 }} )</div>
+                    <div class="pregunta-numero">{{ i + 1 }} </div>
                     <p class="pregunta-texto">
                         <ng-container *ngFor="let parte of pregunta.partes">
                             <ng-container *ngIf="isPreguntaParte(parte); else textoNormal">
@@ -36,7 +34,6 @@
                     </div>
                 </div>
 
-                <!-- Pregunta de pacto -->
                 <div class="pregunta-item">
                     <div class="pregunta-numero">14</div>
                     <p class="pregunta-texto">
@@ -50,7 +47,6 @@
                     </div>
                 </div>
 
-                <!-- Pregunta multiselección: duración de inversión -->
                 <div class="pregunta-item">
                     <div class="pregunta-numero">15</div>
                     <p class="pregunta-texto">
@@ -66,7 +62,6 @@
                     </div>
                 </div>
 
-                <!-- Botón de envío -->
                 <div class="navigation">
                     <button class="btn btn-submit" 
                             [disabled]="!isFormComplete()" 
@@ -76,7 +71,6 @@
                 </div>
             </div>
 
-            <!-- Pantalla de carga -->
             <div class="loading-screen" *ngIf="showLoading">
                 <div class="loading-content">
                     <h1>Cargando resultados...</h1>
@@ -84,7 +78,6 @@
                 </div>
             </div>
 
-            <!-- Resultados -->
             <div class="resultado-card" *ngIf="showResults">
                 <h1>¡Cuestionario Completado!</h1>
                 <div class="resultado-score">

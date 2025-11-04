@@ -308,11 +308,23 @@
 }
 
 .badge-riesgo {
-    display: inline-block;
+    display: inline-flex;
     padding: 8px 16px;
     border-radius: 20px;
-    font-size: 0.95rem;
+    font-size: 11px;
     font-weight: 600;
+    display: flex; 
+    flex-direction: row; 
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.badge-riesgo i {
+    display: flex;
+    align-items: center;
+    color: #856404;
 }
 
 .badge-conservador {
@@ -328,6 +340,11 @@
 .badge-arriesgado {
     background-color: #f8d7da;
     color: #721c24;
+}
+
+.badge-sin.definir {
+    background-color: #fff3cd;
+    color: #856404;
 }
 
 .boton-test,
@@ -566,8 +583,41 @@
 
 .no-fics {
     text-align: center;
-    padding: 40px;
-    color: #999;
+    color: #6c757d;
+}
+
+.no-fics i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.no-fics p {
+    font-size: 16px;
+    margin: 0;
+}
+
+.no-fics-warning {
+    text-align: center;
+    height: 100%;
+    padding: 48px;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    border-radius: var(--internal-border-radius);
+    color: #856404;
+}
+
+.no-fics-warning i {
+    font-size: 48px;
+    margin-bottom: 15px;
+    display: block;
+    color: #856404;
+}
+
+.no-fics-warning p {
+    font-size: 16px;
+    margin: 0 0 15px 0;
+    color: #856404;
 }
 
 /* ==========================================================================

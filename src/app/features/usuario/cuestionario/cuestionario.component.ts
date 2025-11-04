@@ -276,7 +276,7 @@ export class CuestionarioComponent implements OnInit {
   }
 
   goToDashboard() {
-    this.router.navigate(['/user/dashboard']);
+    this.router.navigate(['/user/perfil']);
   }
 
   submitAnswers() {

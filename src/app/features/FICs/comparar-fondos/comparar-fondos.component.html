@@ -1,6 +1,5 @@
 <section class="comparar-container">
 
-    <!-- Modal Tabla Ampliada -->
     <div *ngIf="mostrarTablaAmpliada" class="fondo-modal" (click)="cerrarTablaAmpliada()">
         <div class="ventana-tabla" (click)="$event.stopPropagation()">
             <div class="header-modal">
@@ -55,7 +54,6 @@
         <p>Error al cargar los fondos. Por favor, intenta nuevamente.</p>
     </div>
 
-    <!-- Contenido Principal -->
     <div class="contenido" *ngIf="!isLoading && !error">
         <div class="resultados-comparacion">
             <div class="tabla-comparacion-container">
@@ -107,11 +105,9 @@
                 </div>
             </div>
         </div>
-        <!-- Sección de Selección de Fondos -->
         <div class="seleccion-fondos">
             <h3>{{ fondosSeleccionados.length > 0 ? 'Agregar más fondos' : 'Selecciona fondos para comparar' }}</h3>
             
-            <!-- Barra de búsqueda -->
             <div class="search-wrapper">
                 <i class="bi bi-search search-icon"></i>
                 <div class="separator"></div>
@@ -121,9 +117,7 @@
                        (input)="buscarFondos($event)">
             </div>
 
-            <!-- Filtros -->
             <div class="buttons">
-                <!-- Dropdown Gestor con logo -->
                 <div id="filtro-gestor" class="custom-dropdown with-logo" 
                      [class.open]="dropdownGestorAbierto" 
                      tabindex="0" 
@@ -160,7 +154,6 @@
                     </ul>
                 </div>
 
-                <!-- Dropdown Tipo -->
                 <div id="filtro-tipo" class="custom-dropdown" 
                      [class.open]="dropdownTipoAbierto" 
                      tabindex="0" 
@@ -191,7 +184,6 @@
                     </ul>
                 </div>
 
-                <!-- Dropdown EA -->
                 <div id="filtro-ea" class="custom-dropdown" 
                      [class.open]="dropdownEAAbierto" 
                      tabindex="0" 
@@ -216,7 +208,6 @@
                     </ul>
                 </div>
 
-                <!-- Dropdown Ordenar -->
                 <div id="filtro-ordenar" class="custom-dropdown" 
                      [class.open]="dropdownOrdenarAbierto" 
                      tabindex="0" 
@@ -242,7 +233,6 @@
                 </div>
             </div>
 
-            <!-- Grid de fondos -->
             <div class="resultados">
                 <app-fondo-card 
                     *ngFor="let fondo of fondosFiltrados; let i = index"
@@ -254,7 +244,6 @@
                 </app-fondo-card>
             </div>
 
-            <!-- No results -->
             <div *ngIf="fondosFiltrados.length === 0" class="no-results">
                 <p>No se encontraron fondos que coincidan con tu búsqueda.</p>
             </div>
