@@ -13,7 +13,7 @@ export class UsuarioService {
 
   constructor(private http: HttpClient) { }
 
-  enviarPrediccion(perfilRiesgo: string, rangoDias: string, pactoPermanencia: string) {
+  enviarPrediccion(perfilRiesgo: string,pactoPermanencia: string, rangoDias: string[], ) {
     const body = {
       perfilRiesgo,
       rangoDias,

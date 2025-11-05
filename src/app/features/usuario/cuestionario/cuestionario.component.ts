@@ -316,7 +316,7 @@ export class CuestionarioComponent implements OnInit {
       this.resultadoPerfil = 'Error al calcular los resultados. Por favor, inténtalo de nuevo en otro momento.';
     }
 
-    this.usuarioService.enviarPrediccion(this.resultadoPerfil, this.tipoPacto, this.selectedDurations[0])
+    this.usuarioService.enviarPrediccion(this.resultadoPerfil, this.tipoPacto, this.selectedDurations)
       .subscribe({
         next: (resp) => {
           console.log('Predicción enviada/actualizada OK:', resp);
