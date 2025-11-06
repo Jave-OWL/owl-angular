@@ -1002,7 +1002,7 @@ export class DetalleFondoComponent {
         element: '#rendimiento-card',
         popover: {
           title: 'Rendimiento',
-          description: 'Comportamiento del fondo de inversión',
+          description: 'Comportamiento del fondo de inversión a lo largo del tiempo',
           side: 'bottom',
           align: 'center'
         }
