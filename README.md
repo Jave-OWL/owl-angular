@@ -1,4 +1,4 @@
-# 🦉 OWL - Plataforma de Análisis de Fondos de Inversión Colectiva
+# 🦉 OWL - Plataforma de Centralización de Fondos de Inversión Colectiva
 
 <div align="center">
 
