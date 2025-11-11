@@ -49,7 +49,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // Cargar nombre del usuario desde localStorage
     const nombreGuardado = localStorage.getItem('nombreUsuario');
     if (nombreGuardado && this.currentUser) {
       this.currentUser.nombre = nombreGuardado;
@@ -94,23 +93,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   getNombreUsuario(): string {
-    // Primero intentar obtener desde localStorage
     const nombreGuardado = localStorage.getItem('nombreUsuario');
     if (nombreGuardado) {
       return nombreGuardado.charAt(0).toUpperCase() + nombreGuardado.slice(1);
     }
-    // Si no hay en localStorage, usar currentUser
     const nombre = this.currentUser?.nombre || 'Usuario';
     return nombre.charAt(0).toUpperCase() + nombre.slice(1);
   }
 
   getInicialUsuario(): string {
-    // Primero intentar obtener desde localStorage
     const nombreGuardado = localStorage.getItem('nombreUsuario');
     if (nombreGuardado) {
       return nombreGuardado.charAt(0).toUpperCase();
     }
-    // Si no hay en localStorage, usar currentUser
     return this.currentUser?.nombre?.charAt(0).toUpperCase() || 'U';
   }
 

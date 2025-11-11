@@ -14,7 +14,6 @@ export const authInterceptor: HttpInterceptorFn = (
   const token = authService.getToken();
 
   if (token) {
-    // Clone the request and add the authorization header
     const authRequest = request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -22,7 +21,5 @@ export const authInterceptor: HttpInterceptorFn = (
     });
     return next(authRequest);
   }
-
-  // If there's no token, proceed with the original request
   return next(request);
 };

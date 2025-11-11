@@ -12,10 +12,8 @@ export class PagenotfoundComponent {
 
   ultimaPagina() {
     if (window.history.length > 1) {
-      // Navegar a la página anterior en el historial del navegador
       window.history.back();
     } else {
-      // Si no tiene historial de navegacion, redirige al inicio
       window.location.href = '/';
     }
   }

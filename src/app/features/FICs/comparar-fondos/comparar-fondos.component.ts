@@ -20,14 +20,12 @@ export class CompararFondosComponent implements OnInit {
   maxSeleccion: number = 4;
   mostrarTablaAmpliada: boolean = false;
 
-  // Filtros
   gestoresUnicos: string[] = [];
   tiposFondoUnicos: string[] = [];
   gestorSeleccionado: string = '';
   tipoFondoSeleccionado: string = '';
   selectedGestorLogo: string = 'assets/images/FIC.webp';
 
-  // Dropdowns
   dropdownGestorAbierto: boolean = false;
   dropdownTipoAbierto: boolean = false;
   dropdownEAAbierto: boolean = false;
@@ -50,7 +48,6 @@ export class CompararFondosComponent implements OnInit {
   eaSeleccionado = this.opcionesEA[0];
   ordenarSeleccionado = this.opcionesOrdenar[0];
 
-  // Campos de comparación
   camposComparacion = [
     { key: 'gestor', label: 'Gestor', tipo: 'texto' },
     { key: 'tipo', label: 'Tipo Renta', tipo: 'tipo' },
@@ -237,7 +234,7 @@ export class CompararFondosComponent implements OnInit {
     }
   }
 
-  // Métodos de Dropdowns
+  // Dropdowns
   toggleDropdownGestor(): void {
     this.dropdownGestorAbierto = !this.dropdownGestorAbierto;
     if (this.dropdownGestorAbierto) {

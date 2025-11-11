@@ -13,7 +13,7 @@ export class AppComponent {
   title = 'owl-angular';
   constructor(private router: Router) {
     router.events.subscribe((val) => {
-      // Quitar query params de la URL para comparar solo la ruta
+      // Quitar query params de la URL para comparar solo la ruta 
       const cleanUrl = this.router.url.split('?')[0];
       if (cleanUrl === '/auth/inicio-de-sesion' || cleanUrl === '/auth/registro' || cleanUrl === '/') {
         const generalPadding = document.getElementById('content');

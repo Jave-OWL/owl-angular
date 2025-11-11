@@ -68,7 +68,6 @@ export class RegistroComponent implements OnInit {
     return contrasena === confirmarContrasena ? null : { noCoinciden: true };
   }
 
-  // Marcar todos los campos como tocados para mostrar errores
   private markFormGroupTouched(formGroup: FormGroup) {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
@@ -78,7 +77,6 @@ export class RegistroComponent implements OnInit {
     });
   }
 
-  // Métodos de ayuda para la validación
   getErrorMessage(controlName: string): string {
       const control = this.registroForm.get(controlName);
 

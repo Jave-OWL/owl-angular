@@ -25,7 +25,6 @@ export class ExplorarFondosComponent {
   loaderTimeout: any;
   errorBusqueda: boolean = false;
 
-  // Nuevas propiedades para filtros y ordenamiento
   gestoresUnicos: string[] = [];
   tiposFondoUnicos: string[] = [];
   gestorSeleccionado: string = '';
@@ -33,7 +32,6 @@ export class ExplorarFondosComponent {
   ordenSeleccionado: string = '';
   selectedGestorLogo: string = 'assets/images/FIC.webp';
 
-  // Propiedades para dropdowns personalizados
   dropdownGestorAbierto: boolean = false;
   dropdownTipoAbierto: boolean = false;
   dropdownEAAbierto: boolean = false;
@@ -69,7 +67,6 @@ export class ExplorarFondosComponent {
   cargarLogos() {
     this.fondos.forEach(fondo => {
       const img = new Image();
-        // Usar el nombre del gestor tal cual para el logo, igual que en el detalle de FIC
         fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
       img.onerror = () => {
         fondo.logo = 'assets/images/FIC.webp';
@@ -94,21 +91,17 @@ export class ExplorarFondosComponent {
 
   cargarEA(){
     this.fondos.forEach(fondo => {
-      // Obtener todas las rentabilidades del último mes
       const valores = fondo.rentabilidad_historicas.map(item => item.ultimo_mes);
-      // Filtrar los valores distintos de 0 y ordenar ascendente
       const valoresNoCero = valores.filter(v => v !== 0).sort((a, b) => a - b);
       if (valoresNoCero.length > 0) {
         fondo.ea = parseFloat((valoresNoCero[0]*100).toFixed(2));
       } else {
-        // Si todos son 0, usar 0
         fondo.ea = 0;
       }
     });
   }
 
   cargarMaxEA() {
-    console.log("CargarMaxEA");
     this.fondos.forEach(fondo => {
       let eaMayor = -Infinity;
       fondo.rentabilidad_historicas.forEach(item => {
@@ -136,7 +129,6 @@ export class ExplorarFondosComponent {
   cargarFICs() {
     this.ficService.findAll().subscribe(
       (data: FIC[]) => {
-        // Mezclar aleatoriamente los FICs
         this.fondos = data.sort(() => Math.random() - 0.5);
         this.fondosFiltrados = [...this.fondos];
         this.cargarInfo();
@@ -144,7 +136,6 @@ export class ExplorarFondosComponent {
         this.cargarEA();
         this.cargarGestoresUnicos();
         this.cargarTiposFondoUnicos();
-        console.log(data);
       },
       (error: any) => {
         console.error('Error al obtener los fondos:', error);
@@ -160,7 +151,6 @@ export class ExplorarFondosComponent {
 
   private normalizarGestor(gestor: string): string {
     if (!gestor) return gestor;
-    // Quitar tildes y pasar a minúsculas para comparar
     const nombre = gestor
       .toLowerCase()
       .replace(/[á]/g, 'a')
@@ -189,13 +179,11 @@ export class ExplorarFondosComponent {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
       fondo.nombre_fic = fondo.nombre_fic.replace(/FONDO DE INVERSIÓN COLECTIVA/gi, 'FIC');
-      // Normalizar gestor
       fondo.gestor = this.normalizarGestor(fondo.gestor);
     });
   }
 
   cargarGestoresUnicos() {
-    // Normalizar todos los nombres de gestor para agrupar equivalentes
     const gestoresSet = new Set(this.fondos.map(fondo => this.normalizarGestor(fondo.gestor)));
     this.gestoresUnicos = Array.from(gestoresSet).sort();
   }
@@ -216,7 +204,6 @@ export class ExplorarFondosComponent {
   aplicarFiltros() {
     this.fondosFiltrados = [...this.fondos];
 
-    // Aplicar filtro de búsqueda por texto
     if (this.textoBusqueda.trim()) {
       this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
         fondo.nombre_fic.toLowerCase().includes(this.textoBusqueda.toLowerCase()) ||
@@ -224,14 +211,12 @@ export class ExplorarFondosComponent {
       );
     }
 
-    // Aplicar filtro por gestor
     if (this.gestorSeleccionado) {
       this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
         fondo.gestor.toLowerCase() === this.gestorSeleccionado.toLowerCase()
       );
     }
 
-    // Aplicar filtro por tipo de fondo
     if (this.tipoFondoSeleccionado) {
       this.fondosFiltrados = this.fondosFiltrados.filter(fondo => 
         fondo.tipo === this.tipoFondoSeleccionado
@@ -243,7 +228,6 @@ export class ExplorarFondosComponent {
     this.gestorSeleccionado = gestor;
     if (gestor) {
       this.selectedGestorLogo = `assets/images/${gestor}Logo.webp`;
-      // Fallback al logo por defecto si no se encuentra la imagen
       const img = new Image();
       img.onerror = () => {
         this.selectedGestorLogo = 'assets/images/FIC.webp';
@@ -271,10 +255,8 @@ export class ExplorarFondosComponent {
     this.criterioOrdenamiento = criterio;
     this.ordenSeleccionado = criterio;
     
-    // Aplicar filtros primero
     this.aplicarFiltros();
 
-    // Luego ordenar
     switch (criterio) {
       case 'nombre-asc':
         this.fondosFiltrados.sort((a, b) => a.nombre_fic.localeCompare(b.nombre_fic));
@@ -322,7 +304,6 @@ export class ExplorarFondosComponent {
     }, 800);
   }
 
-  // Métodos para dropdowns personalizados
   toggleDropdownGestor() {
     this.dropdownGestorAbierto = !this.dropdownGestorAbierto;
     if (this.dropdownGestorAbierto) {

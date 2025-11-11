@@ -46,8 +46,8 @@ export class CarruselFondosComponent implements OnInit {
   }
 
   get translateX(): string {
-    const cardWidth = 300; // min-width del card
-    const gap = 20; // gap entre cards
+    const cardWidth = 300;
+    const gap = 20;
     return `translateX(-${this.currentIndex * (cardWidth + gap)}px)`;
   }
 

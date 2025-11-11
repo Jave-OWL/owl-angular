@@ -17,18 +17,16 @@ export class FicsComponent implements OnInit {
   isLoading = false;
   error: string | null = null;
 
-  // Modal de eliminación
   mostrarModalEliminar = false;
   ficAEliminar: FIC | null = null;
 
-  // Modal de edición
   mostrarModalEditar = false;
   ficEditar: Partial<FIC> = {
     nombre_fic: '',
     gestor: '',
     tipo: ''
   };
-  // Lista de gestores disponibles (para el dropdown)
+
   gestoresUnicos: string[] = [];
 
   constructor(
@@ -69,7 +67,6 @@ export class FicsComponent implements OnInit {
   cargarLogos() {
     this.fics.forEach(fondo => {
       const img = new Image();
-      // Usar el nombre del gestor tal cual para el logo
       fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
       img.onerror = () => {
         fondo.logo = 'assets/images/FIC.webp';
@@ -80,14 +77,11 @@ export class FicsComponent implements OnInit {
 
   cargarEA() {
     this.fics.forEach(fondo => {
-      // Obtener todas las rentabilidades del último mes
       const valores = fondo.rentabilidad_historicas.map(item => item.ultimo_mes);
-      // Filtrar los valores distintos de 0 y ordenar ascendente
       const valoresNoCero = valores.filter(v => v !== 0).sort((a, b) => a - b);
       if (valoresNoCero.length > 0) {
         fondo.ea = parseFloat((valoresNoCero[0] * 100).toFixed(2));
       } else {
-        // Si todos son 0, usar 0
         fondo.ea = 0;
       }
     });

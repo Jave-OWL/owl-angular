@@ -33,7 +33,6 @@ export class PerfilComponent implements OnInit, OnDestroy {
   perfilRiesgo: string = '';
   isLoadingFics = true;
 
-  // Variables para modales
   mostrarExito = false;
   mostrarError = false;
   mensajeModal = '';
@@ -83,14 +82,11 @@ export class PerfilComponent implements OnInit, OnDestroy {
     this.usuarioService.obtenerUsuarioActual().subscribe({
       next: (usuario) => {
         this.usuario = usuario;
-        console.log('Fecha del backend:', usuario.fecha_nacimiento);
-        console.log('Tipo de fecha:', typeof usuario.fecha_nacimiento);
         this.usuarioEditado = {
           nombre: usuario.nombre,
           correo: usuario.correo,
           fecha_nacimiento: usuario.fecha_nacimiento
         };
-        console.log('Fecha en usuarioEditado:', this.usuarioEditado.fecha_nacimiento);
         this.isLoading = false;
       },
       error: (error) => {
@@ -121,9 +117,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
   cargarLogos(): void {
     this.ficosRecomendados.forEach(fondo => {
       const img = new Image();
-      // Normalizar el gestor primero antes de cargar el logo
       fondo.gestor = this.normalizarGestor(fondo.gestor);
-      // Usar el nombre del gestor tal cual para el logo
       fondo.logo = 'assets/images/' + fondo.gestor + 'Logo.webp';
       
       img.onerror = () => {
@@ -136,7 +130,6 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
   private normalizarGestor(gestor: string): string {
     if (!gestor) return gestor;
-    // Quitar tildes y pasar a minúsculas para comparar
     const nombre = gestor
       .toLowerCase()
       .replace(/[á]/g, 'a')
@@ -171,7 +164,6 @@ export class PerfilComponent implements OnInit, OnDestroy {
   cargarEA(): void {
     this.ficosRecomendados.forEach(fondo => {
       const valores = fondo.rentabilidad_historicas.map(item => item.ultimo_mes);
-      // Filtrar los valores distintos de 0 y ordenar ascendentemente
       const valoresNoCero = valores.filter(v => v !== 0).sort((a, b) => a - b);
       if (valoresNoCero.length > 0) {
         fondo.ea = parseFloat((valoresNoCero[0] * 100).toFixed(2));
@@ -210,17 +202,13 @@ export class PerfilComponent implements OnInit, OnDestroy {
       fecha_nacimiento: String(this.usuarioEditado.fecha_nacimiento)
     };
 
-    console.log('Datos a actualizar:', datosActualizados);
-
     this.usuarioService.actualizarUsuario(datosActualizados).subscribe({
       next: (response: any) => {
         if (response.requiresReAuth) {
-          // El correo cambió, mostrar mensaje y redirigir al login
           this.mensajeModal = response.message || 'Has cambiado tu correo electrónico exitosamente. Por favor, inicia sesión nuevamente con tu nuevo correo.';
           this.mostrarExito = true;
           document.body.style.overflow = 'hidden';
           
-          // Esperar 3 segundos antes de redirigir
           setTimeout(() => {
             document.body.style.overflow = 'auto'; 
             this.authService.logout();
@@ -229,7 +217,6 @@ export class PerfilComponent implements OnInit, OnDestroy {
             this.router.navigate(['/auth/inicio-de-sesion']);
           }, 3000);
         } else {
-          // Actualización normal sin cambio de correo
           this.usuario = { ...this.usuario!, ...datosActualizados };
           localStorage.setItem('nombreUsuario', datosActualizados.nombre);
           this.isEditing = false;
@@ -240,7 +227,6 @@ export class PerfilComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         console.error('Error al actualizar el perfil:', error);
-        // Restaurar valores originales en caso de error
         this.usuarioEditado = {
           nombre: this.usuario!.nombre,
           correo: this.usuario!.correo,

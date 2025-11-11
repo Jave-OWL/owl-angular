@@ -22,7 +22,6 @@ export class PerfilRiesgoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Crear controles dinámicamente para cada pregunta
     this.preguntas.forEach((_, index) => {
       this.perfilRiesgoForm.addControl(
         `pregunta${index}`,
@@ -33,8 +32,6 @@ export class PerfilRiesgoComponent implements OnInit {
 
   onSubmit(): void {
     if (this.perfilRiesgoForm.valid) {
-      console.log(this.perfilRiesgoForm.value);
-      // Aquí puedes implementar la lógica para enviar los datos
     }
   }
 }

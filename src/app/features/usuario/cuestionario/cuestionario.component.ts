@@ -299,9 +299,6 @@ export class CuestionarioComponent implements OnInit {
     this.tipoPacto = this.respuestaPacto;
     
     this.sumarRespuestas();
-    console.log('Respuestas enviadas (Likert):', this.answers);
-    console.log('Duraciones seleccionadas:', this.selectedDurations);
-    console.log('Tipo de pacto:', this.tipoPacto);
     
     if (this.suma <= 22) {
       this.resultadoPerfil = 'Conservador';
@@ -319,7 +316,6 @@ export class CuestionarioComponent implements OnInit {
     this.usuarioService.enviarPrediccion(this.resultadoPerfil, this.tipoPacto, this.selectedDurations)
       .subscribe({
         next: (resp) => {
-          console.log('Predicción enviada/actualizada OK:', resp);
           this.showLoading = false;
           this.showResults = true;  
           window.scrollTo(0, 0);

@@ -20,7 +20,6 @@ export class UsuariosComponent implements OnInit {
   mostrarModalEliminar: boolean = false;
   usuarioAEliminar: Usuario | null = null;
 
-  // Modal de crear/editar
   mostrarModalFormulario = false;
   modoEdicion = false;
   usuarioFormulario: Partial<Usuario> = {
@@ -32,7 +31,6 @@ export class UsuariosComponent implements OnInit {
     nivel_riesgo: ''
   };
 
-  // Modal de visualización
   mostrarModalVer = false;
   usuarioVer: Usuario | null = null;
 
@@ -112,10 +110,8 @@ export class UsuariosComponent implements OnInit {
   guardarUsuario(): void {
     if (this.modoEdicion) {
       if (this.usuarioFormulario.id) {
-        console.log('Actualizando usuario:', this.usuarioFormulario);
         this.usuarioService.actualizarUsuarioPorId(this.usuarioFormulario.id, this.usuarioFormulario).subscribe({
           next: (usuarioActualizado) => {
-            console.log('Usuario actualizado exitosamente:', usuarioActualizado);
             const index = this.usuarios.findIndex(u => u.id === this.usuarioFormulario.id);
             if (index !== -1) {
               this.usuarios[index] = usuarioActualizado;

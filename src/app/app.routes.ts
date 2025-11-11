@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 
 export const routes: Routes = [
-    // Public routes
+    // Rutas públicas
     {
         path: '',
         loadComponent: () => import('./routes/landing/landing.component').then((m) => m.LandingComponent)
