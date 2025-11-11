@@ -180,13 +180,16 @@
 
 .contenido {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 30px;
 }
 
-.resultados-comparacion {
-    flex: 2;
-    margin-right: 30px;
-    max-width: 38%;
+.controles-superiores {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--light-box-shadow);
+    border: 1px solid var(--color-tertiary);
+    padding: 25px 30px;
 }
 
 /* ==========================================================================
@@ -238,6 +241,18 @@
     box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
 }
 
+.boton-ampliar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.boton-ampliar:disabled:hover {
+    background: #ccc;
+    transform: none;
+    box-shadow: none;
+}
+
 .boton-limpiar {
     padding: 10px 20px;
     background: #dc3545;
@@ -256,6 +271,18 @@
     background: #c82333;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+}
+
+.boton-limpiar:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.boton-limpiar:disabled:hover {
+    background: #ccc;
+    transform: none;
+    box-shadow: none;
 }
 
 /* ==========================================================================
@@ -527,11 +554,9 @@
     }
 }
 
-/* Barra de búsqueda */
 .search-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 600px;
+    width: 80%;
     margin: 0 auto 30px;
 }
 
@@ -580,7 +605,7 @@
 /* Grid de resultados */
 .resultados {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
     margin-top: 20px;
     max-height: 450px;

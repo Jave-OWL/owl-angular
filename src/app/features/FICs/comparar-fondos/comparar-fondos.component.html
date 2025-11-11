@@ -28,7 +28,7 @@
                                 <td *ngFor="let fondo of fondosSeleccionados" 
                                     [class.mejor-valor]="esMejorValor(fondo, campo)">
                                     <span *ngIf="esMejorValor(fondo, campo)" class="icono-mejor">
-                                        <i class="bi bi-star-fill"></i>
+                                        <i style="color: green;" class="bi bi-star-fill"></i>
                                     </span>
                                     {{ getValorCampo(fondo, campo) }}
                                 </td>
@@ -55,56 +55,27 @@
     </div>
 
     <div class="contenido" *ngIf="!isLoading && !error">
-        <div class="resultados-comparacion">
-            <div class="tabla-comparacion-container">
-                <h3 hidden >Comparación de Fondos Seleccionados</h3>
-                <div class="contador-seleccion">
-                    <div class="contador-info">
-                        <i class="bi bi-check-square"></i>
-                        <span>{{ fondosSeleccionados.length }} / {{ maxSeleccion }} fondos seleccionados</span>
-                    </div>
-                    <div class="botones-acciones">
-                        <button *ngIf="fondosSeleccionados.length > 1" 
-                                class="boton-ampliar" 
-                                (click)="toggleTablaAmpliada()">
-                            <i style="color: white;" class="bi bi-arrows-fullscreen"></i> Ampliar tabla
-                        </button>
-                        <button *ngIf="fondosSeleccionados.length > 0" 
-                                class="boton-limpiar" 
-                                (click)="limpiarSeleccion()">
-                            <i style="color: white;" class="bi bi-x-circle"></i> Limpiar selección
-                        </button>
-                    </div>
+        <div class="controles-superiores">
+            <div class="contador-seleccion">
+                <div class="contador-info">
+                    <i class="bi bi-check-square"></i>
+                    <span>{{ fondosSeleccionados.length }} / {{ maxSeleccion }} fondos seleccionados (mínimo 2)</span>
                 </div>
-                <div class="tabla-wrapper" *ngIf="fondosSeleccionados.length > 0">
-                    <table class="tabla-comparacion">
-                        <thead>
-                            <tr>
-                                <th class="campo-label">Fondo</th>
-                                <th *ngFor="let fondo of fondosSeleccionados" class="fondo-header">
-                                    <div class="fondo-header-content">
-                                        <img [src]="fondo.logo" alt="Logo" class="logo-tabla">
-                                        <span class="nombre-corto">{{ fondo.nombre_fic }}</span>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let campo of camposComparacion">
-                                <td class="campo-label">{{ campo.label }}</td>
-                                <td *ngFor="let fondo of fondosSeleccionados" 
-                                    [class.mejor-valor]="esMejorValor(fondo, campo)">
-                                    <span *ngIf="esMejorValor(fondo, campo)" class="icono-mejor">
-                                        <i class="bi bi-star-fill"></i>
-                                    </span>
-                                    {{ getValorCampo(fondo, campo) }}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div class="botones-acciones">
+                    <button class="boton-ampliar" 
+                            [disabled]="fondosSeleccionados.length < 2"
+                            (click)="toggleTablaAmpliada()">
+                        <i style="color: white;" class="bi bi-arrows-fullscreen"></i> Comparar FICs
+                    </button>
+                    <button class="boton-limpiar"
+                            [disabled]="fondosSeleccionados.length === 0"
+                            (click)="limpiarSeleccion()">
+                        <i style="color: white;" class="bi bi-x-circle"></i> Limpiar selección
+                    </button>
                 </div>
             </div>
         </div>
+
         <div class="seleccion-fondos">
             <h3>{{ fondosSeleccionados.length > 0 ? 'Agregar más fondos' : 'Selecciona fondos para comparar' }}</h3>
             
