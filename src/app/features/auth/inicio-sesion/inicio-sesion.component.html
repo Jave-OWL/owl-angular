@@ -36,13 +36,6 @@
                         (input)="onPasswordInput()">
                 </div>
                 <br>
-                <div class="opciones-adicionales">
-                    <label class="gris" for="remember-me">
-                        <input type="checkbox" id="remember-me">
-                        Recordar
-                    </label>
-                    <a [routerLink]="['/auth/recuperar-contrasena']">¿Olvidaste tu contrase&ntilde;a?</a>
-                </div>
                 <button (click)="iniciarSesion(formData.correo, formData.contrasena)" type="submit">Iniciar
                     Sesión</button>
                 <div *ngIf="showError" class="error-message">

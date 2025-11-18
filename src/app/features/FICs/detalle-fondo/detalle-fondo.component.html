@@ -46,8 +46,9 @@
 <div *ngIf="mostrarBienvenida===true" id="welcome-screen" class="welcome-screen">
 </div>
 <div class="volver">
-    <a class="link-volver" href="fics/explorar"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar
+    <a *ngIf="!isAdmin" class="link-volver" href="fics/explorar"><i class="bi bi-arrow-left-circle-fill"> Volver a explorar
             fondos</i></a>
+    <a *ngIf="isAdmin" class="link-volver" href="admin/fics"><i class="bi bi-arrow-left-circle-fill"> Volver a gestión de FICs</i></a>
 </div>
 <section>
     <div class="titulo">

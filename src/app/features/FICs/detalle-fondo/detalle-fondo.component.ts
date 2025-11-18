@@ -2,12 +2,13 @@ import { Component, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FICService } from '../../../core/services/fic.service';
 import { FIC, ComposicionPortafolio } from '../../../core/models/FIC.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ElementRef, ViewChildren, ViewChild } from '@angular/core';
 import * as echarts from 'echarts';
 import { driver } from "driver.js";
 import { Chart } from 'chart.js';
 import "driver.js/dist/driver.css";
+import { AuthService } from '../../../core/services/auth.service';
 
 interface Historico {
   ultimo_mes: number;
@@ -43,7 +44,8 @@ export class DetalleFondoComponent {
   mostrarBienvenida: boolean = false;
   mostrarPolitica: boolean = false;
   mostrarDialogoTutorial: boolean = false; 
-  mostrarMensajePostTour: boolean = false; 
+  mostrarMensajePostTour: boolean = false;
+  isAdmin: boolean = false; 
 
   rentabilidadHistoricaFiltrada?: {
     [key: string]: {
@@ -437,10 +439,16 @@ export class DetalleFondoComponent {
   constructor(
     private ficService: FICService,
     private route: ActivatedRoute,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private authService: AuthService,
+    private router: Router
   ) {
     this.route.queryParams.subscribe((params) => {
       this.queryParam = params['id'];
+    });
+    
+    this.authService.currentUser$.subscribe(user => {
+      this.isAdmin = user?.is_admin ?? false;
     });
   }
 
